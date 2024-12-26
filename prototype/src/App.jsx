@@ -26,17 +26,17 @@ function App() {
         <Route path="/" element={<DefaultLayout/>}>
           <Route index 
             element={loading ? <LoadingLayout/> : <MainLayout chatStarted={chatStarted} startChat={startChat}/>} />
+                 
+          {/* <Route path='/slides/sos'
+            element={<SOSLayout chatStarted={chatStarted} startChat={startChat}/>} />
+
+          <Route path='/slides'
+            element={<MainLayout chatStarted={chatStarted} startChat={startChat}/>} />
           
-          <Route path='/sos'
-            element={<SOSLayout/>} />
-          
-          <Route path='/maps'
-            element={<MapsLayout/>} />
-          
-          <Route path='/settings'
-            element={<MapsLayout/>} />
-          
-          <Route path='*' element={<PageNotFound />} />
+          <Route path='/slides/maps'
+            element={<MainLayout chatStarted={chatStarted} startChat={startChat}/>} />
+           */}
+          <Route path='*' element={<MainLayout chatStarted={chatStarted} startChat={startChat} />} />
         </Route>
       </Routes>
     </LanguageContext.Provider>

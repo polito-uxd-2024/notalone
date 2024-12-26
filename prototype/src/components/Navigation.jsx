@@ -6,11 +6,11 @@ import navigationBg from '../assets/Navigation.svg'
 function Navigation() {
     return (
         <div className="navigation-div">
-            <div>Navigation Bar</div>
+            <div>notAlone</div>
             <div>
-            <Link to="/maps">Maps </Link>
-            <Link to="/">Al </Link>
-            <Link to="/SOS">SOS </Link>
+            <Link to="/slides/maps">Maps </Link>
+            <Link to="/slides/al">Al </Link>
+            <Link to="/slides/sos">SOS </Link>
             </div>
         </div>
     );
