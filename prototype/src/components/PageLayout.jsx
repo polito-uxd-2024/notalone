@@ -17,9 +17,10 @@ function DefaultLayout() {
     );
 }
 
-function MainLayout () {
+function MainLayout (props) {
+    const {chatStarted, startChat} = props;
     return (
-    <AlHome/>
+    <AlHome chatStarted={chatStarted} startChat={startChat}/>
     );
 }
 
@@ -43,16 +44,10 @@ function SOSLayout() {
     );
 }
 
-function AlLayout() {
-    return (
-      <Al/>
-    );
-}
-
 function MapsLayout() {
     return (
       <Maps/>
     );
 }
 
-export { DefaultLayout, MainLayout, LoadingLayout, PageNotFound, SOSLayout, AlLayout, MapsLayout}
+export { DefaultLayout, MainLayout, LoadingLayout, PageNotFound, SOSLayout, MapsLayout}

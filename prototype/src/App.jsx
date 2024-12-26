@@ -5,12 +5,13 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 import Navigation from './components/Navigation'
-import { DefaultLayout, MainLayout, LoadingLayout, SOSLayout, AlLayout, MapsLayout, PageNotFound } from './components/PageLayout'
+import { DefaultLayout, MainLayout, LoadingLayout, SOSLayout, MapsLayout, PageNotFound } from './components/PageLayout'
 
 import LanguageContext from "./LanguageContext";
 
 function App() {
   const [isItalian, changeLanguage] = useState(true);
+  const [chatStarted, startChat] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleLanguage = () => {
@@ -24,13 +25,10 @@ function App() {
       <Routes>
         <Route path="/" element={<DefaultLayout/>}>
           <Route index 
-            element={loading ? <LoadingLayout/> : <MainLayout/>} />
+            element={loading ? <LoadingLayout/> : <MainLayout chatStarted={chatStarted} startChat={startChat}/>} />
           
           <Route path='/sos'
             element={<SOSLayout/>} />
-          
-          <Route path='/al'
-            element={<AlLayout/>} />
           
           <Route path='/maps'
             element={<MapsLayout/>} />

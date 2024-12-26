@@ -1,11 +1,21 @@
-import React from "react"
+import React, { useState } from "react"
 import { Link } from "react-router-dom"
 
-function AlHome() {
+import { Al } from './Al'
+
+function AlHome(props) {
+    const {chatStarted, startChat} = props;
+    console.log(chatStarted)
     return (
         <>
-        <div>Al Home</div>
-        <Link to='al'>Chat</Link>
+        {chatStarted?
+        <Al/>
+        :
+        <>
+            <div>Al Home</div>
+            <Link to='al' onClick={() => startChat(true)}>Chat</Link>
+        </>
+        }
         </>
     )
 }
