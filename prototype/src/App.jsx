@@ -24,19 +24,7 @@ function App() {
       <Navigation />
       <Routes>
         <Route path="/" element={<DefaultLayout/>}>
-          <Route index 
-            element={loading ? <LoadingLayout/> : <MainLayout chatStarted={chatStarted} startChat={startChat}/>} />
-                 
-          {/* <Route path='/slides/sos'
-            element={<SOSLayout chatStarted={chatStarted} startChat={startChat}/>} />
-
-          <Route path='/slides'
-            element={<MainLayout chatStarted={chatStarted} startChat={startChat}/>} />
-          
-          <Route path='/slides/maps'
-            element={<MainLayout chatStarted={chatStarted} startChat={startChat}/>} />
-           */}
-          <Route path='*' element={<MainLayout chatStarted={chatStarted} startChat={startChat} />} />
+          <Route path='*' element={loading ? <LoadingLayout/> : <MainLayout chatStarted={chatStarted} startChat={startChat}/>} />
         </Route>
       </Routes>
     </LanguageContext.Provider>
