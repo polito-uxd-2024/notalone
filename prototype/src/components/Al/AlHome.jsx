@@ -5,7 +5,6 @@ import { Al } from './Al'
 
 function AlHome(props) {
     const {chatStarted, startChat} = props;
-    console.log(chatStarted)
     return (
         <>
         {chatStarted?

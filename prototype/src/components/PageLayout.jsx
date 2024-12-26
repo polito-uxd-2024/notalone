@@ -3,9 +3,15 @@ import { Row, Col } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
 
 import { SOS } from './SOS/SOS';
-import { Al } from './Al/Al';
 import { AlHome } from './Al/AlHome';
 import { Maps } from './Maps/Maps';
+import { Swipe } from './Swipe';
+
+const routes = {
+    'Home': '/',
+    'SOS': '/sos',
+    'Maps': '/maps'
+}
 
 function DefaultLayout() {
     return (
@@ -20,8 +26,11 @@ function DefaultLayout() {
 function MainLayout (props) {
     const {chatStarted, startChat} = props;
     return (
-    <AlHome chatStarted={chatStarted} startChat={startChat}/>
-    );
+      <>
+        <Swipe prev={routes['Maps']} next={routes['SOS']}/>
+        <AlHome chatStarted={chatStarted} startChat={startChat}/>
+      </>
+      );
 }
 
 function LoadingLayout () {
@@ -40,13 +49,19 @@ function PageNotFound () {
 
 function SOSLayout() {
     return (
-      <SOS/>
+      <>
+        <Swipe prev={routes['Home']}/>
+        <SOS/>
+      </>
     );
 }
 
 function MapsLayout() {
     return (
-      <Maps/>
+      <>
+        <Swipe next={routes['Home']}/>
+        <Maps/>
+      </>
     );
 }
 
