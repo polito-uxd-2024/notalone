@@ -1,0 +1,18 @@
+#root, html, body {
+  max-width: 412px;
+  max-height: 915px;
+  width: 100%;
+  overflow-x: hidden;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.navigation-div {
+  background: url('assets/Navigation.svg') no-repeat;
+  background-size: contain;
+  position: fixed;
+  top: 0%;
+  width: 100%;
+  max-width: 412px;
+  height: 142px;
+}
