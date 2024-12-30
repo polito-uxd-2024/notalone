@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.notalone.ExampleUnitTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-12-30T13:34:25" hostname="LAPTOP-KJM75DD0" time="0.056">
+  <properties/>
+  <testcase name="addition_isCorrect" classname="com.example.notalone.ExampleUnitTest" time="0.056"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

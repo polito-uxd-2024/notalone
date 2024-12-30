@@ -30,7 +30,7 @@ fun CallScreen(navController: NavHostController) {
         ) {
             // Immagine di profilo
             Image(
-                painter = painterResource(id = R.drawable.profile_picture),
+                painter = painterResource(id = R.drawable.ic_profile_picture),
                 contentDescription = "Profile Picture",
                 modifier = Modifier
                     .size(100.dp)

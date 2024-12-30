@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavHostController) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -32,11 +32,11 @@ fun HomeScreen() {
                 Text("Ciao sono Al!", fontSize = 24.sp, fontWeight = FontWeight.Bold)
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Button({onClick}) {
-                Text("Vai a Chat")
+            Button(onClick = { navController.navigate("chat") }) { // Navigate to "chat"
+            Text("Vai a Chat")
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Button({onClick}) {
+            Button(onClick = { navController.navigate("call") }) { // Navigate to "call"
                 Text("Vai a Call")
             }
         }

@@ -1,0 +1,120 @@
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\app\src\main\AndroidManifest.xml:18: Warning: Redundant label can be removed [RedundantLabel]
+            android:label="@string/app_name"
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "RedundantLabel":
+   When an activity does not have a label attribute, it will use the one from
+   the application tag. Since the application has already specified the same
+   label, the label on this activity can be omitted.
+
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\gradle\libs.versions.toml:2: Warning: A newer version of com.android.application than 8.6.0 is available: 8.7.3. (There is also a newer version of 8.6.𝑥 available, if upgrading to 8.7.3 is difficult: 8.6.1) [AndroidGradlePluginVersion]
+agp = "8.6.0"
+      ~~~~~~~
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\gradle\libs.versions.toml:2: Warning: A newer version of com.android.application than 8.6.0 is available: 8.7.3. (There is also a newer version of 8.6.𝑥 available, if upgrading to 8.7.3 is difficult: 8.6.1) [AndroidGradlePluginVersion]
+agp = "8.6.0"
+      ~~~~~~~
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\gradle\libs.versions.toml:2: Warning: A newer version of com.android.application than 8.6.0 is available: 8.7.3. (There is also a newer version of 8.6.𝑥 available, if upgrading to 8.7.3 is difficult: 8.6.1) [AndroidGradlePluginVersion]
+agp = "8.6.0"
+      ~~~~~~~
+
+   Explanation for issues of type "AndroidGradlePluginVersion":
+   This detector looks for usage of the Android Gradle Plugin where the
+   version you are using is not the current stable release. Using older
+   versions is fine, and there are cases where you deliberately want to stick
+   with an older version. However, you may simply not be aware that a more
+   recent version is available, and that is what this lint check helps find.
+
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\gradle\libs.versions.toml:10: Warning: A newer version of androidx.compose:compose-bom than 2024.04.01 is available: 2024.12.01 [GradleDependency]
+composeBom = "2024.04.01"
+             ~~~~~~~~~~~~
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\gradle\libs.versions.toml:10: Warning: A newer version of androidx.compose:compose-bom than 2024.04.01 is available: 2024.12.01 [GradleDependency]
+composeBom = "2024.04.01"
+             ~~~~~~~~~~~~
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\gradle\libs.versions.toml:10: Warning: A newer version of androidx.compose:compose-bom than 2024.04.01 is available: 2024.12.01 [GradleDependency]
+composeBom = "2024.04.01"
+             ~~~~~~~~~~~~
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\gradle\libs.versions.toml:11: Warning: A newer version of androidx.navigation:navigation-compose than 2.8.4 is available: 2.8.5 [GradleDependency]
+navigationCompose = "2.8.4"
+                    ~~~~~~~
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\gradle\libs.versions.toml:11: Warning: A newer version of androidx.navigation:navigation-compose than 2.8.4 is available: 2.8.5 [GradleDependency]
+navigationCompose = "2.8.4"
+                    ~~~~~~~
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\gradle\libs.versions.toml:11: Warning: A newer version of androidx.navigation:navigation-compose than 2.8.4 is available: 2.8.5 [GradleDependency]
+navigationCompose = "2.8.4"
+                    ~~~~~~~
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\gradle\libs.versions.toml:12: Warning: A newer version of com.google.firebase:firebase-bom than 32.5.0 is available: 33.7.0 [GradleDependency]
+firebaseBom = "32.5.0"
+              ~~~~~~~~
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\gradle\libs.versions.toml:12: Warning: A newer version of com.google.firebase:firebase-bom than 32.5.0 is available: 33.7.0 [GradleDependency]
+firebaseBom = "32.5.0"
+              ~~~~~~~~
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\gradle\libs.versions.toml:12: Warning: A newer version of com.google.firebase:firebase-bom than 32.5.0 is available: 33.7.0 [GradleDependency]
+firebaseBom = "32.5.0"
+              ~~~~~~~~
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\gradle\libs.versions.toml:32: Warning: A newer version of com.google.android.material:material than 1.9.0 is available: 1.12.0 [GradleDependency]
+material = { group = "com.google.android.material", name = "material", version = "1.9.0" }
+                                                                                 ~~~~~~~
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\gradle\libs.versions.toml:32: Warning: A newer version of com.google.android.material:material than 1.9.0 is available: 1.12.0 [GradleDependency]
+material = { group = "com.google.android.material", name = "material", version = "1.9.0" }
+                                                                                 ~~~~~~~
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\gradle\libs.versions.toml:32: Warning: A newer version of com.google.android.material:material than 1.9.0 is available: 1.12.0 [GradleDependency]
+material = { group = "com.google.android.material", name = "material", version = "1.9.0" }
+                                                                                 ~~~~~~~
+
+   Explanation for issues of type "GradleDependency":
+   This detector looks for usages of libraries where the version you are using
+   is not the current stable release. Using older versions is fine, and there
+   are cases where you deliberately want to stick with an older version.
+   However, you may simply not be aware that a more recent version is
+   available, and that is what this lint check helps find.
+
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\app\src\main\res\values\colors.xml:3: Warning: The resource R.color.purple_200 appears to be unused [UnusedResources]
+    <color name="purple_200">#FFBB86FC</color>
+           ~~~~~~~~~~~~~~~~~
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\app\src\main\res\values\colors.xml:4: Warning: The resource R.color.purple_500 appears to be unused [UnusedResources]
+    <color name="purple_500">#FF6200EE</color>
+           ~~~~~~~~~~~~~~~~~
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\app\src\main\res\values\colors.xml:5: Warning: The resource R.color.purple_700 appears to be unused [UnusedResources]
+    <color name="purple_700">#FF3700B3</color>
+           ~~~~~~~~~~~~~~~~~
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\app\src\main\res\values\colors.xml:6: Warning: The resource R.color.teal_200 appears to be unused [UnusedResources]
+    <color name="teal_200">#FF03DAC5</color>
+           ~~~~~~~~~~~~~~~
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\app\src\main\res\values\colors.xml:7: Warning: The resource R.color.teal_700 appears to be unused [UnusedResources]
+    <color name="teal_700">#FF018786</color>
+           ~~~~~~~~~~~~~~~
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\app\src\main\res\values\colors.xml:8: Warning: The resource R.color.black appears to be unused [UnusedResources]
+    <color name="black">#FF000000</color>
+           ~~~~~~~~~~~~
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\app\src\main\res\values\colors.xml:9: Warning: The resource R.color.white appears to be unused [UnusedResources]
+    <color name="white">#FFFFFFFF</color>
+           ~~~~~~~~~~~~
+
+   Explanation for issues of type "UnusedResources":
+   Unused resources make applications larger and slow down builds.
+
+
+   The unused resource check can ignore tests. If you want to include
+   resources that are only referenced from tests, consider packaging them in a
+   test source set instead.
+
+   You can include test sources in the unused resource check by setting the
+   system property lint.unused-resources.include-tests =true, and to exclude
+   them (usually for performance reasons), use
+   lint.unused-resources.exclude-tests =true.
+   ,
+
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\app\src\main\res\drawable\maps.png: Warning: Found bitmap drawable res/drawable/maps.png in densityless folder [IconLocation]
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\app\src\main\res\drawable\primary.png: Warning: Found bitmap drawable res/drawable/primary.png in densityless folder [IconLocation]
+C:\Users\grube\Documents\AAUNI\Magistrale\VSCODE\UXD\notalone\app\src\main\res\drawable\sos.png: Warning: Found bitmap drawable res/drawable/sos.png in densityless folder [IconLocation]
+
+   Explanation for issues of type "IconLocation":
+   The res/drawable folder is intended for density-independent graphics such
+   as shapes defined in XML. For bitmaps, move it to drawable-mdpi and
+   consider providing higher and lower resolution versions in drawable-ldpi,
+   drawable-hdpi and drawable-xhdpi. If the icon really is density independent
+   (for example a solid color) you can place it in drawable-nodpi.
+
+   https://developer.android.com/guide/practices/screens_support.html
+
+0 errors, 26 warnings

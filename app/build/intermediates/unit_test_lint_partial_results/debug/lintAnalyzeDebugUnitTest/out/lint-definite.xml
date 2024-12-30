@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<incidents format="6" by="lint 8.6.0" type="incidents">
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.compose:compose-bom than 2024.04.01 is available: 2024.12.01">
+        <fix-replace
+            description="Change to 2024.12.01"
+            family="Update versions"
+            oldString="2024.04.01"
+            replacement="2024.12.01"
+            priority="0"/>
+        <location
+            file="$HOME/Documents/AAUNI/Magistrale/VSCODE/UXD/notalone/gradle/libs.versions.toml"
+            line="10"
+            column="14"
+            startOffset="202"
+            endLine="10"
+            endColumn="26"
+            endOffset="214"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.navigation:navigation-compose than 2.8.4 is available: 2.8.5">
+        <fix-replace
+            description="Change to 2.8.5"
+            family="Update versions"
+            oldString="2.8.4"
+            replacement="2.8.5"
+            priority="0"/>
+        <location
+            file="$HOME/Documents/AAUNI/Magistrale/VSCODE/UXD/notalone/gradle/libs.versions.toml"
+            line="11"
+            column="21"
+            startOffset="236"
+            endLine="11"
+            endColumn="28"
+            endOffset="243"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of com.google.android.material:material than 1.9.0 is available: 1.12.0">
+        <fix-replace
+            description="Change to 1.12.0"
+            family="Update versions"
+            oldString="1.9.0"
+            replacement="1.12.0"
+            priority="0"/>
+        <location
+            file="$HOME/Documents/AAUNI/Magistrale/VSCODE/UXD/notalone/gradle/libs.versions.toml"
+            line="32"
+            column="82"
+            startOffset="1807"
+            endLine="32"
+            endColumn="89"
+            endOffset="1814"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of com.google.firebase:firebase-bom than 32.5.0 is available: 33.7.0">
+        <fix-replace
+            description="Change to 33.7.0"
+            family="Update versions"
+            oldString="32.5.0"
+            replacement="33.7.0"
+            priority="0"/>
+        <location
+            file="$HOME/Documents/AAUNI/Magistrale/VSCODE/UXD/notalone/gradle/libs.versions.toml"
+            line="12"
+            column="15"
+            startOffset="259"
+            endLine="12"
+            endColumn="23"
+            endOffset="267"/>
+    </incident>
+
+    <incident
+        id="AndroidGradlePluginVersion"
+        severity="warning"
+        message="A newer version of com.android.application than 8.6.0 is available: 8.7.3. (There is also a newer version of 8.6.𝑥 available, if upgrading to 8.7.3 is difficult: 8.6.1)">
+        <fix-alternatives>
+            <fix-replace
+                description="Change to 8.7.3"
+                family="Update versions"
+                oldString="8.6.0"
+                replacement="8.7.3"
+                priority="0"/>
+            <fix-replace
+                description="Change to 8.6.1"
+                family="Update versions"
+                robot="true"
+                independent="true"
+                oldString="8.6.0"
+                replacement="8.6.1"
+                priority="0"/>
+        </fix-alternatives>
+        <location
+            file="$HOME/Documents/AAUNI/Magistrale/VSCODE/UXD/notalone/gradle/libs.versions.toml"
+            line="2"
+            column="7"
+            startOffset="18"
+            endLine="2"
+            endColumn="14"
+            endOffset="25"/>
+    </incident>
+
+</incidents>

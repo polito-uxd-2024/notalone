@@ -118,13 +118,19 @@ fun NotAlone() {
 
                 // Home Screen
                 composable("home") {
-                    HomeScreen(navControllerMain)
+                    HomeScreen(navController = navControllerMain)
                 }
                 composable("maps") {
                     MapsScreen()
                 }
                 composable("sos") {
                     SosScreen()
+                }
+                composable("call") {
+                    CallScreen(navController = navControllerMain)
+                }
+                composable("chat") {
+                    ChatScreen(navController = navControllerMain)
                 }
             }
         }

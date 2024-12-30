@@ -1,0 +1,110 @@
+[
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\drawable_ic_mute.xml.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\drawable\\ic_mute.xml"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\drawable_ic_hold.xml.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\drawable\\ic_hold.xml"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\drawable_ic_end_call.xml.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\drawable\\ic_end_call.xml"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\drawable_ic_video.xml.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\drawable\\ic_video.xml"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\mipmap-mdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\drawable_ic_speaker.xml.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\drawable\\ic_speaker.xml"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\mipmap-hdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\mipmap-xxhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\xml_backup_rules.xml.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\xml\\backup_rules.xml"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\mipmap-mdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\drawable_primary.png.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\drawable\\primary.png"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\mipmap-hdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\mipmap-xxxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\mipmap-xxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.notalone.app-debug-70:/drawable_ic_profile_picture.xml.flat",
+        "source": "com.example.notalone.app-main-72:/drawable/ic_profile_picture.xml"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\mipmap-xhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\drawable\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\mipmap-xhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\xml_data_extraction_rules.xml.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\xml\\data_extraction_rules.xml"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\drawable_sos.png.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\drawable\\sos.png"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\drawable_ic_profrile.xml.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\drawable\\ic_profrile.xml"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\drawable_ic_add_call.xml.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\drawable\\ic_add_call.xml"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\drawable_maps.png.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\drawable\\maps.png"
+    },
+    {
+        "merged": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-debug-70:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\grube\\.gradle\\daemon\\8.7\\com.example.notalone.app-main-72:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    }
+]
