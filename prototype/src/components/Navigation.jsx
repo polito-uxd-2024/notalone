@@ -8,9 +8,9 @@ function Navigation() {
         <div className="navigation-div">
             <div>notAlone</div>
             <div>
-            <Link to="/slides/maps">Maps </Link>
-            <Link to="/slides/al">Al </Link>
-            <Link to="/slides/sos">SOS </Link>
+            <Link to="/maps">Maps </Link>
+            <Link to="/">Al </Link>
+            <Link to="/sos">SOS </Link>
             </div>
         </div>
     );

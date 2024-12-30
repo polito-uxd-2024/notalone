@@ -1,22 +1,15 @@
-import React, {useEffect, useRef} from 'react';
+import React, { useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import { SOS } from './SOS/SOS';
 import { AlHome } from './Al/AlHome';
 import { Maps } from './Maps/Maps';
-import { Swipe } from './Swipe';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { HashNavigation, History } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/hash-navigation';
 import 'swiper/css/history';
 
-const routes = {
-    'Home': '/',
-    'SOS': '/sos',
-    'Maps': '/maps'
-}
 
 function DefaultLayout() {
     return (
@@ -33,25 +26,47 @@ function MainLayout (props) {
   const location = useLocation();
   const swiperRef = React.useRef(null);
 
-  useEffect(() => {
+  const updateSlide = () => {
     if (swiperRef.current && swiperRef.current.swiper) {
       const path = location.pathname.split('/').pop();
-      const slideIndex = ['maps', 'al', 'sos'].indexOf(path);
+      const slideIndex = location.pathname === '/' ? 1 : ['maps', '', 'sos'].indexOf(path);
+      console.log("slideIndex: ", slideIndex);
       if (slideIndex !== -1) {
         swiperRef.current.swiper.slideTo(slideIndex);
       }
     }
+  };
+
+  useEffect(() => {
+    console.log("location: ", location);
+    updateSlide();
   }, [location]);
+
+  useEffect(() => {
+    console.log("swiperRef: ", swiperRef);
+    if (swiperRef.current && swiperRef.current.swiper) {
+      updateSlide();
+    }
+  }, [swiperRef]);
 
   return (
     <Swiper
       ref={swiperRef}
       slidesPerView={1}
+      initialSlide={1}
       onSlideChange={(swiper) => {
-        const paths = ['maps', 'al', 'sos'];
+        const paths = ['/maps', '/', '/sos'];
         const newPath = paths[swiper.activeIndex];
-        window.history.pushState(null, '', `/slides/${newPath}`);
+        console.log("newPath: ", newPath);
+        window.history.replaceState(null, '', newPath);
       }}
+      onSwiper={(swiper) => {
+        console.log("swiper: ", swiper);
+        updateSlide();
+      }}
+      touchEventsTarget="container"
+      touchRatio={1}
+      touchAngle={45}
     >
       <SwiperSlide><Maps /></SwiperSlide>
       <SwiperSlide><AlHome chatStarted={chatStarted} startChat={startChat} /></SwiperSlide>
@@ -68,49 +83,4 @@ function LoadingLayout () {
     );
 }
 
-function PageNotFound () {
-    return (
-    <>
-    </>
-    );
-}
-
-function SOSLayout(props) {
-  const {chatStarted, startChat} = props;
-  useEffect(() => {
-    const swiper = document.querySelector('.swiper-container').swiper;
-    if (swiper) {
-      swiper.hashNavigation.update();
-    }
-  }, []);
-  return (
-    <>
-      <Swiper
-        modules={[HashNavigation, History]}
-        slidesPerView={1}
-        history = {{
-          replaceState: true,
-        }}
-        hashNavigation={{ replaceState:true, watchState: true }}
-        onSlideChange={() => console.log('slide change')}
-        onSwiper={(swiper) => console.log(swiper)}
-        initialSlide={1}
-      >
-        <SwiperSlide data-history="maps"><Maps/></SwiperSlide>
-        <SwiperSlide data-history="al"><AlHome chatStarted={chatStarted} startChat={startChat}/></SwiperSlide>
-        <SwiperSlide data-history="sos"><SOS/></SwiperSlide>
-      </Swiper>
-    </>
-  );
-}
-
-function MapsLayout() {
-    return (
-      <>
-        <Swipe next={routes['Home']}/>
-        <Maps/>
-      </>
-    );
-}
-
-export { DefaultLayout, MainLayout, LoadingLayout, PageNotFound, SOSLayout, MapsLayout}
+export { DefaultLayout, MainLayout, LoadingLayout }

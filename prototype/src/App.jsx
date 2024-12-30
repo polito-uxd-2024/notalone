@@ -5,7 +5,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 import Navigation from './components/Navigation'
-import { DefaultLayout, MainLayout, LoadingLayout, SOSLayout, MapsLayout, PageNotFound } from './components/PageLayout'
+import { DefaultLayout, MainLayout, LoadingLayout } from './components/PageLayout'
 
 import LanguageContext from "./LanguageContext";
 
@@ -23,9 +23,7 @@ function App() {
     <LanguageContext.Provider value={isItalian}>
       <Navigation />
       <Routes>
-        <Route path="/" element={<DefaultLayout/>}>
-          <Route path='*' element={loading ? <LoadingLayout/> : <MainLayout chatStarted={chatStarted} startChat={startChat}/>} />
-        </Route>
+        <Route path="/*" element={<MainLayout chatStarted={chatStarted} startChat={startChat}/>}/>
       </Routes>
     </LanguageContext.Provider>
   </BrowserRouter>
