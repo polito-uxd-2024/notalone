@@ -12,6 +12,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.with
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,6 +39,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -77,13 +79,7 @@ fun NotAlone() {
         ) {
             Text(
                 text = "notAlone",
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    shadow = Shadow(
-                        color = Color.Black,
-                        offset = Offset(1f, 1f),
-                        blurRadius = 8f
-                    )
-                ),
+                style = MaterialTheme.typography.bodyLarge.copy(),
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Bold, // Grassetto
                 color = Color.White
@@ -92,7 +88,7 @@ fun NotAlone() {
 
         // Barra di navigazione in alto
         if (currentDestination != "logScreen") {
-            TopNavBar() // Posizionata subito sotto il titolo
+            TopNavBar(navController = navControllerMain) // Posizionata subito sotto il titolo
         }
 
         // Contenuto principale
@@ -103,13 +99,13 @@ fun NotAlone() {
             // NavHost con transizione animata tra schermate
             NavHost(
                 navController = navControllerMain,
-                startDestination = "logScreen",
+                startDestination = "home",
                 modifier = Modifier.padding(paddingValues)
             ) {
                 // Log Screen
-                composable("logScreen") {
+                composable("home") {
                     AnimatedContent(
-                        targetState = "logScreen",
+                        targetState = "homeScreen",
                         transitionSpec = {
                             // Transizione animata
                             slideInVertically { height -> -height } + fadeIn() with
@@ -122,7 +118,13 @@ fun NotAlone() {
 
                 // Home Screen
                 composable("home") {
-                    HomeScreen()
+                    HomeScreen(navControllerMain)
+                }
+                composable("maps") {
+                    MapsScreen()
+                }
+                composable("sos") {
+                    SosScreen()
                 }
             }
         }
@@ -130,29 +132,34 @@ fun NotAlone() {
 }
 
 @Composable
-fun TopNavBar() {
+fun TopNavBar(navController: NavHostController) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.Gray, shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
+            .background(
+                Color.Gray,
+                shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
+            )
             .padding(vertical = 8.dp)
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier.fillMaxWidth()
         ) {
-            TopNavBarItem("Maps")
-            TopNavBarItem("Home")
-            TopNavBarItem("SOS")
+            TopNavBarItem("Maps", onClick = { navController.navigate("maps") })
+            TopNavBarItem("Home", onClick = { navController.navigate("home") })
+            TopNavBarItem("SOS", onClick = { navController.navigate("sos") })
         }
     }
 }
 
 @Composable
-fun TopNavBarItem(label: String) {
+fun TopNavBarItem(label: String, onClick: () -> Unit = {}) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(horizontal = 16.dp)
+        modifier = Modifier
+            .clickable { onClick() }
+            .padding(horizontal = 16.dp)
     ) {
         Box(
             modifier = Modifier
