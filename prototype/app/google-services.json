@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "857060878614",
+    "firebase_url": "https://dispenser-b0d11-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "dispenser-b0d11",
+    "storage_bucket": "dispenser-b0d11.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:857060878614:android:811ff8382e2b41aab20837",
+        "android_client_info": {
+          "package_name": "com.example.notalone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlvCxAWmCAc6VBS93TmdPCv_h36T6egbw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
