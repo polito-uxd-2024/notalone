@@ -52,15 +52,11 @@ function MainLayout () {
               if (newPath === '/sos') {
                 swiper.el.style.cursor = 'default';
                 swiper.allowTouchMove = false;
-                swiper.allowSlideNext = false;
-                swiper.allowSlidePrev = false;
                 swiper.allowClick = false;
                 console.log(swiper);
                 startTimer(true);
               } else {
                 swiper.allowTouchMove = true;
-                swiper.allowSlideNext = true;
-                swiper.allowSlidePrev = true;
                 swiper.allowClick = true;
                 swiper.el.style.cursor = 'grab';
                 startTimer(false);
