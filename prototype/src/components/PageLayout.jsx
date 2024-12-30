@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
@@ -7,22 +7,12 @@ import { AlHome } from './Al/AlHome';
 import { Maps } from './Maps/Maps';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import 'swiper/css/hash-navigation';
-import 'swiper/css/history';
 
 
-function DefaultLayout() {
-    return (
-      <Row>
-        <Col className="below-nav">
-          <Outlet/>
-        </Col>
-      </Row>
-    );
-}
+function MainLayout () {
+  const [chatStarted, startChat] = useState(false);
+  const [sosTimer, startTimer] = useState(false);
 
-function MainLayout (props) {
-  const { chatStarted, startChat } = props;
   const location = useLocation();
   const swiperRef = React.useRef(null);
 
@@ -30,7 +20,6 @@ function MainLayout (props) {
     if (swiperRef.current && swiperRef.current.swiper) {
       const path = location.pathname.split('/').pop();
       const slideIndex = location.pathname === '/' ? 1 : ['maps', '', 'sos'].indexOf(path);
-      console.log("slideIndex: ", slideIndex);
       if (slideIndex !== -1) {
         swiperRef.current.swiper.slideTo(slideIndex);
       }
@@ -38,49 +27,58 @@ function MainLayout (props) {
   };
 
   useEffect(() => {
-    console.log("location: ", location);
     updateSlide();
+    if (location.pathname === '/sos') {
+      console.log('Timer started');
+      startTimer(true);
+    }
+    else {
+      startTimer(false);
+    }
   }, [location]);
 
-  useEffect(() => {
-    console.log("swiperRef: ", swiperRef);
-    if (swiperRef.current && swiperRef.current.swiper) {
-      updateSlide();
-    }
-  }, [swiperRef]);
-
   return (
-    <Swiper
-      ref={swiperRef}
-      slidesPerView={1}
-      initialSlide={1}
-      onSlideChange={(swiper) => {
-        const paths = ['/maps', '/', '/sos'];
-        const newPath = paths[swiper.activeIndex];
-        console.log("newPath: ", newPath);
-        window.history.replaceState(null, '', newPath);
-      }}
-      onSwiper={(swiper) => {
-        console.log("swiper: ", swiper);
-        updateSlide();
-      }}
-      touchEventsTarget="container"
-      touchRatio={1}
-      touchAngle={45}
-    >
-      <SwiperSlide><Maps /></SwiperSlide>
-      <SwiperSlide><AlHome chatStarted={chatStarted} startChat={startChat} /></SwiperSlide>
-      <SwiperSlide><SOS /></SwiperSlide>
-    </Swiper>
+    <Row className='vh-100'>
+        <Col className="below-nav">
+          <Swiper
+            ref={swiperRef}
+            slidesPerView={1}
+            initialSlide={1}
+            onSlideChange={(swiper) => {
+              const paths = ['/maps', '/', '/sos'];
+              const newPath = paths[swiper.activeIndex];
+              // console.log('New path: ', newPath);
+              window.history.replaceState(null, '', newPath);
+              if (newPath === '/sos') {
+                swiper.el.style.cursor = 'default';
+                swiper.allowTouchMove = false;
+                swiper.allowSlideNext = false;
+                swiper.allowSlidePrev = false;
+                swiper.allowClick = false;
+                console.log(swiper);
+                startTimer(true);
+              } else {
+                swiper.allowTouchMove = true;
+                swiper.allowSlideNext = true;
+                swiper.allowSlidePrev = true;
+                swiper.allowClick = true;
+                swiper.el.style.cursor = 'grab';
+                startTimer(false);
+              }
+            }}
+            touchEventsTarget="container"
+            simulateTouch={true}
+            touchRatio={1}
+            touchAngle={45}
+            grabCursor={true}
+            >
+            <SwiperSlide><Maps /></SwiperSlide>
+            <SwiperSlide><AlHome chatStarted={chatStarted} startChat={startChat} /></SwiperSlide>
+            <SwiperSlide><SOS start={sosTimer} /></SwiperSlide>
+          </Swiper>
+        </Col>
+      </Row>
   );
 }
 
-function LoadingLayout () {
-    return (
-    <>
-    Loading
-    </>
-    );
-}
-
-export { DefaultLayout, MainLayout, LoadingLayout }
+export { MainLayout }
