@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Gill+Sans+Nova:wght@400;700&display=swap');
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 #root, html, body {
+  font-family: 'Gill Sans Nova', sans-serif;
   max-width: 412px;
   max-height: 915px;
   width: 100%;
@@ -13,7 +15,7 @@
 }
 
 .below-nav {
-  padding-top: 10rem;
+  padding-top: 55px;
   min-height: 100%;
 }
 
@@ -21,12 +23,79 @@
   height: 100vh;
 }
 
+/* Contenitore dell'elemento di navigazione */
 .navigation-div {
-  background: url('assets/Navigation.svg') no-repeat;
-  background-size: contain;
+  background: url('assets/Navigation.svg') no-repeat center;
+  background-size: cover;
   position: fixed;
   top: 0%;
   width: 100%;
   max-width: 412px;
-  height: 142px;
+  height: 110px;
+  z-index: 999; /* Per mantenerlo sopra gli altri elementi */
+  font-size: 8vw;
+  color: #fff;
 }
+
+/* Wrapper delle tabs */
+.tabs-wrapper {
+  overflow: hidden;
+  width: 100%;
+  position: relative; /* Per posizionamenti assoluti interni */
+  z-index: 1000;
+  display: flex;
+}
+
+/* Contenitore delle tabs */
+.tabs {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  position: relative;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 0 10px; /* Spazi laterali per il contenitore */
+  transition: left 0.3s ease-in-out;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Per browser moderni */
+}
+
+.tabs::-webkit-scrollbar {
+  display: none; /* Nascondi scrollbar su Webkit */
+}
+
+/* Stile della tab */
+.tab {
+  flex-shrink: 0;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease, background-color 0.3s ease;
+  white-space: nowrap; /* Evita che il testo vada a capo */
+  border-radius: 20px; /* Angoli arrotondati */
+}
+
+/* Tab attiva */
+.tab.active {
+  font-weight: bold;
+  color: #fff;
+  /* background-color: #007bff; */
+  transform: scale(1.2); /* Zoom sulla tab attiva */
+  /* box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);  */
+}
+
+/* Responsive: Layout per dispositivi più piccoli */
+/* @media screen and (max-width: 768px) {
+  .tabs {
+    gap: 10px;
+    padding: 0 5px;
+  }
+
+  .tab {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+} */

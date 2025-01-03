@@ -32,6 +32,7 @@ function SOS(props) {
     setTimer(seconds);
     setIsCancelled(false);
     setShowCall(false);
+    console.log("Navigating back...");
     navigate(-1); // Navigate to the previous page
   };
 
