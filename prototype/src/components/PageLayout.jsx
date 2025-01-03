@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef, act } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { Tabs } from './Tabs';
 import { SOS } from './SOS/SOS';
 import { AlHome } from './Al/AlHome';
 import { Maps } from './Maps/Maps';
