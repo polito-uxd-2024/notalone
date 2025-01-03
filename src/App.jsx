@@ -16,7 +16,7 @@ function App() {
   }
 
   return (
-  <BrowserRouter>
+  <BrowserRouter basename='/notalone'>
     <LanguageContext.Provider value={isItalian}>
       <Navigation />
       <Routes>
