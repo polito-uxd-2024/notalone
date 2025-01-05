@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { HashRouter, Route, Routes } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 
@@ -16,7 +16,8 @@ function App() {
   }
 
   return (
-  <BrowserRouter basename='/notalone'>
+  // <BrowserRouter>
+  <HashRouter>
     <LanguageContext.Provider value={isItalian}>
       <Navigation />
       <Routes>
@@ -26,7 +27,7 @@ function App() {
         </Route>
       </Routes>
     </LanguageContext.Provider>
-  </BrowserRouter>
+  </HashRouter>
   )
 }
 
