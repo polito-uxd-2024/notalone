@@ -17,17 +17,18 @@ function App() {
 
   return (
   // <BrowserRouter>
-  <HashRouter>
-    <LanguageContext.Provider value={isItalian}>
-      <Navigation />
-      <Routes>
-        <Route path="/*" element={<MainLayout/>}>
-          {/* <Route index element={<MainLayout />} />
-          <Route path='*' element={<MainLayout />} /> */}
-        </Route>
-      </Routes>
-    </LanguageContext.Provider>
-  </HashRouter>
+    <HashRouter>
+      <LanguageContext.Provider value={isItalian}>
+        <Navigation />
+        {/* <Routes>
+          <Route path="/*" element={<MainLayout/>}>
+            {/* <Route index element={<MainLayout />} />
+            <Route path='*' element={<MainLayout />} /> 
+          </Route>
+        </Routes> */}
+        <MainLayout />
+      </LanguageContext.Provider>
+    </HashRouter>
   )
 }
 

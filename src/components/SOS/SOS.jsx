@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Col, Button, Image, Row } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
 
+import './SOS.css'
+
 const seconds = 15;
 function SOS(props) {
   const { start } = props;
@@ -12,14 +14,14 @@ function SOS(props) {
   
   // console.log("Timer: ", timer, " isCancelled: ", isCancelled, " showCall: ", showCall, " start: ", start); 
   
-  useEffect(() => {
-    if (start && timer > 0 && !isCancelled) {
-      const countdown = setTimeout(() => setTimer(timer - 1), 1000);
-      return () => clearTimeout(countdown);
-    } else if (timer === 0 && !isCancelled) {
-      setShowCall(true); // Show the call component when the timer reaches 0
-    }
-  }, [timer, isCancelled, start]);
+  // useEffect(() => {
+  //   if (start && timer > 0 && !isCancelled) {
+  //     const countdown = setTimeout(() => setTimer(timer - 1), 1000);
+  //     return () => clearTimeout(countdown);
+  //   } else if (timer === 0 && !isCancelled) {
+  //     setShowCall(true); // Show the call component when the timer reaches 0
+  //   }
+  // }, [timer, isCancelled, start]);
 
   const handleCall = () => {
     setIsCancelled(true);
@@ -50,14 +52,13 @@ function SOS(props) {
 }
 function SOSHome(props) {
   return (
-    <Col>
+    <Col className="sos-col mt-2">
       <Button
+        className="sos-button"
         variant="danger"
         style={{ width: "40vh", height: "40vh", borderRadius: "100%" }}
         onClick={props.handleCall}
-      >
-        Call
-      </Button>
+      />
       <div className="mt-4">
         <h3>Calling in {props.timer} seconds...</h3>
       </div>

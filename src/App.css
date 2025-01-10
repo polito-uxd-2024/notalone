@@ -1,26 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Gill+Sans+Nova:wght@400;700&display=swap');
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-#root, html, body {
-  font-family: 'Gill Sans Nova', sans-serif;
-  max-width: 412px;
-  max-height: 915px;
-  width: 100%;
-  overflow-x: hidden;
-  margin: 0 auto;
-  text-align: center;
-}
-
 .below-nav {
+  padding-top: 55px;
+  /* min-height: 100%; */
+}
+.below-tab {
   padding-top: 55px;
   min-height: 100%;
 }
 
 .vh-100 {
   height: 100vh;
+  /* max-height: 915px; */
 }
 
 /* Contenitore dell'elemento di navigazione */
@@ -33,7 +22,7 @@
   max-width: 412px;
   height: 110px;
   z-index: 999; /* Per mantenerlo sopra gli altri elementi */
-  font-size: 8vw;
+  font-size: 2rem;
   color: #fff;
 }
 
@@ -41,7 +30,7 @@
 .tabs-wrapper {
   overflow: hidden;
   width: 100%;
-  position: relative; /* Per posizionamenti assoluti interni */
+  position: absolute; /* Per posizionamenti assoluti interni */
   z-index: 1000;
   display: flex;
 }
@@ -54,7 +43,6 @@
   position: relative;
   gap: 20px;
   overflow-x: auto;
-  padding: 0 10px; /* Spazi laterali per il contenitore */
   transition: left 0.3s ease-in-out;
   scroll-behavior: smooth;
   scrollbar-width: none; /* Per browser moderni */
@@ -86,16 +74,3 @@
   transform: scale(1.2); /* Zoom sulla tab attiva */
   /* box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);  */
 }
-
-/* Responsive: Layout per dispositivi più piccoli */
-/* @media screen and (max-width: 768px) {
-  .tabs {
-    gap: 10px;
-    padding: 0 5px;
-  }
-
-  .tab {
-    padding: 8px 15px;
-    font-size: 14px;
-  }
-} */

@@ -52,6 +52,9 @@ function MainLayout () {
       updateTab(index);
     }
   };
+  useEffect(() => {
+    window.history.replaceState(null, '', '#/');
+  }, []);
 
   useEffect(() => {
     updateSlide();
@@ -67,7 +70,7 @@ function MainLayout () {
   return (
     <Row className='vh-100'>
         <Col className="below-nav">
-          <div className="tabs-wrapper mb-4">
+          <div className="tabs-wrapper mb-2">
             <div className="tabs" ref={tabsRef}>
               {tabs.map((tab, index) => (
                 <Link
@@ -81,19 +84,21 @@ function MainLayout () {
               ))}
             </div>
           </div>
+        </Col>
+        <Col className="below-tab">
           <Swiper
             ref={swiperRef}
             slidesPerView={1}
             initialSlide={1}
             onSlideChange={(swiper) => {
-              const paths = ['/maps', '/', '/sos'];
+              const paths = ['#/maps', '#/', '#/sos'];
               const newPath = paths[swiper.activeIndex];
               // console.log('New path: ', newPath);
               window.history.replaceState(null, '', newPath);
               console.log('onSlideChange: ')
               updateTab(swiper.activeIndex);
               // handleTabClick(swiper, swiper.activeIndex);
-              if (newPath === '/sos') {
+              if (newPath === '#/sos') {
                 swiper.el.style.cursor = 'default';
                 swiper.allowTouchMove = false;
                 swiper.allowClick = false;
