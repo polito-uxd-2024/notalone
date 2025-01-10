@@ -1,10 +1,9 @@
 .below-nav {
   padding-top: 55px;
-  /* min-height: 100%; */
 }
 .below-tab {
   padding-top: 55px;
-  min-height: 100%;
+  min-height: calc(100% - 110px);
 }
 
 .vh-100 {

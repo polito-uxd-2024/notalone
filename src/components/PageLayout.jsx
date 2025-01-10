@@ -70,7 +70,7 @@ function MainLayout () {
   return (
     <Row className='vh-100'>
         <Col className="below-nav">
-          <div className="tabs-wrapper mb-2">
+          <div className="tabs-wrapper">
             <div className="tabs" ref={tabsRef}>
               {tabs.map((tab, index) => (
                 <Link

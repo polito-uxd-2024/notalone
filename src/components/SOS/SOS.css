@@ -9,3 +9,22 @@
     flex-direction: column;
     justify-content: space-between;
 }
+
+.sos-call-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.sos-112 {
+    background: url('/112_profile.svg') no-repeat;
+    background-size: contain;
+    align-self: center;
+    display: flex;
+    width: 10rem;
+    height: 10rem;
+}
+
+.call-button {
+    display: flex;
+    flex-direction: column;
+}
