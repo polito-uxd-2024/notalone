@@ -45,6 +45,9 @@ function SOS(props) {
     setShowCall(false);
     console.log("Navigating back...");
     navigate(-1); // Navigate to the previous page
+    setTimeout(() => {
+      window.location.reload(); // Forza l'aggiornamento dello slider
+    }, 100);
   };
 
   return (

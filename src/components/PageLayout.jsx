@@ -54,7 +54,6 @@ function MainLayout () {
   };
   useEffect(() => {
     window.history.pushState(null, '', '#/');
-    window.history.pushState(null, '', '#/');
   }, []);
 
   useEffect(() => {
@@ -100,7 +99,6 @@ function MainLayout () {
                 swiper.el.style.cursor = 'default';
                 swiper.allowTouchMove = false;
                 swiper.allowClick = false;
-                console.log(swiper);
                 startTimer(true);
               } else {
                 swiper.allowTouchMove = true;
