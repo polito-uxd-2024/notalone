@@ -35,12 +35,16 @@
     width: 4rem;
     height: 4rem;
     border-radius: 100%;
-    border: #293A5B;
-    background-color: #293A5B;
+    border: var(--nav-blue);
+    background-color: var(--nav-blue);
     display: flex;
     align-items: center; /* Centra verticalmente */
     justify-content: center; /* Centra orizzontalmente */
 }
+.call-button.active {
+    background-color: var(--light-blue);
+}
+
 .call-button-end {
     width: 4rem;
     height: 4rem;

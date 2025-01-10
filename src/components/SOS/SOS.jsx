@@ -81,6 +81,14 @@ function SOSHome(props) {
   );
 }
 function SOSCall({ handleCancel, callDuration }) {
+  const [isSpeakerOn, setIsSpeakerOn] = useState(false);
+  const [isMuteOn, setIsMuteOn] = useState(false);
+  const [isBluetoothOn, setIsBluetoothOn] = useState(false);
+
+  const toggleSpeaker = () => setIsSpeakerOn(!isSpeakerOn);
+  const toggleMute = () => setIsMuteOn(!isMuteOn);
+  const toggleBluetooth = () => setIsBluetoothOn(!isBluetoothOn)
+
   const formatDuration = (seconds) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
@@ -101,19 +109,28 @@ function SOSCall({ handleCancel, callDuration }) {
       <div className="mt-4 justify-content-space-between">
         <Row className="justify-content-center">
           <Col className="call-button-wrapper" xs="auto">
-            <Button className="call-button">
+            <Button
+                className={`call-button ${isSpeakerOn ? 'active' : ''}`}
+                onClick={toggleSpeaker}
+              >
               <div className="button speaker" />
             </Button>
             Speaker
           </Col>
           <Col className="call-button-wrapper" xs="auto">
-            <Button className="call-button">
+            <Button
+              className={`call-button ${isMuteOn ? 'active' : ''}`}
+              onClick={toggleMute}
+            >
               <div className="button mute" />
             </Button>
             Mute
           </Col>
           <Col className="call-button-wrapper" xs="auto">
-            <Button className="call-button">
+            <Button
+              className={`call-button ${isBluetoothOn ? 'active' : ''}`}
+              onClick={toggleBluetooth}
+            >
               <div className="button bluetooth" />
             </Button>
             Bluetooth
