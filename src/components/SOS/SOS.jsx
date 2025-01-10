@@ -6,23 +6,25 @@ import './SOS.css'
 
 const seconds = 15;
 function SOS(props) {
-  const { start } = props;
+  const { start, setStart } = props;
   const [timer, setTimer] = useState(seconds);
   const [callDuration, setCallDuration] = useState(0);
-  const [isCancelled, setIsCancelled] = useState(false);
   const [showCall, setShowCall] = useState(false);
   const navigate = useNavigate();
   
   // console.log("Timer: ", timer, " isCancelled: ", isCancelled, " showCall: ", showCall, " start: ", start); 
   
   useEffect(() => {
-    if (start && timer > 0 && !isCancelled) {
+    console.log("SOS useEffect");
+    if (start && timer > 0 && !showCall) {
+      console.log("SOS useEffect if");
       const countdown = setTimeout(() => setTimer(timer - 1), 1000);
       return () => clearTimeout(countdown);
-    } else if (timer === 0 && !isCancelled) {
+    } else if (timer === 0 && !showCall) {
+      console.log("SOS useEffect else");
       setShowCall(true); // Show the call component when the timer reaches 0
     }
-  }, [timer, isCancelled, start]);
+  }, [timer, start]);
 
   useEffect(() => {
     if (showCall) {
@@ -32,16 +34,14 @@ function SOS(props) {
   }, [callDuration, showCall]);
 
   const handleCall = () => {
-    setIsCancelled(true);
     setTimer(seconds);
     setCallDuration(0);
     setShowCall(true); // Mostra il componente di chiamata quando viene cliccato il pulsante di chiamata
   };
 
   const handleCancel = () => {
-    setIsCancelled(true);
+    setStart(false);
     setTimer(seconds);
-    setIsCancelled(false);
     setShowCall(false);
     console.log("Navigating back...");
     navigate(-1); // Navigate to the previous page
@@ -97,27 +97,28 @@ function SOSCall({ handleCancel, callDuration }) {
       />
       <div className="mt-4 justify-content-space-between">
         <Row className="justify-content-center">
-          <Col className="call-button" xs="auto">
-            <Button className="single-button">
-              
+          <Col className="call-button-wrapper" xs="auto">
+            <Button className="call-button">
+              <div className="button speaker" />
             </Button>
             Speaker
           </Col>
-          <Col className="call-button" xs="auto">
-            <Button className="single-button">
-              
+          <Col className="call-button-wrapper" xs="auto">
+            <Button className="call-button">
+              <div className="button mute" />
             </Button>
             Mute
           </Col>
-          <Col className="call-button" xs="auto">
-            <Button className="single-button">
+          <Col className="call-button-wrapper" xs="auto">
+            <Button className="call-button">
+              <div className="button bluetooth" />
             </Button>
             Bluetooth
           </Col>
         </Row>
         <Row className="mt-4 justify-content-center">
-          <Button variant="danger" style={{ width: "10vh", height: "10vh", borderRadius: "100%" }} onClick={handleCancel}>
-            END
+          <Button variant="danger" className="call-button-end" onClick={handleCancel}>
+            <div className="button endCall"/>
           </Button>
         </Row>
       </div>

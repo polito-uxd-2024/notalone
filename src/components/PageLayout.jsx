@@ -53,7 +53,8 @@ function MainLayout () {
     }
   };
   useEffect(() => {
-    window.history.replaceState(null, '', '#/');
+    window.history.pushState(null, '', '#/');
+    window.history.pushState(null, '', '#/');
   }, []);
 
   useEffect(() => {
@@ -61,9 +62,6 @@ function MainLayout () {
     if (location.pathname === '/sos') {
       console.log('Timer started');
       startTimer(true);
-    }
-    else {
-      startTimer(false);
     }
   }, [location]);
 
@@ -108,7 +106,6 @@ function MainLayout () {
                 swiper.allowTouchMove = true;
                 swiper.allowClick = true;
                 swiper.el.style.cursor = 'grab';
-                startTimer(false);
               }
             }}
             touchEventsTarget="container"
@@ -119,8 +116,9 @@ function MainLayout () {
             >
             <SwiperSlide><Maps /></SwiperSlide>
             <SwiperSlide><AlHome chatStarted={chatStarted} startChat={startChat} /></SwiperSlide>
-            <SwiperSlide><SOS start={sosTimer} /></SwiperSlide>
+            <SwiperSlide><SOS start={sosTimer} setStart={startTimer} /></SwiperSlide>
           </Swiper>
+          <Outlet />
         </Col>
       </Row>
   );

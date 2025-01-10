@@ -1,5 +1,5 @@
 .sos-button {
-    background: url('/sos_button.svg') no-repeat;
+    background: url('/sos/sos_button.svg') no-repeat;
     background-size: cover;
     --bs-btn-border-color: transparent;
 }
@@ -16,7 +16,7 @@
 }
 
 .sos-112 {
-    background: url('/112_profile.svg') no-repeat;
+    background: url('/sos/112_profile.svg') no-repeat;
     background-size: contain;
     align-self: center;
     display: flex;
@@ -24,16 +24,55 @@
     height: 10rem;
 }
 
-.call-button {
+.call-button-wrapper {
     display: flex;
     flex-direction: column;
+    align-items: center; /* Centra il contenuto orizzontalmente */
+    justify-content: center; /* Centra il contenuto verticalmente */
 }
 
-.single-button {
+.call-button {
     width: 4rem;
     height: 4rem;
     border-radius: 100%;
     border: #293A5B;
     background-color: #293A5B;
+    display: flex;
+    align-items: center; /* Centra verticalmente */
+    justify-content: center; /* Centra orizzontalmente */
+}
+.call-button-end {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 100%;
+    border: #d7596d;
+    background-color: #d7596d;
 }
 
+.speaker {
+    background: url('/call/speaker.svg') no-repeat center center;
+    background-size: contain;
+    width: 100%; /* Assicurati che l'immagine occupi tutto lo spazio disponibile */
+    height: 100%;
+}
+
+.bluetooth {
+    background: url('/call/bluetooth.svg') no-repeat center center;
+    background-size: contain;
+    width: 100%; /* Assicurati che l'immagine occupi tutto lo spazio disponibile */
+    height: 80%;
+}
+
+.mute {
+    background: url('/call/mute.svg') no-repeat center center;
+    background-size: contain;
+    width: 100%; /* Assicurati che l'immagine occupi tutto lo spazio disponibile */
+    height: 80%;
+}
+
+.endCall {
+    background: url('/call/endCall.svg') no-repeat center center;
+    background-size: cover;
+    width: 100%; /* Assicurati che l'immagine occupi tutto lo spazio disponibile */
+    height: 100%;
+}
