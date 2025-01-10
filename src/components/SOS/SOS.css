@@ -1,0 +1,11 @@
+.sos-button {
+    background: url('/sos_button.svg') no-repeat;
+    background-size: cover;
+    --bs-btn-border-color: transparent;
+}
+
+.sos-col {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
