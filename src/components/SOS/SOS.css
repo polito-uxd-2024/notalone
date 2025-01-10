@@ -28,3 +28,12 @@
     display: flex;
     flex-direction: column;
 }
+
+.single-button {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 100%;
+    border: #293A5B;
+    background-color: #293A5B;
+}
+

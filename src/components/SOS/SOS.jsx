@@ -98,25 +98,25 @@ function SOSCall({ handleCancel, callDuration }) {
       <div className="mt-4 justify-content-space-between">
         <Row className="justify-content-center">
           <Col className="call-button" xs="auto">
-            <Button style={{ width: "10vh", height: "10vh", borderRadius: "100%" }}>
+            <Button className="single-button">
               
             </Button>
             Speaker
           </Col>
           <Col className="call-button" xs="auto">
-            <Button style={{ width: "10vh", height: "10vh", borderRadius: "100%" }}>
+            <Button className="single-button">
               
             </Button>
             Mute
           </Col>
           <Col className="call-button" xs="auto">
-            <Button style={{ width: "10vh", height: "10vh", borderRadius: "100%" }}>
+            <Button className="single-button">
             </Button>
             Bluetooth
           </Col>
         </Row>
         <Row className="mt-4 justify-content-center">
-          <Button style={{ width: "10vh", height: "10vh", borderRadius: "100%" }} onClick={handleCancel}>
+          <Button variant="danger" style={{ width: "10vh", height: "10vh", borderRadius: "100%" }} onClick={handleCancel}>
             END
           </Button>
         </Row>

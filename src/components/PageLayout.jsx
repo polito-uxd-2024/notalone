@@ -19,9 +19,9 @@ function MainLayout () {
   const swiperRef = useRef(null);
 
   const tabs = [
-    { url: "/maps", tab: "Maps", shift: "33.3%" },
+    { url: "/maps", tab: "Maps", shift: "34%" },
     { url: "/", tab: "Al", shift: "0%" },
-    { url: "/sos", tab: "SOS", shift: "-33.3%" },
+    { url: "/sos", tab: "SOS", shift: "-34%" },
   ];
 
   const updateSlide = () => {
