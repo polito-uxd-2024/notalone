@@ -35,7 +35,7 @@ export default function Maps({ disableSwipe, enableSwipe }) {
   }
 
   return (
-    <APIProvider apiKey={"AIzaSyBKdoXYHzSpJ6wc3AGnZVEjef8NYNUACyc"}>
+    <APIProvider apiKey={"as"}>
       <div
         style={{ height: "80vh", width: "100%" }}
         onMouseDown={disableSwipe} // Disabilita lo swipe quando il mouse è premuto
