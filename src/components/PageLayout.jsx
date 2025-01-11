@@ -12,6 +12,7 @@ function MainLayout () {
   const [chatStarted, startChat] = useState(false);
   const [sosTimer, startTimer] = useState(false);
   const [activeTab, setActiveTab] = useState(1);
+  const [showCall, setShowCall] = useState(false);
 
   const location = useLocation();
   
@@ -62,6 +63,9 @@ function MainLayout () {
       console.log('Timer started');
       startTimer(true);
     }
+    // else {
+    //   setShowCall(false);
+    // }
   }, [location]);
 
   return (
@@ -114,7 +118,7 @@ function MainLayout () {
             >
             <SwiperSlide><Maps /></SwiperSlide>
             <SwiperSlide><AlHome chatStarted={chatStarted} startChat={startChat} /></SwiperSlide>
-            <SwiperSlide><SOS start={sosTimer} setStart={startTimer} /></SwiperSlide>
+            <SwiperSlide><SOS start={sosTimer} setStart={startTimer} showCall={showCall} setShowCall={setShowCall} /></SwiperSlide>
           </Swiper>
           <Outlet />
         </Col>

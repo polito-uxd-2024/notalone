@@ -6,10 +6,10 @@ import './SOS.css'
 
 const seconds = 15;
 function SOS(props) {
-  const { start, setStart } = props;
+  const { start, setStart, showCall, setShowCall } = props;
   const [timer, setTimer] = useState(seconds);
   const [callDuration, setCallDuration] = useState(0);
-  const [showCall, setShowCall] = useState(false);
+  // const [showCall, setShowCall] = useState(false);
   const navigate = useNavigate();
   
   // console.log("Timer: ", timer, " isCancelled: ", isCancelled, " showCall: ", showCall, " start: ", start); 
@@ -42,7 +42,7 @@ function SOS(props) {
   const handleCancel = () => {
     setStart(false);
     setTimer(seconds);
-    setShowCall(false);
+    // setShowCall(false);
     console.log("Navigating back...");
     navigate(-1); // Navigate to the previous page
     setTimeout(() => {
@@ -102,7 +102,7 @@ function SOSCall({ handleCancel, callDuration }) {
   };
   return (
     <Col className="sos-call-col">
-    <h1>{formatDuration(callDuration)}</h1>
+    <h3>{formatDuration(callDuration)}</h3>
       <div
         className="sos-112 mb-4"
       />
