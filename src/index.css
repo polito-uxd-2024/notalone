@@ -1,0 +1,29 @@
+@font-face {
+  font-family: "Gill Sans Nova";
+  src: url("/fonts/GillSansNova-Book.woff") format("woff"),
+       url("/fonts/GillSansNova-Book.woff2") format("woff2"),
+       url("/fonts/GillSansNova-Bold.woff") format("woff"),
+       url("/fonts/GillSansNova-Bold.woff") format("woff"),
+       url("/fonts/GillSansNova-SemiBold.woff2") format("woff2"),
+       url("/fonts/GillSansNova-SemiBold.woff2") format("woff2"),
+       url("/fonts/GillSansNova-Medium.woff2") format("woff2"),
+       url("/fonts/GillSansNova-Medium.woff") format("woff"),
+}
+
+
+#root, html, body {
+  font-family: 'Gill Sans Nova', sans-serif;
+  max-width: 412px;
+  max-height: 915px;
+  width: 100%;
+  overflow-x: hidden;
+  margin: 0 auto;
+  text-align: center;
+
+  --nav-blue: #293A5B;
+  --light-blue: #8aabca;
+  --white: #f5f3f5
+
+  background-color: var(--white);
+}
+

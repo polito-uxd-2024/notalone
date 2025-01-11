@@ -1,0 +1,82 @@
+.sos-button {
+    background: url('/sos/sos_button.svg') no-repeat;
+    background-size: cover;
+    --bs-btn-border-color: transparent;
+}
+
+.sos-col {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sos-call-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.sos-112 {
+    background: url('/sos/112_profile.svg') no-repeat;
+    background-size: contain;
+    align-self: center;
+    display: flex;
+    width: 10rem;
+    height: 10rem;
+}
+
+.call-button-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra il contenuto orizzontalmente */
+    justify-content: center; /* Centra il contenuto verticalmente */
+}
+
+.call-button {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 100%;
+    border: var(--nav-blue);
+    background-color: var(--nav-blue);
+    display: flex;
+    align-items: center; /* Centra verticalmente */
+    justify-content: center; /* Centra orizzontalmente */
+}
+.call-button.active {
+    background-color: var(--light-blue);
+}
+
+.call-button-end {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 100%;
+    border: #d7596d;
+    background-color: #d7596d;
+}
+
+.speaker {
+    background: url('/call/speaker.svg') no-repeat center center;
+    background-size: contain;
+    width: 100%; /* Assicurati che l'immagine occupi tutto lo spazio disponibile */
+    height: 100%;
+}
+
+.bluetooth {
+    background: url('/call/bluetooth.svg') no-repeat center center;
+    background-size: contain;
+    width: 100%; /* Assicurati che l'immagine occupi tutto lo spazio disponibile */
+    height: 80%;
+}
+
+.mute {
+    background: url('/call/mute.svg') no-repeat center center;
+    background-size: contain;
+    width: 100%; /* Assicurati che l'immagine occupi tutto lo spazio disponibile */
+    height: 80%;
+}
+
+.endCall {
+    background: url('/call/endCall.svg') no-repeat center center;
+    background-size: cover;
+    width: 100%; /* Assicurati che l'immagine occupi tutto lo spazio disponibile */
+    height: 100%;
+}
