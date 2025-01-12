@@ -23,7 +23,8 @@
     "react-geolocated": "^4.3.0",
     "react-router": "^7.1.1",
     "react-router-dom": "^7.1.1",
-    "swiper": "^11.1.15"
+    "swiper": "^11.1.15",
+    "typescript": "^5.7.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

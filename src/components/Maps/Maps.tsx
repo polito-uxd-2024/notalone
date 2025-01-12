@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from "react";
 import {
   APIProvider,
@@ -5,10 +6,17 @@ import {
   AdvancedMarker,
   Pin,
   InfoWindow,
+  useMap,
+  useMapsLibrary,
 } from "@vis.gl/react-google-maps";
 
+type LatLng = {
+  lat: number;
+  lng: number;
+};
+
 export default function Maps({ disableSwipe, enableSwipe }) {
-  const [currentPosition, setCurrentPosition] = useState(null); // Stato per la posizione attuale
+  const [currentPosition, setCurrentPosition] = useState<LatLng | null>(null);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -35,7 +43,7 @@ export default function Maps({ disableSwipe, enableSwipe }) {
   }
 
   return (
-    <APIProvider apiKey={"as"}>
+    <APIProvider apiKey={"AIzaSyBKdoXYHzSpJ6wc3AGnZVEjef8NYNUACyc"}>
       <div
         style={{ height: "80vh", width: "100%" }}
         onMouseDown={disableSwipe} // Disabilita lo swipe quando il mouse è premuto
@@ -59,8 +67,53 @@ export default function Maps({ disableSwipe, enableSwipe }) {
               <p>Sono qui!</p>
             </InfoWindow>
           )}
+          <Directions />
         </Map>
       </div>
     </APIProvider>
   );
+}
+
+function Directions() {
+  const map = useMap();
+
+  const routesLibrary = useMapsLibrary ("routes");
+  const [directionsService, setDirectionsService] =
+    useState<google.maps.DirectionsService>();
+  const [directionsRenderer, setDirectionsRenderer] =
+    useState<google.maps.DirectionsRenderer>();
+  const [routes,setRoutes] = useState<google.maps.DirectionsRoute[]>([]);
+  const [routeIndex, setRouteIndex] = useState(0);
+  const selected = routes[routeIndex];
+  const leg = selected?.legs[0];
+
+
+
+  useEffect(() => {
+    if(!routesLibrary || !map) return;
+    setDirectionsService(new routesLibrary.DirectionsService());
+    setDirectionsRenderer(new routesLibrary.DirectionsRenderer({map}));
+  }, [routesLibrary, map]);
+
+  useEffect(() => {
+    if(!directionsService || !directionsRenderer) return;
+    directionsService
+      .route({
+        origin: "Piazza Castello",
+        destination: "Piazza Vittorio",
+        travelMode: google.maps.TravelMode.WALKING,
+        provideRouteAlternatives: true,
+      })
+      .then((response) => {
+        directionsRenderer.setDirections(response);
+        setRoutes(response.routes);
+      })
+  }, [directionsService,directionsRenderer]);
+
+  if(!leg) return null;
+
+
+  return <div className="direction">
+    <h2>{selected.summary}</h2>
+  </div>
 }
