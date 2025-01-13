@@ -35,8 +35,14 @@
     width: 4rem;
     height: 4rem;
     border-radius: 100%;
-    border: var(--nav-blue);
-    background-color: var(--nav-blue);
+    --bs-btn-bg: var(--nav-blue);
+    --bs-btn-border-color: var(--nav-blue);
+    --bs-btn-hover-bg: var(--blue);
+    --bs-btn-hover-border-color: var(--blue);
+    --bs-btn-disabled-bg: var(--blue);
+    --bs-btn-disabled-border-color: var(--blue);
+    --bs-btn-active-bg: var(--light-blue);
+    --bs-btn-active-border-color: var(--light-blue);
     display: flex;
     align-items: center; /* Centra verticalmente */
     justify-content: center; /* Centra orizzontalmente */

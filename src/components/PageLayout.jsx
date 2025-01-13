@@ -11,6 +11,7 @@ import 'swiper/css';
 function MainLayout () {
   const [chatStarted, startChat] = useState(false);
   const [sosTimer, startTimer] = useState(false);
+  const [back, setBack] = useState(false);
   const [activeTab, setActiveTab] = useState(1);
 
   const location = useLocation();
@@ -62,7 +63,10 @@ function MainLayout () {
       console.log('Timer started');
       startTimer(true);
     }
-  }, [location]);
+    if (back) {
+      setBack(false);
+    }
+  }, [location, back]);
 
   return (
     <Row className='vh-100'>
@@ -112,9 +116,9 @@ function MainLayout () {
             touchAngle={45}
             grabCursor={true}
             >
-            <SwiperSlide><Maps /></SwiperSlide>
+            <SwiperSlide><Maps handleTabClick={handleTabClick}/></SwiperSlide>
             <SwiperSlide><AlHome chatStarted={chatStarted} startChat={startChat} /></SwiperSlide>
-            <SwiperSlide><SOS start={sosTimer} setStart={startTimer} /></SwiperSlide>
+            <SwiperSlide><SOS start={sosTimer} setStart={startTimer} setBack={setBack} /></SwiperSlide>
           </Swiper>
           <Outlet />
         </Col>

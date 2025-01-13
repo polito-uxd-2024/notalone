@@ -6,7 +6,7 @@ import './SOS.css'
 
 const seconds = 15;
 function SOS(props) {
-  const { start, setStart } = props;
+  const { start, setStart, setBack } = props;
   const [timer, setTimer] = useState(seconds);
   const [callDuration, setCallDuration] = useState(0);
   const [showCall, setShowCall] = useState(false);
@@ -17,11 +17,11 @@ function SOS(props) {
   useEffect(() => {
     console.log("SOS useEffect");
     if (start && timer > 0 && !showCall) {
-      console.log("SOS useEffect if");
+      // console.log("SOS useEffect if");
       const countdown = setTimeout(() => setTimer(timer - 1), 1000);
       return () => clearTimeout(countdown);
     } else if (timer === 0 && !showCall) {
-      console.log("SOS useEffect else");
+      // console.log("SOS useEffect else");
       setShowCall(true); // Show the call component when the timer reaches 0
     }
   }, [timer, start]);
@@ -43,11 +43,12 @@ function SOS(props) {
     setStart(false);
     setTimer(seconds);
     setShowCall(false);
+    setBack(true);
     console.log("Navigating back...");
     navigate(-1); // Navigate to the previous page
-    setTimeout(() => {
-      window.location.reload(); // Forza l'aggiornamento dello slider
-    }, 100);
+    // setTimeout(() => {
+    //   window.location.reload(); // Forza l'aggiornamento dello slider
+    // }, 100);
   };
 
   return (
@@ -102,7 +103,7 @@ function SOSCall({ handleCancel, callDuration }) {
   };
   return (
     <Col className="sos-call-col">
-    <h1>{formatDuration(callDuration)}</h1>
+    <h3>{formatDuration(callDuration)}</h3>
       <div
         className="sos-112 mb-4"
       />
