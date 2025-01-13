@@ -6,9 +6,9 @@ import { v4 as uuidv4 } from 'uuid';
 const app = express();
 const port = 3001;
 
-const projectId = 'notalone-x9eu';  // Sostituisci con il tuo projectId Dialogflow
+const projectId = 'notalone-fwin';  // Sostituisci con il tuo projectId Dialogflow
 const sessionClient = new SessionsClient({
-  keyFilename: './config/notalone-x9eu-e0a4744da305.json', // Sostituisci con il percorso della tua chiave JSON
+  keyFilename: './config/notalone-fwin-6462f92dda48.json', // Sostituisci con il percorso della tua chiave JSON
 });
 
 
