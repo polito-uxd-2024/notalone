@@ -9,7 +9,7 @@ function Al(props) {
         <>
         {chatStarted?
         <AlChat/>
-        :
+            :
         <AlHome startChat={startChat}/>
         }
         </>

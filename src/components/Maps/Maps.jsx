@@ -7,7 +7,7 @@ function Maps(props) {
     return (
         <>
         Maps
-        <Button><Link to={'/sos'} onClick={handleTabClick}>Click</Link></Button>
+        <Button><div onClick={(e) => handleTabClick(e, 2)}>Click</div></Button>
         </>
     )
 }

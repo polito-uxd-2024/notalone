@@ -6,7 +6,7 @@ import './SOS.css'
 
 const seconds = 15;
 function SOS(props) {
-  const { start, setStart, setBack } = props;
+  const { start, setStart, handleBack } = props;
   const [timer, setTimer] = useState(seconds);
   const [callDuration, setCallDuration] = useState(0);
   const [showCall, setShowCall] = useState(false);
@@ -15,7 +15,7 @@ function SOS(props) {
   // console.log("Timer: ", timer, " isCancelled: ", isCancelled, " showCall: ", showCall, " start: ", start); 
   
   useEffect(() => {
-    console.log("SOS useEffect");
+    // console.log("SOS useEffect");
     if (start && timer > 0 && !showCall) {
       // console.log("SOS useEffect if");
       const countdown = setTimeout(() => setTimer(timer - 1), 1000);
@@ -43,9 +43,9 @@ function SOS(props) {
     setStart(false);
     setTimer(seconds);
     setShowCall(false);
-    setBack(true);
+    handleBack();
     console.log("Navigating back...");
-    navigate(-1); // Navigate to the previous page
+    // navigate(-1); // Navigate to the previous page
     // setTimeout(() => {
     //   window.location.reload(); // Forza l'aggiornamento dello slider
     // }, 100);
