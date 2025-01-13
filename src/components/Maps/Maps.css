@@ -1,0 +1,172 @@
+/* Maps.css */
+
+/* Stile per il contenitore della mappa */
+.map-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  
+  /* Marker della posizione corrente */
+  .current-position-marker {
+    width: 16px;
+    height: 16px;
+    background-color: blue;
+    border: 2px solid white;
+    border-radius: 50%;
+  }
+  
+  /* Marker della destinazione */
+  .destination-marker {
+    width: 16px;
+    height: 16px;
+    background-color: red;
+    border: 2px solid white;
+    border-radius: 50%;
+  }
+  
+  /* Barra di ricerca */
+  .search-bar {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
+  
+  .search-text {
+    color: gray;
+    font-size: 14px;
+  }
+  
+  /* Bottone di uscita dalla navigazione */
+  .exit-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: red;
+    border-radius: 50%;
+    color: white;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .exit-text {
+    font-size: 18px;
+  }
+  
+  /* Popup per l'inserimento del percorso */
+  .popup-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .popup {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 90%;
+  }
+  
+  .popup h2 {
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  /* Gruppo di input */
+  .input-group {
+    margin-bottom: 20px;
+  }
+  
+  .input-group label {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .input-container {
+    position: relative;
+  }
+  
+  .input-container input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .clear-button {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #999;
+    font-size: 16px;
+  }
+  
+  /* Suggerimenti */
+  .suggestions {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 5px;
+    padding: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .suggestions p {
+    margin: 0;
+    padding: 8px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .suggestions p:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* Gruppo di bottoni */
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .close-button,
+  .start-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .close-button {
+    background-color: #ddd;
+    color: #333;
+  }
+  
+  .start-button {
+    background-color: #007bff;
+    color: white;
+  }
+  

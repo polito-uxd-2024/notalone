@@ -93,7 +93,7 @@ function MainLayout () {
               handleLocationChange(swiper.activeIndex);
               // console.log('onSlideChange: ')
               updateTab(swiper.activeIndex);
-              if (actualLocation === 2) {
+              if (swiper.activeIndex === 2) {
                 swiper.el.style.cursor = 'default';
                 swiper.allowTouchMove = false;
                 swiper.allowClick = false;
