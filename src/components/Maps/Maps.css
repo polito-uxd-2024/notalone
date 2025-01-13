@@ -1,172 +1,144 @@
-/* Maps.css */
+/* Styles for the search bar */
+.search-bar {
+  position: absolute;
+  bottom: 40px;
+  left: 45%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 40px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
 
-/* Stile per il contenitore della mappa */
+.search-text {
+  color: #888;
+  font-size: 16px;
+}
+
+.circle {
+  width: 25px;
+  height: 25px;
+  background-color: blue;
+  border-radius: 50%;
+  border: 4px solid white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.popup-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup {
+  width: 300px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.label-container {
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.input-container {
+  position: relative;
+}
+
+.clear-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+  cursor: pointer;
+}
+
+.suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+  z-index: 10;
+}
+
+.flag {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  background-image: url('/notalone/FlagDest.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.exit-button {
+  position: absolute;
+  bottom: 40px;
+  left: 30px;
+  background-color: rgba(228, 34, 34, 0.9);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.exit-text {
+  font-size: 32px;
+  color: white;
+  font-weight: bold;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.close-button {
+  background: #f8d7da;
+  color: #721c24;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.start-button {
+  background: #d4edda;
+  color: #155724;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
 .map-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-  }
-  
-  /* Marker della posizione corrente */
-  .current-position-marker {
-    width: 16px;
-    height: 16px;
-    background-color: blue;
-    border: 2px solid white;
-    border-radius: 50%;
-  }
-  
-  /* Marker della destinazione */
-  .destination-marker {
-    width: 16px;
-    height: 16px;
-    background-color: red;
-    border: 2px solid white;
-    border-radius: 50%;
-  }
-  
-  /* Barra di ricerca */
-  .search-bar {
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: white;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-  }
-  
-  .search-text {
-    color: gray;
-    font-size: 14px;
-  }
-  
-  /* Bottone di uscita dalla navigazione */
-  .exit-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: red;
-    border-radius: 50%;
-    color: white;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-  }
-  
-  .exit-text {
-    font-size: 18px;
-  }
-  
-  /* Popup per l'inserimento del percorso */
-  .popup-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .popup {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
-    width: 90%;
-  }
-  
-  .popup h2 {
-    margin-bottom: 20px;
-    font-size: 18px;
-    color: #333;
-  }
-  
-  /* Gruppo di input */
-  .input-group {
-    margin-bottom: 20px;
-  }
-  
-  .input-group label {
-    font-size: 14px;
-    color: #666;
-  }
-  
-  .input-container {
-    position: relative;
-  }
-  
-  .input-container input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  
-  .clear-button {
-    position: absolute;
-    top: 50%;
-    right: 8px;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: #999;
-    font-size: 16px;
-  }
-  
-  /* Suggerimenti */
-  .suggestions {
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-top: 5px;
-    padding: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .suggestions p {
-    margin: 0;
-    padding: 8px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  .suggestions p:hover {
-    background-color: #f0f0f0;
-  }
-  
-  /* Gruppo di bottoni */
-  .button-group {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-  
-  .close-button,
-  .start-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  .close-button {
-    background-color: #ddd;
-    color: #333;
-  }
-  
-  .start-button {
-    background-color: #007bff;
-    color: white;
-  }
-  
+  position: relative;
+  width: 100%;
+  height: 60vh;
+}

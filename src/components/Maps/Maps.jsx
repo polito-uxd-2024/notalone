@@ -7,6 +7,7 @@ import {
   useMap,
   useMapsLibrary,
 } from "@vis.gl/react-google-maps";
+import "./Maps.css";
 
 
 function Maps({ disableSwipe, enableSwipe, handleTabClick }) {
@@ -18,7 +19,8 @@ function Maps({ disableSwipe, enableSwipe, handleTabClick }) {
   const [isNavigationStarted, setIsNavigationStarted] = useState(false);
   const [destinationCoords, setDestinationCoords] = useState(null);
 
-  const key = import.meta.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+  const key = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+  console.log(key);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -141,7 +143,7 @@ function Maps({ disableSwipe, enableSwipe, handleTabClick }) {
           gestureHandling="greedy"
         >
           <AdvancedMarker position={currentPosition}>
-            <div className="current-position-marker"></div>
+            <div className="circle"></div>
           </AdvancedMarker>
 
           {origin && destination && isNavigationStarted && (
@@ -155,7 +157,7 @@ function Maps({ disableSwipe, enableSwipe, handleTabClick }) {
 
           {destinationCoords && (
             <AdvancedMarker position={destinationCoords}>
-              <div className="destination-marker"></div>
+              <div className="flag"></div>
             </AdvancedMarker>
           )}
         </Map>
@@ -176,7 +178,7 @@ function Maps({ disableSwipe, enableSwipe, handleTabClick }) {
           <div className="popup-overlay">
             <div className="popup">
               <h2>Inserisci Percorso</h2>
-              <div className="input-group">
+              <div className="label-container">
                 <label>
                   Origine:
                   <div className="input-container">
@@ -195,7 +197,7 @@ function Maps({ disableSwipe, enableSwipe, handleTabClick }) {
                 {showSuggestions === "origin" && renderSuggestions("origin")}
               </div>
 
-              <div className="input-group">
+              <div className="label-container">
                 <label>
                   Destinazione:
                   <div className="input-container">
@@ -214,7 +216,7 @@ function Maps({ disableSwipe, enableSwipe, handleTabClick }) {
                 {showSuggestions === "destination" && renderSuggestions("destination")}
               </div>
 
-              <div className="button-group">
+              <div className="buttonContainer">
                 <button className="close-button" onClick={() => setShowPopup(false)}>Chiudi</button>
                 <button className="start-button" onClick={handleStartNavigation}>Avvia</button>
               </div>
@@ -223,6 +225,7 @@ function Maps({ disableSwipe, enableSwipe, handleTabClick }) {
         )}
       </div>
     </APIProvider>
+
     </>
   );
 }
