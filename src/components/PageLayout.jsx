@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, act } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { SOS } from './SOS/SOS';
-import { AlHome } from './Al/AlHome';
+import { Al } from './Al/Al';
 import { Maps } from './Maps/Maps';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -117,7 +117,7 @@ function MainLayout () {
             grabCursor={true}
             >
             <SwiperSlide><Maps handleTabClick={handleTabClick}/></SwiperSlide>
-            <SwiperSlide><AlHome chatStarted={chatStarted} startChat={startChat} /></SwiperSlide>
+            <SwiperSlide><Al chatStarted={chatStarted} startChat={startChat} /></SwiperSlide>
             <SwiperSlide><SOS start={sosTimer} setStart={startTimer} setBack={setBack} /></SwiperSlide>
           </Swiper>
           <Outlet />

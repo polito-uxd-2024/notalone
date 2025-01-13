@@ -1,40 +1,36 @@
-import React, { useState } from "react";
+import React, { useState } from "react"
+import { Link } from "react-router-dom"
 
-function Al() {
-  const [message, setMessage] = useState('');
-  const [response, setResponse] = useState('');
+import { AlChat } from './AlChat'
 
-  const handleSendMessage = async () => {
-    try {
-      const res = await fetch('http://localhost:3001/api/message', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message }),
-      });
-      const data = await res.json();
-      setResponse(data.fulfillmentText);  // Supponendo che la risposta sia in questa forma
-    } catch (error) {
-      console.error('Errore:', error);
-    }
-  };
-
-  return (
-    <>
-      <div>
-        <input
-          type="text"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
-        <button onClick={handleSendMessage}>Send</button>
-      </div>
-      <div>
-        <p>Response: {response}</p>
-      </div>
-    </>
-  );
+function Al(props) {
+    const {chatStarted, startChat} = props;
+    return (
+        <>
+        {chatStarted?
+        <AlChat/>
+        :
+        <AlHome startChat={startChat}/>
+        }
+        </>
+    )
 }
 
-export {Al};
+function AlHome({startChat}) {
+    return (
+        <div className="al-home-container">
+          <div className="al-home-image-container">
+            <img src="path-to-your-image.jpg" alt="Al" className="al-home-image" />
+          </div>
+          <div className="al-home-message">
+            Ciao, sono Al!
+          </div>
+          <div className="al-home-buttons">
+            <button className="al-home-button" onClick={() => startChat(true)}>Chat</button>
+            <button className="al-home-button">Altro</button>
+          </div>
+        </div>
+    )
+}
+
+export { Al }
