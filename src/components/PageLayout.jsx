@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { SOS } from './SOS/SOS';
 import { Al } from './Al/Al';
-import { Maps } from './Maps/Maps';
+import  Maps  from './Maps/Maps';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
@@ -22,6 +22,18 @@ function MainLayout () {
     { tab: "Al", shift: "0%" },
     { tab: "SOS", shift: "-34%" },
   ];
+  
+  const disableSwipe = () => {
+    if (swiperRef.current?.swiper) {
+      swiperRef.current.swiper.allowTouchMove = false;
+    }
+  };
+
+  const enableSwipe = () => {
+    if (swiperRef.current?.swiper) {
+      swiperRef.current.swiper.allowTouchMove = true;
+    }
+  };
 
   const updateSlide = (index) => {
     if (swiperRef.current && swiperRef.current.swiper) {
@@ -110,7 +122,7 @@ function MainLayout () {
             touchAngle={45}
             grabCursor={true}
             >
-            <SwiperSlide><Maps handleTabClick={handleTabClick}/></SwiperSlide>
+            <SwiperSlide><Maps handleTabClick={handleTabClick} disableSwipe={disableSwipe} enableSwipe={enableSwipe}/></SwiperSlide>
             <SwiperSlide><Al chatStarted={chatStarted} startChat={startChat} /></SwiperSlide>
             <SwiperSlide><SOS start={sosTimer} setStart={startSosTimer} handleBack={handleBack} /></SwiperSlide>
           </Swiper>
