@@ -238,7 +238,7 @@ const Directions = ({
 }) => {
   const map = useMap();
   const routesLibrary = useMapsLibrary("routes");
-  const [directionsService, setDirectionsService] = useStateì(null);
+  const [directionsService, setDirectionsService] = useState(null);
   const [directionsRenderer, setDirectionsRenderer] = useState(null);
 
   useEffect(() => {

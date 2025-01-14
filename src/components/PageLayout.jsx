@@ -75,7 +75,7 @@ function MainLayout () {
               {tabs.map((tab, index) => (
                 <div
                 key={index}
-                className={`tab ${activeTab === index ? "active" : ""}`}
+                className={`tab ${activeTab === index ? "active" : (activeTab === 2 ? "disabled" : "")}`}
                 onClick={(e) => handleTabClick(e, index)}
               >
                 {tab.tab}

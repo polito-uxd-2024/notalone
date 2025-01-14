@@ -22,7 +22,7 @@
   height: 110px;
   z-index: 999; /* Per mantenerlo sopra gli altri elementi */
   font-size: 2rem;
-  color: #fff;
+  color: var(--body-bg);
 }
 
 /* Wrapper delle tabs */
@@ -53,12 +53,13 @@
 
 /* Stile della tab */
 .tab {
+  font-weight: bold;
   flex-shrink: 0;
   padding: 10px 20px;
   font-size: 16px;
   text-align: center;
   text-decoration: none;
-  color: #333;
+  color: var(--bs-dark);
   cursor: pointer;
   transition: transform 0.3s ease, color 0.3s ease, background-color 0.3s ease;
   white-space: nowrap; /* Evita che il testo vada a capo */
@@ -67,9 +68,26 @@
 
 /* Tab attiva */
 .tab.active {
-  font-weight: bold;
-  color: #fff;
+  font-weight: bolder;
+  color: var(--body-bg);
   /* background-color: #007bff; */
   transform: scale(1.2); /* Zoom sulla tab attiva */
   /* box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);  */
+}
+
+.tab.disabled {
+  color: var(--bs-secondary);
+  cursor: not-allowed;
+}
+
+.cancel-button {
+  background-color: var(--red);
+  color: var(--body-bg);
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+}
+
+.swiper {
+  height: 100%;
 }

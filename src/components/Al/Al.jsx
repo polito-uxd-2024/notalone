@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { Link } from "react-router-dom"
 
 import { AlChat } from './AlChat'
 
@@ -20,7 +19,7 @@ function AlHome({startChat}) {
     return (
         <div className="al-home-container">
           <div className="al-home-image-container">
-            <img src="path-to-your-image.jpg" alt="Al" className="al-home-image" />
+            <img src="al/al.svg" alt="Al" className="al-home-image" />
           </div>
           <div className="al-home-message">
             Ciao, sono Al!

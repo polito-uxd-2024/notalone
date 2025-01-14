@@ -4,15 +4,35 @@
     --bs-btn-border-color: transparent;
 }
 
+.sos-al {
+    display: flex;
+    flex-direction: row;
+}
+
+.sos-calling-message {
+    border-radius: 0px 20px 20px 20px;
+    background-color: var(--bs-dark);
+    color: var(--body-bg);
+    margin-left: 2rem;
+    padding: 10px;
+}
+
+.sos-timer {
+    color: var(--bs-dark);
+    font-size: 20vw;
+}
 .sos-col {
     display: inline-flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    width: 100%;
+    align-items: center;
 }
 
 .sos-call-col {
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .sos-112 {
@@ -23,7 +43,24 @@
     width: 10rem;
     height: 10rem;
 }
-
+.sos-call-top-row {
+    height: 40%;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+}
+.sos-call-bottom-row {
+    height: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.bottom-row-wrapper {
+    margin: 20px;
+    padding: 60px;
+    border-radius: 20px;
+    background: rgba(var(--bs-dark-rgb), 0.2);
+}
 .call-button-wrapper {
     display: flex;
     flex-direction: column;
@@ -35,54 +72,44 @@
     width: 4rem;
     height: 4rem;
     border-radius: 100%;
-    --bs-btn-bg: var(--nav-blue);
-    --bs-btn-border-color: var(--nav-blue);
-    --bs-btn-hover-bg: var(--blue);
-    --bs-btn-hover-border-color: var(--blue);
-    --bs-btn-disabled-bg: var(--blue);
-    --bs-btn-disabled-border-color: var(--blue);
-    --bs-btn-active-bg: var(--light-blue);
-    --bs-btn-active-border-color: var(--light-blue);
+    background-color: var(--bs-primary);
     display: flex;
     align-items: center; /* Centra verticalmente */
     justify-content: center; /* Centra orizzontalmente */
+    cursor: pointer;
 }
 .call-button.active {
-    background-color: var(--light-blue);
+    background-color: rgba(var(--bs-primary-rgb), 0.7);
 }
 
-.call-button-end {
-    width: 4rem;
-    height: 4rem;
-    border-radius: 100%;
-    border: #d7596d;
-    background-color: #d7596d;
+.end {
+    background-color: var(--red);
 }
 
 .speaker {
     background: url('/call/speaker.svg') no-repeat center center;
     background-size: contain;
-    width: 100%; /* Assicurati che l'immagine occupi tutto lo spazio disponibile */
-    height: 100%;
+    width: 70%; /* Assicurati che l'immagine occupi tutto lo spazio disponibile */
+    height: 70%;
 }
 
 .bluetooth {
     background: url('/call/bluetooth.svg') no-repeat center center;
     background-size: contain;
-    width: 100%; /* Assicurati che l'immagine occupi tutto lo spazio disponibile */
-    height: 80%;
+    width: 70%; /* Assicurati che l'immagine occupi tutto lo spazio disponibile */
+    height: 70%;
 }
 
 .mute {
     background: url('/call/mute.svg') no-repeat center center;
     background-size: contain;
-    width: 100%; /* Assicurati che l'immagine occupi tutto lo spazio disponibile */
-    height: 80%;
+    width: 70%; /* Assicurati che l'immagine occupi tutto lo spazio disponibile */
+    height: 70%;
 }
 
 .endCall {
     background: url('/call/endCall.svg') no-repeat center center;
-    background-size: cover;
+    background-size: contain;
     width: 100%; /* Assicurati che l'immagine occupi tutto lo spazio disponibile */
     height: 100%;
 }

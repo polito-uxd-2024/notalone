@@ -1,16 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Col, Button, Image, Row } from "react-bootstrap";
-import { useNavigate, useLocation } from "react-router-dom";
+import { Col, Row } from "react-bootstrap";
 
 import './SOS.css'
 
 const seconds = 15;
+
+const formatDuration = (seconds) => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const remainingSeconds = seconds % 60;
+
+  if (hours > 0) {
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+  } else {
+    return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+  }
+};
+
 function SOS(props) {
   const { start, setStart, handleBack } = props;
   const [timer, setTimer] = useState(seconds);
   const [callDuration, setCallDuration] = useState(0);
   const [showCall, setShowCall] = useState(false);
-  const navigate = useNavigate();
   
   // console.log("Timer: ", timer, " isCancelled: ", isCancelled, " showCall: ", showCall, " start: ", start); 
   
@@ -66,18 +77,23 @@ function SOS(props) {
 function SOSHome(props) {
   return (
     <Col className="sos-col mt-2">
-      <Button
+      <div
         className="sos-button"
-        variant="danger"
         style={{ width: "40vh", height: "40vh", borderRadius: "100%" }}
         onClick={props.handleCall}
       />
-      <div className="mt-4">
-        <h3>Calling in {props.timer} seconds...</h3>
+      <div className="sos-al">
+        <div className="al-home-image-container">
+          <img src="al/al_sad.svg" alt="Al" className="al-home-image" />
+        </div>
+        <div className="sos-calling-message mt-4">
+          <h2>Se vuoi allertare i soccorsi premi il pulsante sopra, la chiamata partirà in automatico tra:</h2>
+        </div>
       </div>
-      <Button variant="secondary" className="mt-4" onClick={props.handleCancel}>
-        Cancel
-      </Button>
+      <h1 className="sos-timer">{formatDuration(props.timer)}</h1>
+      <div className="cancel-button mt-4" onClick={props.handleCancel}>
+       <h2> Cancel </h2>  
+      </div>
     </Col>
   );
 }
@@ -90,59 +106,67 @@ function SOSCall({ handleCancel, callDuration }) {
   const toggleMute = () => setIsMuteOn(!isMuteOn);
   const toggleBluetooth = () => setIsBluetoothOn(!isBluetoothOn)
 
-  const formatDuration = (seconds) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const remainingSeconds = seconds % 60;
+  // const formatDuration = (seconds) => {
+  //   const hours = Math.floor(seconds / 3600);
+  //   const minutes = Math.floor((seconds % 3600) / 60);
+  //   const remainingSeconds = seconds % 60;
   
-    if (hours > 0) {
-      return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
-    } else {
-      return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
-    }
-  };
+  //   if (hours > 0) {
+  //     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+  //   } else {
+  //     return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+  //   }
+  // };
   return (
     <Col className="sos-call-col">
-    <h3>{formatDuration(callDuration)}</h3>
-      <div
-        className="sos-112 mb-4"
-      />
-      <div className="mt-4 justify-content-space-between">
-        <Row className="justify-content-center">
-          <Col className="call-button-wrapper" xs="auto">
-            <Button
-                className={`call-button ${isSpeakerOn ? 'active' : ''}`}
-                onClick={toggleSpeaker}
-              >
-              <div className="button speaker" />
-            </Button>
-            Speaker
-          </Col>
-          <Col className="call-button-wrapper" xs="auto">
-            <Button
-              className={`call-button ${isMuteOn ? 'active' : ''}`}
-              onClick={toggleMute}
-            >
-              <div className="button mute" />
-            </Button>
-            Mute
-          </Col>
-          <Col className="call-button-wrapper" xs="auto">
-            <Button
-              className={`call-button ${isBluetoothOn ? 'active' : ''}`}
-              onClick={toggleBluetooth}
-            >
-              <div className="button bluetooth" />
-            </Button>
-            Bluetooth
-          </Col>
-        </Row>
-        <Row className="mt-4 justify-content-center">
-          <Button variant="danger" className="call-button-end" onClick={handleCancel}>
-            <div className="button endCall"/>
-          </Button>
-        </Row>
+    <div className="justify-content-center sos-call-top-row">
+      <div className="top-row-wrapper">
+        <h3>{formatDuration(callDuration)}</h3>
+        <div
+          className="sos-112 mt-4 mb-4"
+        />
       </div>
+    </div>
+    <div className="justify-content-center sos-call-bottom-row">
+      <div className="mt-4 justify-content-space-between">
+        <div className="bottom-row-wrapper">
+          <Row className="justify-content-center mb-4">
+            <Col className="call-button-wrapper" xs="auto">
+              <div
+                  className={`call-button ${isSpeakerOn ? 'active' : ''}`}
+                  onClick={toggleSpeaker}
+                >
+                <div className="button speaker" />
+              </div>
+              Speaker
+            </Col>
+            <Col className="call-button-wrapper" xs="auto">
+              <div
+                className={`call-button ${isMuteOn ? 'active' : ''}`}
+                onClick={toggleMute}
+              >
+                <div className="button mute" />
+              </div>
+              Mute
+            </Col>
+            <Col className="call-button-wrapper" xs="auto">
+              <div
+                className={`call-button ${isBluetoothOn ? 'active' : ''}`}
+                onClick={toggleBluetooth}
+              >
+                <div className="button bluetooth" />
+              </div>
+              Bluetooth
+            </Col>
+          </Row>
+          <Row className="mt-4 justify-content-center">
+            <div className="call-button end" onClick={handleCancel}>
+              <div className="button endCall"/>
+            </div>
+          </Row>
+        </div>
+      </div>
+    </div>
     </Col>
   );
 }
