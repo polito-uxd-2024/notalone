@@ -11,25 +11,35 @@
 }
 
 #root, html, body {
+  --bs-white: #f4f2f7;
   --body-bg: #f4f2f7;
-  --light: #f0bb5f;
-  --main: #193b85;
   --red: #ba4058;
+  --light-red: #fc94ab;
   --bs-dark: #2d2144;
-  --bs-primary: #264993;
-  --bs-secondary: #999999;
+  --bs-primary: #4f51c0;
+  --bs-primary-light: #f5f5fe;
+  --bs-primary-2: #4f3c74;
+  --bs-primary-light-2: #d4d7ff;
+  --bs-secondary: #f8c655;
+  --bs-secondary-light: #feeed5;
+  --bs-disabled: #999999;
   --info: #2c2144;
   --bs-success: #3f9971;
   --bs-warning: #bc8839;
   --bs-danger: #f44336;
 
+  --bs-white-rgb: 244, 242, 247;
   --body-bg-rgb: 244, 242, 247;
-  --light-rgb: 240, 187, 95;
-  --main-rgb: 25, 59, 133;
   --red-rgb: 186, 64, 88;
+  --light-red-rgb: 252, 148, 171;
   --bs-dark-rgb: 45, 33, 68;
-  --bs-primary-rgb: 38, 73, 147;
-  --bs-secondary-rgb: 153, 153, 153;
+  --bs-primary-rgb: 79, 81, 192;
+  --bs-primary-light-rgb: 245, 245, 254;
+  --bs-primary-2-rgb: 79, 60, 116;
+  --bs-primary-light-2-rgb: 212, 215, 255;
+  --bs-secondary-rgb: 248, 198, 85;
+  --bs-secondary-light-rgb: 254, 238, 213;
+  --bs-disabled-rgb: 153, 153, 153;
   --info-rgb: 44, 33, 68;
   --bs-success-rgb: 63, 153, 113;
   --bs-warning-rgb: 188, 136, 57;

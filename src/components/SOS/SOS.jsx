@@ -3,7 +3,7 @@ import { Col, Row } from "react-bootstrap";
 
 import './SOS.css'
 
-const seconds = 15;
+const seconds = 1500;
 
 const formatDuration = (seconds) => {
   const hours = Math.floor(seconds / 3600);
@@ -76,25 +76,26 @@ function SOS(props) {
 }
 function SOSHome(props) {
   return (
-    <Col className="sos-col mt-2">
+    <div className="sos-col mt-2">
+      <div className="sos-call-wrapper">
       <div
-        className="sos-button"
-        style={{ width: "40vh", height: "40vh", borderRadius: "100%" }}
+        className="sos-button mb-4"
         onClick={props.handleCall}
       />
       <div className="sos-al">
         <div className="al-home-image-container">
-          <img src="al/al_sad.svg" alt="Al" className="al-home-image" />
+          <img src="al/al_sad.svg" alt="Al" className="al-home-image" style={{height: '4rem', width: '4rem'}} />
         </div>
-        <div className="sos-calling-message mt-4">
+        <div className="sos-calling-message mt-2 mb-2">
           <h2>Se vuoi allertare i soccorsi premi il pulsante sopra, la chiamata partirà in automatico tra:</h2>
         </div>
       </div>
-      <h1 className="sos-timer">{formatDuration(props.timer)}</h1>
-      <div className="cancel-button mt-4" onClick={props.handleCancel}>
-       <h2> Cancel </h2>  
+      <h1 className="sos-timer mt-4">{formatDuration(props.timer)}</h1>
       </div>
-    </Col>
+      <div className="cancel-button mt-4" onClick={props.handleCancel}>
+       <h1> ANNULLA </h1>  
+      </div>
+    </div>
   );
 }
 function SOSCall({ handleCancel, callDuration }) {
@@ -118,7 +119,8 @@ function SOSCall({ handleCancel, callDuration }) {
   //   }
   // };
   return (
-    <Col className="sos-call-col">
+    <div className="sos-call-col">
+    <div className="sos-call-wrapper">
     <div className="justify-content-center sos-call-top-row">
       <div className="top-row-wrapper">
         <h3>{formatDuration(callDuration)}</h3>
@@ -131,7 +133,7 @@ function SOSCall({ handleCancel, callDuration }) {
       <div className="mt-4 justify-content-space-between">
         <div className="bottom-row-wrapper">
           <Row className="justify-content-center mb-4">
-            <Col className="call-button-wrapper" xs="auto">
+            <Col className="call-button-wrapper" xs="4">
               <div
                   className={`call-button ${isSpeakerOn ? 'active' : ''}`}
                   onClick={toggleSpeaker}
@@ -140,7 +142,7 @@ function SOSCall({ handleCancel, callDuration }) {
               </div>
               Speaker
             </Col>
-            <Col className="call-button-wrapper" xs="auto">
+            <Col className="call-button-wrapper" xs="4">
               <div
                 className={`call-button ${isMuteOn ? 'active' : ''}`}
                 onClick={toggleMute}
@@ -149,7 +151,7 @@ function SOSCall({ handleCancel, callDuration }) {
               </div>
               Mute
             </Col>
-            <Col className="call-button-wrapper" xs="auto">
+            <Col className="call-button-wrapper" xs="4">
               <div
                 className={`call-button ${isBluetoothOn ? 'active' : ''}`}
                 onClick={toggleBluetooth}
@@ -167,7 +169,8 @@ function SOSCall({ handleCancel, callDuration }) {
         </div>
       </div>
     </div>
-    </Col>
+    </div>
+    </div>
   );
 }
 

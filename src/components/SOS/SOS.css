@@ -2,24 +2,28 @@
     background: url('/sos/sos_button.svg') no-repeat;
     background-size: cover;
     --bs-btn-border-color: transparent;
+    height: 12rem;
+    width: 12rem;
 }
 
 .sos-al {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    margin: 10px;
+    align-items: start;
 }
 
 .sos-calling-message {
     border-radius: 0px 20px 20px 20px;
-    background-color: var(--bs-dark);
-    color: var(--body-bg);
+    background-color: rgba(var(--bs-dark-rgb), 0.2);
+    color: var(--bs-dark);
     margin-left: 2rem;
     padding: 10px;
 }
 
 .sos-timer {
     color: var(--bs-dark);
-    font-size: 20vw;
+    font-size: calc(1.875rem + 4.5vw);
 }
 .sos-col {
     display: inline-flex;
@@ -31,8 +35,22 @@
 
 .sos-call-col {
     display: flex;
-    flex-direction: column;
-    height: 100%;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.sos-call-wrapper {
+	padding: 10px;
+	height: 80%;
+	width: 80%;
+	background-color: white;
+	border-radius: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .sos-112 {
@@ -40,26 +58,26 @@
     background-size: contain;
     align-self: center;
     display: flex;
-    width: 10rem;
-    height: 10rem;
+    width: 12rem;
+    height: 12rem;
 }
 .sos-call-top-row {
-    height: 40%;
+    /* height: 40%; */
     display: flex;
     flex-direction: row;
     align-items: start;
 }
 .sos-call-bottom-row {
-    height: 50%;
+    /* height: 50%; */
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 .bottom-row-wrapper {
     margin: 20px;
-    padding: 60px;
+    padding: 20px;
     border-radius: 20px;
-    background: rgba(var(--bs-dark-rgb), 0.2);
+    background: rgba(var(--light-red-rgb), 0.4);
 }
 .call-button-wrapper {
     display: flex;
