@@ -50,7 +50,7 @@ function MainLayout () {
   };
 
   const handleStart = (chat, call) => {
-    if (window.history.length < 2){
+    if (chat){
       window.history.pushState(chatStarted, chatStarted, '#/');
     }
     console.log("chat: ", chat, " call: ", call)

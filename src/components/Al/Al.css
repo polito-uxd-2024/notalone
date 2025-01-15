@@ -56,7 +56,7 @@
 .input-box button:hover {
   background-color: #0056b3;
 }
-.al-home-container {
+.al-container {
   display: flex;
   flex-direction: row;
   height: 100%;
@@ -65,7 +65,14 @@
   align-items: start;
 
 }
-.al-home-wrapper {
+.al-container .bottom-row-wrapper {
+  margin: 20px;
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(var(--bs-primary-2-rgb), 0.4);
+}
+
+.al-wrapper {
 	text-align: center;
 	padding: 20px;
 	height: 80%;

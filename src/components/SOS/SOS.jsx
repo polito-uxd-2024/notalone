@@ -118,7 +118,7 @@ function SOSCall({ handleCancel, callDuration }) {
         />
       </div>
     </div>
-    <div className="justify-content-center sos-call-bottom-row">
+    <div className="justify-content-center call-bottom-row">
       <div className="mt-4 justify-content-space-between">
         <div className="bottom-row-wrapper">
           <Row className="justify-content-center mb-4">

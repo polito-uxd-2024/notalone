@@ -29,8 +29,8 @@ function Al(props) {
 
 function AlHome({handleStart}) {
     return (
-        <div className="al-home-container">
-          <div className="al-home-wrapper">
+        <div className="al-container">
+          <div className="al-wrapper">
           <div>
           <div className="al-home-image-container">
             <img src="al/al.svg" alt="Al" className="al-home-image" />

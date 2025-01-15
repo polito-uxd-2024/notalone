@@ -29,17 +29,17 @@ function AlCall({handleCancel}) {
   const toggleMute = () => setIsMuteOn(!isMuteOn);
   const toggleBluetooth = () => setIsBluetoothOn(!isBluetoothOn)
   return (
-    <div className="sos-container">
-    <div className="sos-wrapper">
+    <div className="al-container">
+    <div className="al-wrapper">
     <div className="justify-content-center sos-call-top-row">
       <div className="top-row-wrapper">
         <h3>{formatDuration(callDuration)}</h3>
-        <div
-          className="sos-112 mt-4 mb-4"
-        />
+        <div className="al-home-image-container">
+          <img src="al/al.svg" alt="Al" className="al-home-image" style={{height: '12rem', width: '12rem'}} />
+        </div>
       </div>
     </div>
-    <div className="justify-content-center sos-call-bottom-row">
+    <div className="justify-content-center call-bottom-row">
       <div className="mt-4 justify-content-space-between">
         <div className="bottom-row-wrapper">
           <Row className="justify-content-center mb-4">
