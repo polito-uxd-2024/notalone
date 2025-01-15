@@ -1,15 +1,27 @@
-import React, { useState } from "react"
+import React from "react"
 
 import { AlChat } from './AlChat'
+import { AlCall } from './AlCall'
 
 function Al(props) {
-    const {chatStarted, handleStart} = props;
+    const {chatStarted, inCall, handleStart, handleEndCall} = props;
     return (
         <>
         {chatStarted?
-        <AlChat/>
+        (
+          inCall?
+          <AlCall handleCancel={handleEndCall}/>
+          :
+          <AlChat/>
+        )
             :
-        <AlHome handleStart={handleStart}/>
+        (
+          inCall?
+          <AlCall handleCancel={handleEndCall}/>
+          :
+          <AlHome handleStart={handleStart}/>
+        )
+       
         }
         </>
     )
@@ -28,8 +40,8 @@ function AlHome({handleStart}) {
           </div>
           </div>
           <div className="al-home-buttons">
-            <div className="al-home-button chat" onClick={() => handleStart(true)}><div className="icon-wrapper chat-icon"/></div>
-            <div className="al-home-button call"><div className="icon-wrapper call-icon"/></div>
+            <div className="al-home-button chat" onClick={() => handleStart(true, false)}><div className="icon-wrapper chat-icon"/></div>
+            <div className="al-home-button call" onClick={() => handleStart(false, true)}><div className="icon-wrapper call-icon"/></div>
           </div>
         </div>
         </div>
