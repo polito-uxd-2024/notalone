@@ -76,10 +76,10 @@ function SOS(props) {
 }
 function SOSHome(props) {
   return (
-    <div className="sos-col mt-2">
-      <div className="sos-call-wrapper">
+    <div className="sos-container">
+      <div className="sos-wrapper">
       <div
-        className="sos-button mb-4"
+        className="sos-button"
         onClick={props.handleCall}
       />
       <div className="sos-al">
@@ -119,8 +119,8 @@ function SOSCall({ handleCancel, callDuration }) {
   //   }
   // };
   return (
-    <div className="sos-call-col">
-    <div className="sos-call-wrapper">
+    <div className="sos-container">
+    <div className="sos-wrapper">
     <div className="justify-content-center sos-call-top-row">
       <div className="top-row-wrapper">
         <h3>{formatDuration(callDuration)}</h3>

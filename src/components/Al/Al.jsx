@@ -3,22 +3,22 @@ import React, { useState } from "react"
 import { AlChat } from './AlChat'
 
 function Al(props) {
-    const {chatStarted, startChat} = props;
+    const {chatStarted, handleStart} = props;
     return (
         <>
         {chatStarted?
         <AlChat/>
             :
-        <AlHome startChat={startChat}/>
+        <AlHome handleStart={handleStart}/>
         }
         </>
     )
 }
 
-function AlHome({startChat}) {
+function AlHome({handleStart}) {
     return (
-        <div className="al-home-wrapper">
-          <div className="al-home-container">
+        <div className="al-home-container">
+          <div className="al-home-wrapper">
           <div>
           <div className="al-home-image-container">
             <img src="al/al.svg" alt="Al" className="al-home-image" />
@@ -28,7 +28,7 @@ function AlHome({startChat}) {
           </div>
           </div>
           <div className="al-home-buttons">
-            <div className="al-home-button chat" onClick={() => startChat(true)}><div className="icon-wrapper chat-icon"/></div>
+            <div className="al-home-button chat" onClick={() => handleStart(true)}><div className="icon-wrapper chat-icon"/></div>
             <div className="al-home-button call"><div className="icon-wrapper call-icon"/></div>
           </div>
         </div>

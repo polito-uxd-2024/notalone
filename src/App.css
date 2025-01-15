@@ -3,7 +3,7 @@
 }
 .below-tab {
   padding-top: 55px;
-  min-height: calc(100% - 110px);
+  min-height: calc(100% - 75px);
 }
 
 .vh-100 {

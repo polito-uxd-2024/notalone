@@ -47,6 +47,27 @@ function MainLayout () {
     tabsRef.current.style.left = tabs[index].shift;
     // tabsRef.current.scrollLeft = tabs[index].shift;
   };
+
+  const handleStart = () => {
+    window.history.pushState(chatStarted, chatStarted, '#/');
+    startChat(true);
+  }
+
+  useEffect(() => {
+    const handlePopState = (event) => {
+      console.log('popstate event');
+      if (event.state) {
+        startChat(false);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
   const handleLocationChange = (index) => {
     updateTab(index);
     updateSlide(index);
@@ -123,7 +144,7 @@ function MainLayout () {
             grabCursor={true}
             >
             <SwiperSlide><Maps handleTabClick={handleTabClick} disableSwipe={disableSwipe} enableSwipe={enableSwipe}/></SwiperSlide>
-            <SwiperSlide><Al chatStarted={chatStarted} startChat={startChat} /></SwiperSlide>
+            <SwiperSlide><Al chatStarted={chatStarted} handleStart={handleStart} /></SwiperSlide>
             <SwiperSlide><SOS start={sosTimer} setStart={startSosTimer} handleBack={handleBack} /></SwiperSlide>
           </Swiper>
         </Col>
