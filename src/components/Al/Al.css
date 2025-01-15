@@ -5,7 +5,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 600px;
+  height: calc(100%-66px);
 }
 
 .chat-box {
@@ -16,24 +16,44 @@
 
 .user-message {
   text-align: right;
-  background-color: #d1e7dd;
+  background-color: rgba(var(--bs-primary-rgb), 0.2);
   padding: 10px;
-  border-radius: 10px;
-  margin: 5px;
+  border-radius: 20px 0px 20px 20px;
+  /* margin: 5px; */
+  margin-left: auto;
+  margin-bottom: 5px;
+  width: fit-content;
+  max-width: 80%;
 }
+/* .user-message {
+  text-align: right;
+  border-radius: 20px 0px 20px 20px;
+  background-color: rgba(var(--bs-secondary), 0.2);
+  color: var(--bs-dark);
+  margin-left: 2rem;
+  padding: 10px;
+} */
 
 .bot-message {
-  text-align: left;
-  background-color: #f8d7da;
-  padding: 10px;
-  border-radius: 10px;
-  margin: 5px;
+    text-align: left;
+    border-radius: 0px 20px 20px 20px;
+    background-color: rgba(var(--bs-dark-rgb), 0.2);
+    color: var(--bs-dark);
+    margin-right: auto;
+    width: fit-content;
+    padding: 10px;
+    margin-bottom: 5px;
+    max-width: 80%;
 }
 
 .input-box {
   display: flex;
   padding: 10px;
   border-top: 1px solid #ddd;
+  position: fixed;
+  bottom: 0px;
+  height: 75px;
+  width: 100%;
 }
 
 .input-box input {

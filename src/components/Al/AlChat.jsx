@@ -1,3 +1,11 @@
+//todo
+// 1. Creare i riquadri in css per utente e Al
+// 2. riportare la schermata in basso quando diventa troppo lunga
+// 3. bloccare message input container in basso - FATTO
+// 4. sistemare la chat in modo che i messaggi siano divisi
+// 5. creare container per i messaggi + container per scrittura messaggio
+
+
 import React, { useState } from "react";
 import './Al.css';
 
@@ -12,6 +20,7 @@ function AlChat() {
     const newMessage = { sender: 'user', text: message };
     setChatHistory((prevChatHistory) => [...prevChatHistory, newMessage]);
 
+    setMessage(''); //pulisco il messaggio appena viene inviato
     try {
       const res = await fetch('http://localhost:3001/api/message', {
         method: 'POST',
@@ -27,7 +36,6 @@ function AlChat() {
       console.error('Errore:', error);
     }
 
-    setMessage('');
   };
 
   return (
@@ -45,6 +53,11 @@ function AlChat() {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Type a message..."
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSendMessage();
+            }
+          }}
         />
         <button onClick={handleSendMessage}>Send</button>
       </div>

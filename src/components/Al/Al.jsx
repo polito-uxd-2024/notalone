@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-
 import { AlChat } from './AlChat'
 
 function Al(props) {
