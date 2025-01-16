@@ -1,14 +1,5 @@
-//todo
-// 1. Creare i riquadri in css per utente e Al - FATTO
-// 2. riportare la schermata in basso quando diventa troppo lunga
-// 3. bloccare message input container in basso - FATTO
-// 4. sistemare la chat in modo che i messaggi siano divisi - FATTO
-// 5. creare container per i messaggi + container per scrittura messaggio - la chat funziona anche senza container
-
-
 import React, { useState, useEffect, useRef } from "react";
 import './Al.css';
-
 
 function AlChat() {
   const [message, setMessage] = useState('');
@@ -20,8 +11,8 @@ function AlChat() {
 
     const newMessage = { sender: 'user', text: message };
     setChatHistory((prevChatHistory) => [...prevChatHistory, newMessage]);
+    setMessage(''); // Pulisce il campo di input
 
-    setMessage(''); //pulisco il messaggio appena viene inviato
     try {
       const res = await fetch('http://localhost:3001/api/message', {
         method: 'POST',
@@ -36,45 +27,43 @@ function AlChat() {
     } catch (error) {
       console.error('Errore:', error);
     }
-
   };
 
   useEffect(() => {
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
-    }, [chatHistory]);
+  }, [chatHistory]);
 
   return (
-    <div className="chat-container">
-      <div className="chat-box">
-        {chatHistory.map((msg, index) => (
-          <div key={index} className={msg.sender === 'user' ? 'user-message' : 'bot-message'}>
-            {msg.text}
-          </div>
-        ))}
-        
+    <div className="chat-wrapper">
+      <div className="chat-container">
+        <div className="chat-box">
+          {chatHistory.map((msg, index) => (
+            <div
+              key={index}
+              className={`message ${msg.sender === 'user' ? 'user-message' : 'bot-message'}`}
+            >
+              {msg.text}
+            </div>
+          ))}
+          <div ref={chatBoxRef}></div>
+        </div>
       </div>
-      <div className="input-box"
-       ref={chatBoxRef}>
+      <div className="input-box">
         <input
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="Type a message..."
+          placeholder="Scrivi un messaggio..."
           onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              handleSendMessage();
-            }
+            if (e.key === "Enter") handleSendMessage();
           }}
         />
-        <button onClick={handleSendMessage}>Send</button>
-        <div ref={chatBoxRef}></div>
+        <button onClick={handleSendMessage}>Invia</button>
       </div>
     </div>
   );
 }
 
 export { AlChat };
-
-
