@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Button } from "react-bootstrap";
 import {
   APIProvider,
   Map,
@@ -14,7 +15,7 @@ type LatLng = {
   lng: number;
 };
 
-export default function Maps({ disableSwipe, enableSwipe }: { disableSwipe: () => void; enableSwipe: () => void }) {
+export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { disableSwipe: () => void; enableSwipe: () => void; handleTabClick: (e, index) => void; }) {
   const [currentPosition, setCurrentPosition] = useState<LatLng | null>(null);
   const [showPopup, setShowPopup] = useState(false); // Controlla se il popup è visibile
   const [origin, setOrigin] = useState<string | null>(""); // Campo per l'origine
@@ -145,7 +146,28 @@ export default function Maps({ disableSwipe, enableSwipe }: { disableSwipe: () =
   }
 
   return (
-    <APIProvider apiKey={"KEY"}>
+    <>
+        <Button
+      style={{
+        position: "absolute",
+        bottom: "130px", // Sposta il pulsante sopra i tasti di zoom
+        right: "6px", // Allinea il pulsante a destra
+        background: "transparent",
+        border: "none",
+        padding: 0,
+        zIndex: 5, // Assicurati che il pulsante sia sopra la mappa
+        cursor: "pointer",
+      }}
+      onClick={(e) => handleTabClick(e, 2)}
+    >
+      <img
+        src="/notalone/sos/sos_button.svg"
+        alt="SOS Button"
+        style={{ width: "50px", height: "50px" }}
+      />
+    </Button>
+
+    <APIProvider apiKey={"AIzaSyBKdoXYHzSpJ6wc3AGnZVEjef8NYNUACyc"}>
       <div
         style={{ height: "80vh", width: "100%" }}
         onMouseDown={disableSwipe}
@@ -159,6 +181,7 @@ export default function Maps({ disableSwipe, enableSwipe }: { disableSwipe: () =
           mapId={"538ae0fea393aa85"}
           fullscreenControl={false}
           gestureHandling="greedy"
+          streetViewControl={false}
         >
           <AdvancedMarker position={currentPosition}>
             <div style={styles.circle}></div>
@@ -256,6 +279,7 @@ export default function Maps({ disableSwipe, enableSwipe }: { disableSwipe: () =
         )}
       </div>
     </APIProvider>
+    </>
   );
 }
 

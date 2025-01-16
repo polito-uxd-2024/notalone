@@ -1,41 +1,29 @@
-import React, { useEffect, useState, useRef, act } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { Link, Outlet, useLocation } from 'react-router-dom';
 import { SOS } from './SOS/SOS';
-import { AlHome } from './Al/AlHome';
-import Maps from './Maps/Maps';
+import { Al } from './Al/Al';
+import  Maps  from './Maps/Maps';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
 
 function MainLayout () {
   const [chatStarted, startChat] = useState(false);
-  const [sosTimer, startTimer] = useState(false);
+  const [inCall, startCall] = useState(false);
+  const [sosTimer, startSosTimer] = useState(false);
+  const [sosBack, setSosBack] = useState(false);
   const [activeTab, setActiveTab] = useState(1);
-
-  const location = useLocation();
+  const [actualLocation, editActualLocation] = useState(1);
   
   const tabsRef = useRef();
   const swiperRef = useRef(null);
 
   const tabs = [
-    { url: "/maps", tab: "Maps", shift: "34%" },
-    { url: "/", tab: "Al", shift: "0%" },
-    { url: "/sos", tab: "SOS", shift: "-34%" },
+    { tab: "Maps", shift: "34%" },
+    { tab: "Al", shift: "0%" },
+    { tab: "SOS", shift: "-34%" },
   ];
-
-  const updateSlide = () => {
-    if (swiperRef.current && swiperRef.current.swiper) {
-      const path = location.pathname.split('/').pop();
-      const slideIndex = location.pathname === '/' ? 1 : ['maps', '', 'sos'].indexOf(path);
-      if (slideIndex !== -1) {
-        swiperRef.current.swiper.slideTo(slideIndex);
-        // console.log("updateSlide: ")
-        // updateTab(slideIndex)
-      }
-    }
-  };
-
+  
   const disableSwipe = () => {
     if (swiperRef.current?.swiper) {
       swiperRef.current.swiper.allowTouchMove = false;
@@ -48,33 +36,79 @@ function MainLayout () {
     }
   };
 
+  const updateSlide = (index) => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+        swiperRef.current.swiper.slideTo(index);
+    }
+  };
+
   const updateTab = (index) => {
+    console.log(window.history)
     setActiveTab(index);
-    console.log(tabsRef.current)
     tabsRef.current.style.left = tabs[index].shift;
     // tabsRef.current.scrollLeft = tabs[index].shift;
   };
+
+  const handleStart = (chat, call) => {
+    if (chat){
+      window.history.pushState(chatStarted, chatStarted, '#/');
+    }
+    console.log("chat: ", chat, " call: ", call)
+    startChat(chat);
+    startCall(call);
+  }
+
+  const handleEndCall = () => {
+    startCall(false)
+  }
+
+  useEffect(() => {
+    const handlePopState = (event) => {
+      console.log('popstate event');
+      if (event.state) {
+        startChat(false);
+        startCall(false);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
+  const handleLocationChange = (index) => {
+    updateTab(index);
+    updateSlide(index);
+    if (index !== 2){
+      editActualLocation(index);
+    }
+  }
   const handleTabClick = (e, index) => {
-    // console.log('Tab clicked: ', index);
-    // console.log('Active Tab: ', activeTab);
+    console.log('Tab clicked: ', index);
     if(activeTab === 2) {
       e.preventDefault()
     } else {
-      // console.log('handleCLick: ', activeTab);
-      updateTab(index);
+      handleLocationChange(index);
     }
   };
-  useEffect(() => {
-    window.history.pushState(null, '', '#/');
-  }, []);
+
+  const handleBack = () => {
+    setSosBack(true);
+    handleLocationChange(actualLocation);
+  }
 
   useEffect(() => {
-    updateSlide();
-    if (location.pathname === '/sos') {
+    console.log('useEffect: ', actualLocation, " ", activeTab);
+    if (activeTab === 2) {
       console.log('Timer started');
-      startTimer(true);
+      startSosTimer(true);
     }
-  }, [location]);
+    if (sosBack) {
+      setSosBack(false);
+    }
+  }, [sosBack, activeTab]);
 
   return (
     <Row className='vh-100'>
@@ -82,14 +116,13 @@ function MainLayout () {
           <div className="tabs-wrapper">
             <div className="tabs" ref={tabsRef}>
               {tabs.map((tab, index) => (
-                <Link
+                <div
                 key={index}
-                to={tab.url}
-                className={`tab ${activeTab === index ? "active" : ""}`}
+                className={`tab ${activeTab === index ? "active" : (activeTab === 2 ? "disabled" : "")}`}
                 onClick={(e) => handleTabClick(e, index)}
               >
                 {tab.tab}
-              </Link>
+              </div>
               ))}
             </div>
           </div>
@@ -100,18 +133,14 @@ function MainLayout () {
             slidesPerView={1}
             initialSlide={1}
             onSlideChange={(swiper) => {
-              const paths = ['#/maps', '#/', '#/sos'];
-              const newPath = paths[swiper.activeIndex];
-              // console.log('New path: ', newPath);
-              window.history.replaceState(null, '', newPath);
-              console.log('onSlideChange: ')
+              handleLocationChange(swiper.activeIndex);
+              // console.log('onSlideChange: ')
               updateTab(swiper.activeIndex);
-              // handleTabClick(swiper, swiper.activeIndex);
-              if (newPath === '#/sos') {
+              if (swiper.activeIndex === 2) {
                 swiper.el.style.cursor = 'default';
                 swiper.allowTouchMove = false;
                 swiper.allowClick = false;
-                startTimer(true);
+                startSosTimer(true);
               } else {
                 swiper.allowTouchMove = true;
                 swiper.allowClick = true;
@@ -124,11 +153,10 @@ function MainLayout () {
             touchAngle={45}
             grabCursor={true}
             >
-            <SwiperSlide><Maps disableSwipe={disableSwipe} enableSwipe={enableSwipe}/></SwiperSlide>
-            <SwiperSlide><AlHome chatStarted={chatStarted} startChat={startChat} /></SwiperSlide>
-            <SwiperSlide><SOS start={sosTimer} setStart={startTimer} /></SwiperSlide>
+            <SwiperSlide><Maps handleTabClick={handleTabClick} disableSwipe={disableSwipe} enableSwipe={enableSwipe}/></SwiperSlide>
+            <SwiperSlide><Al chatStarted={chatStarted} handleStart={handleStart} inCall={inCall} handleEndCall={handleEndCall} /></SwiperSlide>
+            <SwiperSlide><SOS start={sosTimer} setStart={startSosTimer} handleBack={handleBack} /></SwiperSlide>
           </Swiper>
-          <Outlet />
         </Col>
       </Row>
   );
