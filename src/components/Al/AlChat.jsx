@@ -1,10 +1,62 @@
+//TODO LIST
+// - sistemare i messaggi di dialogflow
+// - aggiungere agenda in dialogflow
+// - aggiungere gui agenda
+// - aggiungere tasti di inizio chat (invio automatico appena apre chat)
+// - finire parte di chat base - FATTO
+// - implementare impostazioni (personalità, etc)
+// - inserire faccione di Al sopra la chat
+// - capire e implementare tasto "nuova chat"
+
 import React, { useState, useEffect, useRef } from "react";
 import './Al.css';
+import {sendMessageToDialogflow} from './dialogflowService';
+
+async function ReadFromAgendaJSON() {
+  try{
+    const response = await fetch('/notalone/al/agenda.json');
+    const agenda = await response.json();
+    const agendaString = agenda.map((event) => `• ${event.attività} il ${event.data} alle ${event.ora}: ${event.descrizione}\n`);
+        
+    return (agendaString);
+  } catch (error) {
+    console.log('Errore fetching agenda:', error);
+    return ;
+  }
+}
+
+async function UpdateAgenda(UpdatedAgendaEvent) {
+
+}
+
+async function DeleteAgendaEvent(DeleteAgendaEvent) {
+
+}
+
+async function AddAgendaEvent(NewAgendaEvent) {
+  try{
+    const response = await fetch('/notalone/al/agenda.json');
+    
+  }
+}
 
 function AlChat() {
+  const [agenda, setAgenda] = useState('');
+  const [dirty, setDirty] = useState(false); //tutte le volte che modifico l'agenda devo mettere setDirty(true)
+
   const [message, setMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
   const chatBoxRef = useRef(null);
+
+
+  useEffect(() => {
+    async function fetchAgenda() {
+      const agendaString = await ReadFromAgendaJSON();
+      setAgenda(agendaString);
+    }
+    fetchAgenda();
+    setDirty(false);
+  }, [dirty]);
 
   const handleSendMessage = async () => {
     if (message.trim() === '') return;
@@ -23,6 +75,22 @@ function AlChat() {
       });
       const data = await res.json();
       const newResponse = { sender: 'bot', text: data.fulfillmentText };
+      if (data.fulfillmentText === "codeShowAgenda") {
+        newResponse.text = agenda;
+        setDirty(true);
+
+      } else if (data.fulfillmentText === "codeUpdateAgenda") { 
+
+
+      } else if (data.fulfillmentText === "codeDeleteAgenda") { 
+
+
+      } else if (data.fulfillmentText === "codeAddAgendaEvent") { 
+
+
+      }
+
+
       setChatHistory((prevChatHistory) => [...prevChatHistory, newResponse]);
     } catch (error) {
       console.error('Errore:', error);
