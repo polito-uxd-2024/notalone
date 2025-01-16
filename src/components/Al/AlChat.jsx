@@ -35,20 +35,16 @@ function AlChat() {
     }
   }, [chatHistory]);
 
+
   return (
-    <div className="chat-wrapper">
-      <div className="chat-container">
-        <div className="chat-box">
-          {chatHistory.map((msg, index) => (
-            <div
-              key={index}
-              className={`message ${msg.sender === 'user' ? 'user-message' : 'bot-message'}`}
-            >
-              {msg.text}
-            </div>
-          ))}
-          <div ref={chatBoxRef}></div>
-        </div>
+    <div className="chat-container">
+      <div className="chat-box">
+        {chatHistory.map((msg, index) => (
+          <div key={index} className={`message ${msg.sender === 'user' ? 'user-message' : 'bot-message'}`}>
+            <h4>{msg.text}</h4>
+          </div>
+        ))}
+        <div ref={chatBoxRef}></div>
       </div>
       <div className="input-box">
         <input
@@ -57,13 +53,45 @@ function AlChat() {
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Scrivi un messaggio..."
           onKeyDown={(e) => {
-            if (e.key === "Enter") handleSendMessage();
+          if (e.key === "Enter") handleSendMessage();
           }}
         />
-        <button onClick={handleSendMessage}>Invia</button>
+        <button onClick={handleSendMessage}>Send</button>
       </div>
     </div>
   );
 }
 
 export { AlChat };
+
+
+// return (
+//   <div className="chat-wrapper">
+//     <div className="chat-container">
+//       <div className="chat-box">
+//         {chatHistory.map((msg, index) => (
+//           <div
+//             key={index}
+//             className={`message ${msg.sender === 'user' ? 'user-message' : 'bot-message'}`}
+//           >
+//             <h4>{msg.text}</h4>
+//           </div>
+//         ))}
+//         <div ref={chatBoxRef}></div>
+//       </div>
+//     </div>
+//     <div className="input-box">
+//       <input
+//         type="text"
+//         value={message}
+//         onChange={(e) => setMessage(e.target.value)}
+//         placeholder="Scrivi un messaggio..."
+//         onKeyDown={(e) => {
+//           if (e.key === "Enter") handleSendMessage();
+//         }}
+//       />
+//       <button onClick={handleSendMessage}>Invia</button>
+//     </div>
+//   </div>
+// );
+// }
