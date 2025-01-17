@@ -15,6 +15,8 @@ type LatLng = {
   lng: number;
 };
 
+const HOME_COORDS: LatLng = { lat: 45.073529, lng: 7.669068 }; // Piazza Statuto, Torino
+
 export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { disableSwipe: () => void; enableSwipe: () => void; handleTabClick: (e, index) => void; }) {
   const [currentPosition, setCurrentPosition] = useState<LatLng | null>(null);
   const [showPopup, setShowPopup] = useState(false); // Controlla se il popup è visibile
@@ -69,6 +71,20 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { di
       }
       setShowSuggestions(null);
     }
+  };
+
+  const handleNavigateToHome = () => {
+    if (!currentPosition) {
+      alert("Posizione corrente non disponibile.");
+      return;
+    }
+    const pos = `${currentPosition.lat}, ${currentPosition.lng}`;
+    const dest = `${HOME_COORDS.lat}, ${HOME_COORDS.lng}`;
+    setOrigin(pos);
+    setDestination(dest);
+    setDestinationCoords(HOME_COORDS)
+    setIsNavigationStarted(true);
+    handleStartNavigation
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, type: "origin" | "destination") => {
@@ -155,7 +171,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { di
         background: "transparent",
         border: "none",
         padding: 0,
-        zIndex: 5, // Assicurati che il pulsante sia sopra la mappa
+        zIndex: 1, // Assicurati che il pulsante sia sopra la mappa
         cursor: "pointer",
       }}
       onClick={(e) => handleTabClick(e, 2)}
@@ -163,7 +179,27 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { di
       <img
         src="/notalone/sos/sos_button.svg"
         alt="SOS Button"
-        style={{ width: "50px", height: "50px" }}
+        style={{ width: "60px", height: "60px" }}
+      />
+    </Button>
+
+    <Button
+      style={{
+        position: "absolute",
+        bottom: "110px", // Sposta il pulsante sopra i tasti di zoom
+        right: "310px", // Allinea il pulsante a destra
+        background: "transparent",
+        border: "none",
+        padding: 0,
+        zIndex: 2, // Assicurati che il pulsante sia sopra la mappa
+        cursor: "pointer",
+      }}
+      onClick={handleNavigateToHome}
+    >
+      <img
+        src="/notalone/home_button.png"
+        alt="SOS Button"
+        style={{ width: "65px", height: "65px" }}
       />
     </Button>
 
