@@ -203,7 +203,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { di
       />
     </Button>
 
-    <APIProvider apiKey={"AIzaSyBKdoXYHzSpJ6wc3AGnZVEjef8NYNUACyc"}>
+    <APIProvider apiKey={"KEY"}>
       <div
         style={{ height: "80vh", width: "100%" }}
         onMouseDown={disableSwipe}
