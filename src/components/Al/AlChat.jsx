@@ -133,7 +133,7 @@ function AlChat() {
     <div className="chat-container">
       <div className="chat-box">
         {chatHistory.map((msg, index) => (
-          <div key={index} className={`message ${msg.sender === 'user' ? 'user-message' : 'bot-message'}`}>
+          <div key={index} className={`message ${msg.sender}-message`}>
             <h4>{msg.text}</h4>
           </div>
         ))}
