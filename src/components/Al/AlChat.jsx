@@ -11,17 +11,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import './Al.css';
 import {sendMessageToDialogflow} from './dialogflowService';
+import { data } from "react-router";
 
 async function ReadFromAgendaJSON() {
   try{
     const response = await fetch('/notalone/al/agenda.json');
     const agenda = await response.json();
-    const agendaString = agenda.map((event) => `• ${event.attività} il ${event.data} alle ${event.ora}: ${event.descrizione}\n`);
+    const agendaString = agenda.map((event) => `• ${event.attività} il ${event.data} alle ${event.ora} \n`);
         
     return (agendaString);
   } catch (error) {
     console.log('Errore fetching agenda:', error);
-    return ;
+    return ;  
   }
 }
 
@@ -34,10 +35,20 @@ async function DeleteAgendaEvent(DeleteAgendaEvent) {
 }
 
 async function AddAgendaEvent(NewAgendaEvent) {
-  try{
-    const response = await fetch('/notalone/al/agenda.json');
-    
-  }
+  try {
+    const respnse = await fetch('/notalone/al/agenda.json', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: NewAgendaEvent,
+    })
+    .then((response) => response.json())
+    .then(data => console.log(data))
+    .catch((error) => console.error('Errore fetch:', error));
+  } catch (error) {
+    console.error('Errore aggiunta evento:', error);
+  } 
 }
 
 function AlChat() {
@@ -75,6 +86,7 @@ function AlChat() {
       });
       const data = await res.json();
       const newResponse = { sender: 'bot', text: data.fulfillmentText };
+      
       if (data.fulfillmentText === "codeShowAgenda") {
         newResponse.text = agenda;
         setDirty(true);
@@ -86,8 +98,15 @@ function AlChat() {
 
 
       } else if (data.fulfillmentText === "codeAddAgendaEvent") { 
-
-
+        const newEvent = {
+          id: 'evento4',
+          attività: "New Event Name",
+          data: "YYYY-MM-DD",
+          ora: "HH:mm"
+        };
+        await AddAgendaEvent(newEvent);
+        newResponse.text = agenda;
+        setDirty(true);
       }
 
 
