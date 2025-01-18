@@ -9,6 +9,7 @@ import 'swiper/css';
 
 function MainLayout () {
   const [chatStarted, startChat] = useState(false);
+  const [inCall, startCall] = useState(false);
   const [sosTimer, startSosTimer] = useState(false);
   const [sosBack, setSosBack] = useState(false);
   const [activeTab, setActiveTab] = useState(1);
@@ -47,6 +48,36 @@ function MainLayout () {
     tabsRef.current.style.left = tabs[index].shift;
     // tabsRef.current.scrollLeft = tabs[index].shift;
   };
+
+  const handleStart = (chat, call) => {
+    if (chat){
+      window.history.pushState(chatStarted, chatStarted, '#/');
+    }
+    console.log("chat: ", chat, " call: ", call)
+    startChat(chat);
+    startCall(call);
+  }
+
+  const handleEndCall = () => {
+    startCall(false)
+  }
+
+  useEffect(() => {
+    const handlePopState = (event) => {
+      console.log('popstate event');
+      if (event.state) {
+        startChat(false);
+        startCall(false);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
   const handleLocationChange = (index) => {
     updateTab(index);
     updateSlide(index);
@@ -123,7 +154,7 @@ function MainLayout () {
             grabCursor={true}
             >
             <SwiperSlide><Maps handleTabClick={handleTabClick} disableSwipe={disableSwipe} enableSwipe={enableSwipe}/></SwiperSlide>
-            <SwiperSlide><Al chatStarted={chatStarted} startChat={startChat} /></SwiperSlide>
+            <SwiperSlide><Al chatStarted={chatStarted} handleStart={handleStart} inCall={inCall} handleEndCall={handleEndCall} /></SwiperSlide>
             <SwiperSlide><SOS start={sosTimer} setStart={startSosTimer} handleBack={handleBack} /></SwiperSlide>
           </Swiper>
         </Col>

@@ -4,6 +4,7 @@
     --bs-btn-border-color: transparent;
     height: 12rem;
     width: 12rem;
+    z-index: 998;
 }
 
 .sos-al {
@@ -15,8 +16,8 @@
 
 .sos-calling-message {
     border-radius: 0px 20px 20px 20px;
-    background-color: rgba(var(--bs-dark-rgb), 0.2);
-    color: var(--bs-dark);
+    background-color: rgba(var(--bs-primary-rgb), 0.2);
+    /* color: var(--bs-dark); */
     margin-left: 2rem;
     padding: 10px;
 }
@@ -25,26 +26,18 @@
     color: var(--bs-dark);
     font-size: calc(1.875rem + 4.5vw);
 }
-.sos-col {
-    display: inline-flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    width: 100%;
-    align-items: center;
-}
 
-.sos-call-col {
+.sos-container {
     display: flex;
-  flex-direction: row;
-  height: 100%;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: start;
 }
 
-.sos-call-wrapper {
+.sos-wrapper {
 	padding: 10px;
-	height: 80%;
 	width: 80%;
 	background-color: white;
 	border-radius: 20px;
@@ -67,7 +60,7 @@
     flex-direction: row;
     align-items: start;
 }
-.sos-call-bottom-row {
+.call-bottom-row {
     /* height: 50%; */
     display: flex;
     flex-direction: row;

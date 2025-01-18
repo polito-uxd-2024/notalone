@@ -3,7 +3,7 @@ import { Col, Row } from "react-bootstrap";
 
 import './SOS.css'
 
-const seconds = 1500;
+const seconds = 15;
 
 const formatDuration = (seconds) => {
   const hours = Math.floor(seconds / 3600);
@@ -76,10 +76,10 @@ function SOS(props) {
 }
 function SOSHome(props) {
   return (
-    <div className="sos-col mt-2">
-      <div className="sos-call-wrapper">
+    <div className="sos-container">
+      <div className="sos-wrapper">
       <div
-        className="sos-button mb-4"
+        className="sos-button"
         onClick={props.handleCall}
       />
       <div className="sos-al">
@@ -107,20 +107,9 @@ function SOSCall({ handleCancel, callDuration }) {
   const toggleMute = () => setIsMuteOn(!isMuteOn);
   const toggleBluetooth = () => setIsBluetoothOn(!isBluetoothOn)
 
-  // const formatDuration = (seconds) => {
-  //   const hours = Math.floor(seconds / 3600);
-  //   const minutes = Math.floor((seconds % 3600) / 60);
-  //   const remainingSeconds = seconds % 60;
-  
-  //   if (hours > 0) {
-  //     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
-  //   } else {
-  //     return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
-  //   }
-  // };
   return (
-    <div className="sos-call-col">
-    <div className="sos-call-wrapper">
+    <div className="sos-container">
+    <div className="sos-wrapper">
     <div className="justify-content-center sos-call-top-row">
       <div className="top-row-wrapper">
         <h3>{formatDuration(callDuration)}</h3>
@@ -129,7 +118,7 @@ function SOSCall({ handleCancel, callDuration }) {
         />
       </div>
     </div>
-    <div className="justify-content-center sos-call-bottom-row">
+    <div className="justify-content-center call-bottom-row">
       <div className="mt-4 justify-content-space-between">
         <div className="bottom-row-wrapper">
           <Row className="justify-content-center mb-4">

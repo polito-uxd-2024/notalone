@@ -102,25 +102,23 @@
 .input-box button:hover {
   background-color: #0056b3;
 }
-
-/* Restringi larghezza massima della chat */
-@media (max-width: 600px) {
-  .chat-wrapper {
-    width: 100%;
-    border-radius: 0;
-  }
-}
-
-.al-home-wrapper {
+.al-container {
   display: flex;
   flex-direction: row;
   height: 100%;
   width: 100%;
   justify-content: center;
-  align-items: center;
+  align-items: start;
 
 }
-.al-home-container {
+.al-container .bottom-row-wrapper {
+  margin: 20px;
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(var(--bs-primary-2-rgb), 0.4);
+}
+
+.al-wrapper {
 	text-align: center;
 	padding: 20px;
 	height: 80%;
@@ -144,8 +142,8 @@
 }
 
 .al-home-message {
-  background-color: rgba(var(--bs-dark-rgb), 0.2);
-  color: var(--bs-dark);
+  background-color: rgba(var(--bs-primary-rgb), 0.2);
+  /* color: var(--bs-dark); */
   display: inline-block;
   padding: 10px 20px;
   border-radius: 0px 20px 20px 20px;
@@ -161,19 +159,18 @@
 .al-home-button {
   margin: 0 10px;
   padding: 10px;
-  border: none;
   color: white;
-  border-radius: 5px;
+  border-radius: 20px;
   cursor: pointer;
   align-content: center;
 }
 
 .chat {
-  background-color: var(--bs-primary);
+  background-color: rgba(var(--bs-primary-rgb), 0.85);
 }
 
 .call {
-  background-color: var(--bs-primary-2);
+  background-color: rgba(var(--bs-primary-2-rgb), 0.85);
 }
 
 .icon-wrapper {

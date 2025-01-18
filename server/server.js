@@ -57,6 +57,6 @@ app.post('/api/agenda', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server in ascolto su http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server in ascolto su http://0.0.0.0:${port}`);
 });
