@@ -17,9 +17,12 @@ async function ReadFromAgendaJSON() {
   try{
     const response = await fetch('/notalone/al/agenda.json');
     const agenda = await response.json();
-    const agendaString = agenda.map((event) => `• ${event.attività} il ${event.data} alle ${event.ora} \n`);
-        
-    return (agendaString);
+    // const agendaString = agenda.map((event) => ({
+    //   id: event.id,
+    //   string: <>{`• ${event.attività} il ${event.data} alle ${event.ora}`}<br/></>
+    // }));  
+    // return (agendaString);
+    return agenda;
   } catch (error) {
     console.log('Errore fetching agenda:', error);
     return ;  
@@ -36,15 +39,16 @@ async function DeleteAgendaEvent(DeleteAgendaEvent) {
 
 async function AddAgendaEvent(NewAgendaEvent) {
   try {
-    const respnse = await fetch('/notalone/al/agenda.json', {
+    console.log('Aggiungendo in agenda: ', NewAgendaEvent)
+    await fetch('http://localhost:3001/api/agenda', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: NewAgendaEvent,
+      body: JSON.stringify(NewAgendaEvent),
     })
     .then((response) => response.json())
-    .then(data => console.log(data))
+    .then((data) => console.log(data))
     .catch((error) => console.error('Errore fetch:', error));
   } catch (error) {
     console.error('Errore aggiunta evento:', error);
@@ -52,7 +56,7 @@ async function AddAgendaEvent(NewAgendaEvent) {
 }
 
 function AlChat() {
-  const [agenda, setAgenda] = useState('');
+  const [agenda, setAgenda] = useState([]);
   const [dirty, setDirty] = useState(false); //tutte le volte che modifico l'agenda devo mettere setDirty(true)
 
   const [message, setMessage] = useState('');
@@ -63,6 +67,7 @@ function AlChat() {
   useEffect(() => {
     async function fetchAgenda() {
       const agendaString = await ReadFromAgendaJSON();
+      // console.log(agendaString)
       setAgenda(agendaString);
     }
     fetchAgenda();
@@ -88,9 +93,8 @@ function AlChat() {
       const newResponse = { sender: 'bot', text: data.fulfillmentText };
       
       if (data.fulfillmentText === "codeShowAgenda") {
-        newResponse.text = agenda;
-        setDirty(true);
-
+        newResponse.text = agenda.map((event) => (<>{`• ${event.attività} il ${event.data} alle ${event.ora}`}<br/></>
+        ));  
       } else if (data.fulfillmentText === "codeUpdateAgenda") { 
 
 
@@ -104,9 +108,11 @@ function AlChat() {
           data: "YYYY-MM-DD",
           ora: "HH:mm"
         };
-        await AddAgendaEvent(newEvent);
-        newResponse.text = agenda;
-        setDirty(true);
+        const newAgenda = [...agenda, newEvent]
+        await AddAgendaEvent(newAgenda);
+        setAgenda(newAgenda)
+        newResponse.text = newAgenda.map((event) => (<>{`• ${event.attività} il ${event.data} alle ${event.ora}`}<br/></>
+        ));
       }
 
 

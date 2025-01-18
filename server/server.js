@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import { SessionsClient } from '@google-cloud/dialogflow';
 import { v4 as uuidv4 } from 'uuid';
+import path from 'path';
+import * as fs from 'fs/promises';
 
 const app = express();
 const port = 3001;
@@ -38,6 +40,20 @@ app.post('/api/message', async (req, res) => {
   } catch (error) {
     console.error('Errore:', error);
     res.status(500).send('Errore durante la comunicazione con Dialogflow');
+  }
+});
+
+app.post('/api/agenda', async (req, res) => {
+  const newEvent = req.body;
+
+  const filePath = path.join('../', 'public', 'al', 'agenda.json');
+  console.log("file: ", filePath)
+  try {
+    await fs.writeFile(filePath, JSON.stringify(newEvent, null, 2));
+    res.send('Evento aggiunto con successo');
+  } catch (err) {
+    console.error('Errore scrittura file:', err);
+    res.status(500).send('Errore scrittura file');
   }
 });
 
