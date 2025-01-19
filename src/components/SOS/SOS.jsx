@@ -20,7 +20,6 @@ const formatDuration = (seconds) => {
 function SOS(props) {
   const { start, setStart, handleBack } = props;
   const [timer, setTimer] = useState(seconds);
-  const [callDuration, setCallDuration] = useState(0);
   const [showCall, setShowCall] = useState(false);
   
   // console.log("Timer: ", timer, " isCancelled: ", isCancelled, " showCall: ", showCall, " start: ", start); 
@@ -36,20 +35,12 @@ function SOS(props) {
       setShowCall(true); // Show the call component when the timer reaches 0
     }
   }, [timer, start]);
-
-  useEffect(() => {
-    if (showCall) {
-      const countdown = setTimeout(() => setCallDuration(callDuration + 1), 1000);
-      return () => clearTimeout(countdown);
-    }
-  }, [callDuration, showCall]);
-
+  
   const handleCall = () => {
     setTimer(seconds);
-    setCallDuration(0);
     setShowCall(true); // Mostra il componente di chiamata quando viene cliccato il pulsante di chiamata
   };
-
+  
   const handleCancel = () => {
     setStart(false);
     setTimer(seconds);
@@ -58,7 +49,7 @@ function SOS(props) {
     console.log("Navigating back...");
     // navigate(-1); // Navigate to the previous page
     // setTimeout(() => {
-    //   window.location.reload(); // Forza l'aggiornamento dello slider
+      //   window.location.reload(); // Forza l'aggiornamento dello slider
     // }, 100);
   };
 
@@ -66,7 +57,7 @@ function SOS(props) {
     <>
       {
         showCall ?
-        <SOSCall handleCancel={handleCancel} callDuration={callDuration}/>
+        <SOSCall handleCancel={handleCancel}/>
         :
         <SOSHome handleCancel={handleCancel} timer={timer} handleCall={handleCall}/>
         
@@ -81,7 +72,7 @@ function SOSHome(props) {
       <div
         className="sos-button"
         onClick={props.handleCall}
-      />
+        />
       <div className="sos-al">
         <div className="al-home-image-container">
           <img src="al/al_sad.svg" alt="Al" className="al-home-image" style={{height: '4rem', width: '4rem'}} />
@@ -98,15 +89,22 @@ function SOSHome(props) {
     </div>
   );
 }
-function SOSCall({ handleCancel, callDuration }) {
+function SOSCall({ handleCancel }) {
+  const [callDuration, setCallDuration] = useState(0);
   const [isSpeakerOn, setIsSpeakerOn] = useState(false);
   const [isMuteOn, setIsMuteOn] = useState(false);
   const [isBluetoothOn, setIsBluetoothOn] = useState(false);
 
+  
+  useEffect(() => {
+    const countdown = setTimeout(() => setCallDuration(callDuration + 1), 1000);
+    return () => clearTimeout(countdown);
+  }, [callDuration]);
+
   const toggleSpeaker = () => setIsSpeakerOn(!isSpeakerOn);
   const toggleMute = () => setIsMuteOn(!isMuteOn);
   const toggleBluetooth = () => setIsBluetoothOn(!isBluetoothOn)
-
+  
   return (
     <div className="sos-container">
     <div className="sos-wrapper">
