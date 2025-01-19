@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "react-bootstrap";
 import {
   APIProvider,
@@ -25,18 +25,59 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { di
   const [showSuggestions, setShowSuggestions] = useState<"origin" | "destination" | null>(null);
   const [isNavigationStarted, setIsNavigationStarted] = useState(false); // Stato per gestire la navigazione
   const [destinationCoords, setDestinationCoords] = useState<LatLng | null>(null); // Stato per memorizzare le coordinate della destinazione
+  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(
+    null
+  );
+  const [isSingleTouch, setIsSingleTouch] = useState(true); // Stato per rilevare il tocco singolo
+  const mapRef = useRef(null);
+
+  // Gestione dei tocchi sulla mappa per abilitare/disabilitare lo swipe
+  const handleTouchStart = (event: React.TouchEvent) => {
+    if (event.touches.length === 1) {
+      setTouchStart({ x: event.touches[0].clientX, y: event.touches[0].clientY });
+      setIsSingleTouch(true);
+      enableSwipe(); // Abilita lo swipe con un solo tocco
+    } else if (event.touches.length === 2) {
+      setIsSingleTouch(false);
+      disableSwipe(); // Disabilita lo swipe con due tocchi contemporanei
+    }
+  };
+
+  const handleTouchMove = (event: React.TouchEvent) => {
+    if (!isSingleTouch && touchStart) {
+      const dx = event.touches[0].clientX - touchStart.x;
+      const dy = event.touches[0].clientY - touchStart.y;
+
+      if (Math.abs(dx) > 10 || Math.abs(dy) > 10) {
+        disableSwipe(); // Disabilita lo swipe se c'è movimento significativo
+      }
+    }
+  };
+
+  const handleTouchEnd = (event: React.TouchEvent) => {
+    if (event.touches.length === 0) {
+      enableSwipe(); // Riabilita lo swipe quando il tocco è finito
+    }
+  };
+  
+
 
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const { latitude, longitude } = position.coords;
+          const { latitude, longitude, accuracy } = position.coords;
+          console.log(`Lat: ${latitude}, Lng: ${longitude}, Accuracy: ${accuracy} meters`);
+          if (accuracy > 50) { // Soglia per l'accuratezza
+            console.warn("La precisione è bassa. Attiva il GPS o verifica le impostazioni.");
+          }
           setCurrentPosition({ lat: latitude, lng: longitude });
         },
         (error) => {
           console.error("Errore nel recupero della posizione:", error);
-        }
-      );
+        },
+        { enableHighAccuracy: true } // Richiede dati GPS più accurati
+      );      
     }
   }, []);
 
@@ -183,33 +224,36 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { di
       />
     </Button>
 
-    <Button
-      style={{
-        position: "absolute",
-        bottom: "110px", // Sposta il pulsante sopra i tasti di zoom
-        right: "310px", // Allinea il pulsante a destra
-        background: "transparent",
-        border: "none",
-        padding: 0,
-        zIndex: 2, // Assicurati che il pulsante sia sopra la mappa
-        cursor: "pointer",
-      }}
-      onClick={handleNavigateToHome}
-    >
-      <img
-        src="/notalone/home_button.png"
-        alt="SOS Button"
-        style={{ width: "65px", height: "65px" }}
-      />
-    </Button>
+        {!isNavigationStarted && (
+      <Button
+        style={{
+          position: "absolute",
+          bottom: "30px", // Sposta il pulsante sopra i tasti di zoom
+          right: "285px", // Allinea il pulsante a destra
+          background: "transparent",
+          border: "none",
+          padding: 0,
+          zIndex: 2, // Assicurati che il pulsante sia sopra la mappa
+          cursor: "pointer",
+        }}
+        onClick={handleNavigateToHome}
+      >
+        <img
+          src="/notalone/home_button.png"
+          alt="SOS Button"
+          style={{ width: "55px", height: "55px" }}
+        />
+      </Button>
+    )}
 
-    <APIProvider apiKey={"KEY"}>
+
+    <APIProvider apiKey={"AIzaSyBKdoXYHzSpJ6wc3AGnZVEjef8NYNUACyc"}>
       <div
-        style={{ height: "80vh", width: "100%" }}
-        onMouseDown={disableSwipe}
-        onTouchStart={disableSwipe}
-        onMouseUp={enableSwipe}
-        onTouchEnd={enableSwipe}
+        style={{  height: "70vh", width: "100%" }}
+        ref={mapRef} 
+        onTouchStart={handleTouchStart} // Aggiungi gli eventi di touch direttamente alla mappa
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         <Map
           defaultCenter={currentPosition}
@@ -222,6 +266,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { di
           <AdvancedMarker position={currentPosition}>
             <div style={styles.circle}></div>
           </AdvancedMarker>
+          
 
           {origin && destination && isNavigationStarted && (
             <Directions
@@ -379,9 +424,9 @@ const styles = {
   searchBar: {
     position: "absolute" as const,
     bottom: 40,
-    left: "45%",
+    left: "52%",
     transform: "translateX(-50%)",
-    width: "70%",
+    width: "60%",
     height: "40px",
     background: "#fff",
     borderRadius: "20px",
@@ -413,6 +458,7 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    zIndex: "10",
   },
   popup: {
     width: "300px",
@@ -421,6 +467,7 @@ const styles = {
     padding: "20px",
     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
     textAlign: "center" as const,
+    zIndex: "10",
   },
   labelContainer: {
     marginBottom: "15px",
@@ -462,11 +509,11 @@ const styles = {
    exitButton: {
     position: "absolute" as const,
     bottom: 40,
-    left: 30,
+    left: 160,
     backgroundColor: "rgba(228, 34, 34, 0.9)",
     borderRadius: "50%",
-    width: "50px", // Larghezza maggiore per rendere il pulsante più grande
-    height: "50px", // Altezza maggiore per un pulsante perfettamente circolare
+    width: "54px", // Larghezza maggiore per rendere il pulsante più grande
+    height: "54px", // Altezza maggiore per un pulsante perfettamente circolare
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
