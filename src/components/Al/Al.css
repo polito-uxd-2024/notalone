@@ -35,6 +35,7 @@
   scrollbar-width: thin;
   scrollbar-color: #aaa transparent;
   height: calc(100vh - 100px);
+  justify-content: end;
 }
 
 /* Stile scrollbar (per browser moderni) */
@@ -73,6 +74,17 @@
   color: #333;
   border-radius: 0 20px 20px 20px;
   text-align: left;
+}
+
+.bot-message button {
+  padding: 10px 20px;
+  margin: 2px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
 }
 
 .input-box {
@@ -188,3 +200,5 @@
   background: url('/call/call.svg') no-repeat;
   background-size: contain;
 }
+
+
