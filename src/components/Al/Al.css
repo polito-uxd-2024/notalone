@@ -1,5 +1,5 @@
 /* Contenitore principale */
-.chat-wrapper {
+/* .chat-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -10,7 +10,7 @@
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
+} */
 
 /* Contenitore della chat */
 .chat-container {
@@ -23,6 +23,8 @@
   height: calc(100vh - 100px);
   /* flex: 1; */
   /* overflow-y: auto; */
+  /* align-content: end; */
+  justify-content: end;
   padding: 10px;
 }
 
@@ -34,8 +36,8 @@
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #aaa transparent;
-  height: calc(100vh - 100px);
-  justify-content: end;
+  height: calc(80vh - 100px);
+  /* justify-content: end; */
 }
 
 /* Stile scrollbar (per browser moderni) */
@@ -65,7 +67,7 @@
   background-color: #007bff;
   color: white;
   border-radius: 20px 0 20px 20px;
-  text-align: right;
+  text-align: left;
 }
 
 .bot-message {
@@ -73,7 +75,7 @@
   background-color: #e9ecef;
   color: #333;
   border-radius: 0 20px 20px 20px;
-  text-align: left;
+  text-align: right;
 }
 
 .bot-message button {
@@ -201,4 +203,29 @@
   background-size: contain;
 }
 
+/* .call-inchat-circle {
+  position: absolute;
+  bottom: 85.5px;
+  right: 0px; 
+  top: 10px;
+  width: 40px;   
+  height: 40px;   
+  
+  background-color: red; 
+  border-radius: 20px 0px 0px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;  
+} */
 
+/* .call-inchat-circle icon {
+  background: url('/call/call.svg') no-repeat;
+  background-size: contain;
+  width: 30px; 
+  height: 30px; 
+} */
+
+.al-dropdown-menu {
+
+}

@@ -264,3 +264,8 @@ function AlChat() {
 
 export { AlChat };
 
+/* <div className="call-inchat-circle">
+<icon onClick={() => setMessage('Aurora aggiustami ti prego')}>
+
+</icon>
+</div> */
