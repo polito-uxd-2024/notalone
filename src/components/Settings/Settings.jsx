@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
-import { Accordion, AccordionTab } from 'primereact/accordion';
+import { InputText } from 'primereact/inputtext';
 import { Fieldset } from 'primereact/fieldset';
 import { Dropdown } from 'primereact/dropdown';
         
@@ -13,57 +13,37 @@ function Settings({handleSettings, handleNewSettings, voice, al, language, stree
   const [selectedLanguageOption, setSelectedLanguageOption] = useState(language);
   const [homeStreet, setHomeStreet] = useState(street);
 
-  const handleVoiceChange = (event) => {
-    setVoiceOption(event.target.value);
-  };
-
-  const handleAlChange = (event) => {
-    setSelectedAlOption(event.target.value);
-  };
-
-  const handleHomeStreetChange = (event) => {
-    setHomeStreet(event.target.value);
-  };
-
+  const languages = [
+    "Italiano",
+    "English",
+  ]
+  const voices = [
+    "Voce 1",
+    "Voce 2",
+    "Voce 3"
+  ]
+  console.log(selectedLanguageOption)
   return (
     <>
     <div className="settings-container">
         <div className="mt-4 settings-wrapper">
         <div>
             <Fieldset legend="Maps" toggleable>
-                    <div className="settings-drop-down">
-                    <h5>Home: </h5>
-                    <Form className="settings-drop">
-                    <Form.Group controlId="formHomeStreet">
-                        <Form.Control
-                        type="text"
-                        value={homeStreet}
-                        onChange={handleHomeStreetChange}
-                        />
-                    </Form.Group>
-                    </Form>
-                    </div>
-                </Fieldset>
-                <Fieldset legend="Header" toggleable>
-                    <div className="settings-drop-down">
-                        <h5>Lingua: </h5>
-                        <Dropdown value={selectedLanguageOption} onChange={(e) => setSelectedLanguageOption(e.value)} options={["Italiano", "English"]}
-    placeholder="Lingua" className="w-full md:w-14rem" />
-                    </div>
-                    <div className="settings-drop-down">
-                        <h5>Voce: </h5>
-                        <Form className="settings-drop">
-                        <Form.Select
-                            as="select"
-                            value={selectedVoiceOption}
-                            onChange={(e) => setSelectedVoiceOption(e.value)}
-                            >
-                            <option value="Voce 1">Voce 1</option>
-                            <option value="Voce 2">Voce 2</option>
-                            <option value="Voce 3">Voce 3</option>
-                        </Form.Select>
-                        </Form>
-                    </div>
+            <div className="flex flex-column gap-2">
+                <label htmlFor="homeStreet">Indirizzo di casa</label>
+                <InputText id="homeStreet" value={homeStreet} onChange={(e) => setHomeStreet(e.target.value)} />
+            </div>
+            </Fieldset>
+                <Fieldset legend="Al" toggleable>
+                <label htmlFor="language">Lingua</label>
+                <div className="flex flex-column gap-2">
+                    <Dropdown variant="filled" id="language" value={selectedLanguageOption} onChange={(e) => setSelectedLanguageOption(e.value)} options={languages} optionLabel="name"/>
+                </div>
+                <label htmlFor="voice">Voce</label>
+                <div className="flex flex-column gap-2">
+                    <Dropdown variant="filled" id="voice" value={selectedVoiceOption} onChange={(e) => setSelectedVoiceOption(e.value)} options={voices} optionLabel="name"/>
+                </div>
+                   
                 </Fieldset>
         </div>
         </div>

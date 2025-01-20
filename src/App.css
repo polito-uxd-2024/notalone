@@ -11,6 +11,10 @@
   /* max-height: 915px; */
 }
 
+.text-align-center {
+  text-align: center;
+}
+
 /* Contenitore dell'elemento di navigazione */
 .navigation-div {
   background: url('assets/Navigation.svg') no-repeat center;

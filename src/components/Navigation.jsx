@@ -2,7 +2,7 @@ import React from "react";
 
 function Navigation() {
     return (
-        <div className="navigation-div">
+        <div className="navigation-div text-align-center">
             <div>notAlone</div>
         </div>
     );
