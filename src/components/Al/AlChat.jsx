@@ -57,14 +57,14 @@ async function AddAgendaEvent(NewAgendaEvent) {
 }
 
 
-function AlChat({chatHistory, setChatHistory}) {
+function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
   const [agenda, setAgenda] = useState([]);
-  const [dirty, setDirty] = useState(false); //tutte le volte che modifico l'agenda devo mettere setDirty(true)
   const [message, setMessage] = useState('');
   const chatBoxRef = useRef(null);
  
 
   const welcomeMessage = { 
+    id: 1,
     sender: 'bot',
     text: <>Odio questo esame<br/>
          <div className="bot-message">
@@ -87,8 +87,7 @@ function AlChat({chatHistory, setChatHistory}) {
       setAgenda(agendaString);
     }
     fetchAgenda();
-    setDirty(false);
-  }, [dirty]);
+  }, []);
 
   
   // GESTIONE PULSANTI sul messaggio di benvenuto
@@ -97,59 +96,44 @@ function AlChat({chatHistory, setChatHistory}) {
   }, []);
 
   function setMessageToGame() { 
-    const gameMessage = 'Voglio fare un gioco';
-    setMessage(gameMessage);
+    const sendMessage = 'Voglio fare un gioco';
+    handleSendMessage(sendMessage);
   }
-
-  useEffect(() => {
-    if(message === 'Voglio fare un gioco') {
-      handleSendMessage();
-    }
-  }, [message]);
 
   function setMessageToAgenda() {
-    const gameMessage = 'Voglio vedere la mia agenda';
-    setMessage(gameMessage);
+    const sendMessage = 'Voglio vedere la mia agenda';
+    handleSendMessage(sendMessage);
   }
-
-  useEffect(() => {
-    if(message === 'Voglio vedere la mia agenda') {
-      handleSendMessage();
-    }
-  }, [message]);
 
   function setMessageToTrivia() {
-    const gameMessage = 'Raccontami una curiosità su Torino';
-    setMessage(gameMessage);
+    const sendMessage = 'Raccontami una curiosità su Torino';
+    handleSendMessage(sendMessage);
   }
-
-  useEffect(() => {
-    if(message === 'Raccontami una curiosità su Torino') {
-      handleSendMessage();
-    }
-  }, [message]);
   
 
   // HANDLE per eliminare il messaggio di benvenuto quando viene selezionato un bottone o inviato un messaggio
-  const handleStartingMessage = async () => {
+  const handleStartingMessage = () => {
       // const refinedChatHistory = chatHistory.slice(0, chatHistory.length - 1);
-      const refinedChatHistory = chatHistory;
-      refinedChatHistory.splice(chatHistory.findIndex(msg => msg.text === welcomeMessage),1);
+      let refinedChatHistory = chatHistory;
+      refinedChatHistory = refinedChatHistory.filter(msg => msg.id !== 1);
 
       console.log('refined chat history', refinedChatHistory)
       setChatHistory(refinedChatHistory); 
     
   }
 
-  const handleSendMessage = async () => {
+  const handleSendMessage = async (msg) => {
     // console.log(chatHistory);
 
     // console.log('chathistory length',chatHistory.length, chatHistory);
-    if (message.trim() === '') return;
-
+    console.log("msg ", msg)
+    console.log("message ", message)
+    const textMessage = msg || message
+    console.log("textMsg ", textMessage)
+    if (textMessage.trim() === '') return;
+    const newMessage = { sender: 'user', text: textMessage};
     handleStartingMessage();
 
-    const newMessage = { sender: 'user', text: message};
     setChatHistory((prevChatHistory) => [...prevChatHistory, newMessage]);
     setMessage(''); // Pulisce il campo di input
 
@@ -159,7 +143,7 @@ function AlChat({chatHistory, setChatHistory}) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message }),
+        body: JSON.stringify({ message: textMessage }),
       });
       const data = await res.json();
       const newResponse = { sender: 'bot', text: data.fulfillmentText, intent: data.intent};
@@ -168,8 +152,6 @@ function AlChat({chatHistory, setChatHistory}) {
         newResponse.text = agenda.map((event) => (<>{`• ${event.attività} il ${event.data} alle ${event.ora}`}<br/></>
         ));  
       } else if (data.fulfillmentText === "codeUpdateEventAgenda") {
-
-
         if(agenda.findIndex((events) => events.id === "evento4") != -1) {
             const changedEvent = {
               id: 'evento4',
@@ -250,24 +232,30 @@ function AlChat({chatHistory, setChatHistory}) {
     {
       label: 'Show Agenda',
       icon: 'pi pi-phone',
-      command: () => setMessage("collegamento a chiamata")
+      command: () => handleStart(true, true)
     },
     {
       label: 'Nuova Chat',
       icon: 'pi pi-plus',
       command: () => {
-        setChatHistory((prevChatHistory) => [...prevChatHistory, newChatMessage, welcomeMessage]);
+        handleStartingMessage();
+        console.log(chatHistory.length)
+        if(chatHistory[chatHistory.length - 1].id !== 1) 
+          setChatHistory((prevChatHistory) => [...prevChatHistory, newChatMessage, welcomeMessage]);
+        else 
+          setChatHistory((prevChatHistory) => [...prevChatHistory, welcomeMessage])
       }
     },
     {
       label: 'Impostazioni',
       icon: 'pi pi-cog',
-      command: () => setMessage('collegamento ad impostazioni')
+      command: () => handleSettings(true)
     }
   ];
 
   return (
     <div className="chat-container">
+      <div className="chat-wrapper">
       <div className="chat-box">
         {chatHistory.map((msg, index) => (
           <div key={index} className={`message ${msg.sender}-message`}>
@@ -288,12 +276,13 @@ function AlChat({chatHistory, setChatHistory}) {
         />
         <button onClick={handleSendMessage}>Send</button>
       </div>
+      </div>
 
       <SpeedDial
       model={actions}
       direction="right"
       showIcon={<img src={alIcon} alt="Custom Icon" style={{ width: '5rem', height: '5rem' }} />}
-      style={{ left: 'calc(30% - 2rem)', top: 30 }}
+      style={{ left: '17%', top: 0 }}
       rotateAnimation= {false}
       />
     </div>
