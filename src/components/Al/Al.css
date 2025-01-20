@@ -1,5 +1,5 @@
 /* Contenitore principale */
-.chat-wrapper {
+/* .chat-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -10,7 +10,7 @@
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
+} */
 
 /* Contenitore della chat */
 .chat-container {
@@ -23,6 +23,8 @@
   height: 100%;
   /* flex: 1; */
   /* overflow-y: auto; */
+  /* align-content: end; */
+  justify-content: end;
   padding: 10px;
 }
 
@@ -57,6 +59,7 @@
   padding-top: 2px;
   padding-bottom: 2px;
   margin: 2px;
+  font-size: medium;
 }
 
 .user-message {
@@ -64,7 +67,7 @@
   background-color: #007bff;
   color: white;
   border-radius: 20px 0 20px 20px;
-  text-align: right;
+  text-align: left;
 }
 
 .bot-message {
@@ -73,6 +76,31 @@
   color: #333;
   border-radius: 0 20px 20px 20px;
   text-align: left;
+}
+
+.bot-message button {
+  padding: 10px 20px;
+  margin: 2px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.nuova-chat-message {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  background-color: purple;
+  border-radius: 10px;
+  /* padding: 10px; */
+  width: 100%;
+  max-width: 100%;
+  height: cal(font-size);
+  margin-top: 20px;
 }
 
 .input-box {
@@ -186,4 +214,29 @@
 .call-icon {
   background: url('/call/call.svg') no-repeat;
   background-size: contain;
+}
+
+/* .p-speeddial-opened .p-speeddial-rotate {
+  transform: none;
+} */
+
+/* distanza tra gli elementi della lista, non include dal bottone iniziale */
+.p-speeddial-opened .p-speeddial-item {
+  margin-left: 15px;
+}
+
+.p-button {
+  background: none;
+  border: none;
+}
+
+/* per modificare le dimensioni del bottone del menu */
+.p-speeddial-button.p-button.p-button-icon-only {
+  width: 4.5rem;
+  height: 4.5rem;
+}
+
+h4 {
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
