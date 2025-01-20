@@ -278,6 +278,7 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
       </div>
       </div>
 
+      <div className="speed-dial">
       <SpeedDial
       model={actions}
       direction="right"
@@ -285,6 +286,7 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
       style={{ left: '17%', top: 0 }}
       rotateAnimation= {false}
       />
+      </div>
     </div>
   );
 }

@@ -16,7 +16,7 @@ function MainLayout () {
   const [settings, goToSettings] = useState(false);
   const [voice, setVoice] = useState("Voce 1")
   const [language, setLanguage] = useState("Italiano")
-  const [al, setAl] = useState([])
+  const [al, setAl] = useState(['', 'Diretta', ''])
   const [street, setStreet] = useState("Via Strada Comunale 7")
   
   const tabsRef = useRef();
@@ -109,7 +109,6 @@ function MainLayout () {
   }
 
   const handleNewSettings = (newVoice, newLanguage, newStreet, newAl) => {
-    console.log(newVoice)
     setLanguage(newLanguage)
     setStreet(newStreet)
     setVoice(newVoice)

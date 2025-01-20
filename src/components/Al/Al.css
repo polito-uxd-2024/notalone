@@ -217,11 +217,11 @@
 } */
 
 /* distanza tra gli elementi della lista, non include dal bottone iniziale */
-.p-speeddial-opened .p-speeddial-item {
+.speed-dial .p-speeddial-opened .p-speeddial-item {
   margin-left: 15px;
 }
 
-.p-button {
+.speed-dial .p-button {
   background: none;
   border: none;
 }
@@ -232,7 +232,7 @@
   height: 4.5rem;
 }
 
-h4 {
+.message h4 {
   margin-top: 0px;
   margin-bottom: 0px;
 }

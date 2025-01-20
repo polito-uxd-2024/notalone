@@ -27,6 +27,12 @@
 	width: 70%;
 }
 
-ol, ul {
-	padding-left: 0rem;
+.settings-container .p-component {
+	font-size: 12px;
+}
+.settings-container .p-button {
+	width: 33.333%;
+}
+.settings-container .p-fieldset.p-fieldset-toggleable .p-fieldset-legend a {
+	padding: 0.75rem;
 }
