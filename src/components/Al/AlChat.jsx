@@ -11,10 +11,10 @@
 // - finire parte di chat base                                                            FATTO
 // - implementare impostazioni (personalità, etc)                                         FATTO (Aurora)    
 // - cambiare verso chat                                                                  FATTO                    
-// - inserire faccione di Al sopra la chat che apre impostazioni
-// - capire e implementare tasto "nuova chat"
-// - implementare spostamento su mappe e SOS (definire in call)
-// - dropup menu per chiamata e nuova chat
+// - inserire faccione di Al sopra la chat che apre impostazioni                          FATTO
+// - capire e implementare tasto "nuova chat"                                             FATTO
+// - implementare spostamento su mappe e SOS (Aurora)
+// - dropup menu per chiamata e nuova chat                                                FATTO
 
 import React, { useState, useEffect, useRef } from "react";
 import './Al.css';
@@ -63,9 +63,23 @@ function AlChat() {
   const [message, setMessage] = useState('');
   const chatBoxRef = useRef(null);
   const [chatHistory, setChatHistory] = useState([]);
-  
 
-                                                      
+  const welcomeMessage = { 
+    sender: 'bot',
+    text: <>Odio questo esame<br/>
+         <div className="bot-message">
+           <button onClick={() => setMessageToGame()}>Gioco</button> 
+           <button onClick={() => setMessageToAgenda()}>Agenda</button>
+           <button onClick={() => setMessageToTrivia()}>Trivia</button>
+           </div></>
+          };
+          
+  const newChatMessage = {
+    sender: 'nuova-chat',
+    text: 'nuova Chat'
+  };
+
+  // GESTIONE recupero dati dal file agenda.json
   useEffect(() => {
     async function fetchAgenda() {
       const agendaString = await ReadFromAgendaJSON();
@@ -76,17 +90,10 @@ function AlChat() {
     setDirty(false);
   }, [dirty]);
 
+  
+  // GESTIONE PULSANTI sul messaggio di benvenuto
   useEffect(() => {
-    setChatHistory( [{ 
-      sender: 'bot',
-      text: <>Odio questo esame<br/>
-           <div className="bot-message">
-             <button onClick={() => setMessageToGame()}>Gioco</button> 
-             <button onClick={setMessageToAgenda}>Agenda</button>
-             <button onClick={setMessageToTrivia}>Trivia</button>
-             </div></>
-            }
-      ]);
+    setChatHistory( [welcomeMessage]);
   }, []);
 
   function setMessageToGame() { 
@@ -122,18 +129,25 @@ function AlChat() {
     }
   }, [message]);
   
-  
+
+  // HANDLE per eliminare il messaggio di benvenuto quando viene selezionato un bottone o inviato un messaggio
+  const handleStartingMessage = async () => {
+      // const refinedChatHistory = chatHistory.slice(0, chatHistory.length - 1);
+      const refinedChatHistory = chatHistory;
+      refinedChatHistory.splice(chatHistory.findIndex(msg => msg.text === welcomeMessage),1);
+
+      console.log('refined chat history', refinedChatHistory)
+      setChatHistory(refinedChatHistory); 
+    
+  }
 
   const handleSendMessage = async () => {
-    console.log(message);
+    // console.log(chatHistory);
 
     // console.log('chathistory length',chatHistory.length, chatHistory);
     if (message.trim() === '') return;
 
-    if (chatHistory.length === 1) { //cancello newMessage appena viene inviato messaggio di risposta dell'utente, prima che il messaggio dell'utente venga aggiunto in chathistory
-      const refinedChatHistory = chatHistory.slice(0, chatHistory.length - 1);
-      setChatHistory(refinedChatHistory); 
-    }
+    handleStartingMessage();
 
     const newMessage = { sender: 'user', text: message};
     setChatHistory((prevChatHistory) => [...prevChatHistory, newMessage]);
@@ -175,11 +189,6 @@ function AlChat() {
 
 
       } else if (data.fulfillmentText === "codeDeleteAgenda") { 
-          //versione 1 - hard coded, verrà eliminato uno specifico evento
-          // console.log('cercando l\'evento', agenda.filter((events) => events.id === "evento4") );
-          // console.log('indice dell evento che cerco', agenda.findIndex((events) => events.id === "evento4") );
-          // agenda.splice(agenda.findIndex((events) => events.id === "evento4"), 1);
-          // console.log('agenda dopo la cancellazione', agenda);
 
           if (agenda.findIndex((events) => events.id === "evento4") != -1) {
             const updatedAgenda = agenda.filter((events) => events.id !== "evento4");
@@ -241,17 +250,19 @@ function AlChat() {
     {
       label: 'Show Agenda',
       icon: 'pi pi-phone',
-      command: () => setMessage("ti prego aurora linkami alla chiamata")
+      command: () => setMessage("collegamento a chiamata")
     },
     {
-      label: 'Play Game',
+      label: 'Nuova Chat',
       icon: 'pi pi-plus',
-      command: () => setMessage('mo so cazzi tua')
+      command: () => {
+        setChatHistory((prevChatHistory) => [...prevChatHistory, newChatMessage, welcomeMessage]);
+      }
     },
     {
-      label: 'Trivia',
+      label: 'Impostazioni',
       icon: 'pi pi-cog',
-      command: () => setMessage('aiuto impostazioni aaaaaaaaaa')
+      command: () => setMessage('collegamento ad impostazioni')
     }
   ];
 
@@ -290,9 +301,3 @@ function AlChat() {
 }
 
 export { AlChat };
-
-/* <div className="call-inchat-circle">
-<icon onClick={() => setMessage('Aurora aggiustami ti prego')}>
-
-</icon>
-</div> */

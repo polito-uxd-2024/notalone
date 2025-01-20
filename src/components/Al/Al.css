@@ -90,6 +90,20 @@
   font-size: 18px;
 }
 
+.nuova-chat-message {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  background-color: purple;
+  border-radius: 10px;
+  /* padding: 10px; */
+  width: 100%;
+  max-width: 100%;
+  height: cal(font-size);
+  margin-top: 20px;
+}
+
 .input-box {
   display: flex;
   padding: 10px;
@@ -221,4 +235,9 @@
 .p-speeddial-button.p-button.p-button-icon-only {
   width: 4.5rem;
   height: 4.5rem;
+}
+
+h4 {
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
