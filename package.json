@@ -1,12 +1,13 @@
 {
   "name": "notalone",
-  "homepage": "https://polito-uxd-2024.github.io/notalone/#",
+  "homepage": "https://polito-uxd-2024.github.io/notalone/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
+    "serve": "set PORT=3001 && serve dist",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
@@ -15,6 +16,7 @@
   "dependencies": {
     "17": "^0.0.0",
     "@google-cloud/dialogflow": "^6.13.0",
+    "@ngrok/ngrok": "^1.4.1",
     "@vis.gl/react-google-maps": "^1.5.0",
     "axios": "^1.7.9",
     "buffer": "^6.0.3",
@@ -22,6 +24,7 @@
     "express": "^4.21.2",
     "fs": "^0.0.1-security",
     "gh-pages": "^6.3.0",
+    "https-localhost": "^4.7.1",
     "ngrok": "^5.0.0-beta.2",
     "primeflex": "^3.3.1",
     "primereact": "^10.9.1",
@@ -46,6 +49,7 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.14.0",
-    "vite": "^6.0.5"
+    "vite": "^6.0.5",
+    "vite-plugin-pwa": "^0.21.1"
   }
 }

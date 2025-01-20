@@ -4,9 +4,11 @@ import { SessionsClient } from '@google-cloud/dialogflow';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 import * as fs from 'fs/promises';
+// import ngrok from '@ngrok/ngrok';
 
 const app = express();
-const port = 3001;
+// const ngrok = NgrokClient();
+const port = 80;
 
 const projectId = 'notalone-fwin';  // Sostituisci con il tuo projectId Dialogflow
 const sessionClient = new SessionsClient({
@@ -59,4 +61,9 @@ app.post('/api/agenda', async (req, res) => {
 
 app.listen(port, '0.0.0.0', () => {
   console.log(`Server in ascolto su http://0.0.0.0:${port}`);
+  // ngrok.connect(port).then(ngrokUrl => {
+  //   console.log(`Ngrok tunnel in: ${ngrokUrl}`);
+  // }).catch(err => {
+  //   console.log(`Couldn't tunnel ngrok: ${err}`);
+  // })
 });

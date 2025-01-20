@@ -45,7 +45,7 @@ async function DeleteAgendaEvent(DeleteAgendaEvent) {
 async function AddAgendaEvent(NewAgendaEvent) {
   try {
     // console.log('Aggiungendo in agenda: ', NewAgendaEvent)
-    await fetch('http://localhost:3001/api/agenda', {
+    await fetch('https://better-adversely-insect.ngrok-free.app/api/agenda', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ function AlChat() {
     setMessage(''); // Pulisce il campo di input
 
     try {
-      const res = await fetch('http://localhost:3001/api/message', {
+      const res = await fetch('https://better-adversely-insect.ngrok-free.app/api/message', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
