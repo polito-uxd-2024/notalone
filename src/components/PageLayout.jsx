@@ -55,7 +55,7 @@ function MainLayout () {
 
   const handleStart = (chat, call) => {
     if (chat){
-      window.history.pushState(chatStarted, chatStarted, '#/');
+      window.history.pushState(chatStarted, chatStarted, '/notalone/');
     }
     console.log("chat: ", chat, " call: ", call)
     startChat(chat);
@@ -68,8 +68,9 @@ function MainLayout () {
 
   useEffect(() => {
     const handlePopState = (event) => {
-      console.log('popstate event');
+      console.log('popstate event: ', event);
       if (event.state) {
+        console.log('event state');
         startChat(false);
         startCall(false);
       }

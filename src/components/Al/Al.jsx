@@ -13,14 +13,14 @@ function Al(props) {
           inCall?
           <AlCall handleCancel={handleEndCall}/>
           :
-          <AlChat/>
+          <AlChat chatHistory={chatHistory} setChatHistory={setChatHistory}/>
         )
             :
         (
           inCall?
           <AlCall handleCancel={handleEndCall}/>
           :
-          <AlHome handleStart={handleStart} handleSettings={handleSettings} chatHistory={chatHistory} setChatHistory={setChatHistory}/>
+          <AlHome handleStart={handleStart} handleSettings={handleSettings}/>
         )
        
         }
