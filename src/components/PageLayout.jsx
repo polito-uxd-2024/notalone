@@ -116,7 +116,7 @@ function MainLayout () {
   }
 
   return (
-    <div className='grid-no-gutter vh-100'>
+    <div className='grid-nogutter vh-100'>
      {settings?
       <div className="below-nav">
         <div className="tabs-wrapper">

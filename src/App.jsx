@@ -12,10 +12,10 @@ import { MainLayout } from './components/PageLayout'
 
 function App() {
   return (
-    <HashRouter>
+    <>
       <Navigation />
       <MainLayout />
-    </HashRouter>
+    </>
   )
 }
 

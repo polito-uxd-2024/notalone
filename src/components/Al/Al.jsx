@@ -1,9 +1,10 @@
-import React from "react"
+import React, { useState } from "react"
 
 import { AlChat } from './AlChat'
 import { AlCall } from './AlCall'
 
 function Al(props) {
+    const [chatHistory, setChatHistory] = useState([]);
     const {chatStarted, inCall, handleStart, handleEndCall, handleSettings} = props;
     return (
         <>
@@ -19,7 +20,7 @@ function Al(props) {
           inCall?
           <AlCall handleCancel={handleEndCall}/>
           :
-          <AlHome handleStart={handleStart} handleSettings={handleSettings}/>
+          <AlHome handleStart={handleStart} handleSettings={handleSettings} chatHistory={chatHistory} setChatHistory={setChatHistory}/>
         )
        
         }

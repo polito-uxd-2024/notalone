@@ -60,11 +60,11 @@ async function AddAgendaEvent(NewAgendaEvent) {
   } 
 }
 
-function AlChat() {
+function AlChat({chatHistory, setChatHistory}) {
   const [agenda, setAgenda] = useState([]);
   const [dirty, setDirty] = useState(false); //tutte le volte che modifico l'agenda devo mettere setDirty(true)
   const [message, setMessage] = useState('');
-  const [chatHistory, setChatHistory] = useState([]);
+ 
   const chatBoxRef = useRef(null);
 
   let userIntent = "";
