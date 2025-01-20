@@ -18,9 +18,10 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import './Al.css';
-import { Button } from 'react-bootstrap';
-import {sendMessageToDialogflow} from './dialogflowService';
-import { data } from "react-router";
+import { SpeedDial } from "primereact/speeddial";
+import alIcon from "/al/al.svg"
+// import {sendMessageToDialogflow} from './dialogflowService';
+// import { data } from "react-router";
 
 async function ReadFromAgendaJSON() {
   try{
@@ -236,6 +237,24 @@ function AlChat() {
   }, [chatHistory]);
 
 
+  const actions = [
+    {
+      label: 'Show Agenda',
+      icon: 'pi pi-phone',
+      command: () => setMessage("ti prego aurora linkami alla chiamata")
+    },
+    {
+      label: 'Play Game',
+      icon: 'pi pi-plus',
+      command: () => setMessage('mo so cazzi tua')
+    },
+    {
+      label: 'Trivia',
+      icon: 'pi pi-cog',
+      command: () => setMessage('aiuto impostazioni aaaaaaaaaa')
+    }
+  ];
+
   return (
     <div className="chat-container">
       <div className="chat-box">
@@ -258,6 +277,14 @@ function AlChat() {
         />
         <button onClick={handleSendMessage}>Send</button>
       </div>
+
+      <SpeedDial
+      model={actions}
+      direction="right"
+      showIcon={<img src={alIcon} alt="Custom Icon" style={{ width: '5rem', height: '5rem' }} />}
+      style={{ left: 'calc(30% - 2rem)', top: 30 }}
+      rotateAnimation= {false}
+      />
     </div>
   );
 }

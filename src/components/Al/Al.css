@@ -60,6 +60,7 @@
   padding-top: 2px;
   padding-bottom: 2px;
   margin: 2px;
+  font-size: medium;
 }
 
 .user-message {
@@ -75,7 +76,7 @@
   background-color: #e9ecef;
   color: #333;
   border-radius: 0 20px 20px 20px;
-  text-align: right;
+  text-align: left;
 }
 
 .bot-message button {
@@ -202,29 +203,22 @@
   background-size: contain;
 }
 
-/* .call-inchat-circle {
-  position: absolute;
-  bottom: 85.5px;
-  right: 0px; 
-  top: 10px;
-  width: 40px;   
-  height: 40px;   
-  
-  background-color: red; 
-  border-radius: 20px 0px 0px 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;  
+/* .p-speeddial-opened .p-speeddial-rotate {
+  transform: none;
 } */
 
-/* .call-inchat-circle icon {
-  background: url('/call/call.svg') no-repeat;
-  background-size: contain;
-  width: 30px; 
-  height: 30px; 
-} */
+/* distanza tra gli elementi della lista, non include dal bottone iniziale */
+.p-speeddial-opened .p-speeddial-item {
+  margin-left: 15px;
+}
 
-.al-dropdown-menu {
+.p-button {
+  background: none;
+  border: none;
+}
 
+/* per modificare le dimensioni del bottone del menu */
+.p-speeddial-button.p-button.p-button-icon-only {
+  width: 4.5rem;
+  height: 4.5rem;
 }
