@@ -112,9 +112,9 @@ function AlChat() {
 
           userIntent = data.intent;
           if (agenda.findIndex((events) => events.id === "evento4") != -1) {
-            agenda.splice(agenda.findIndex((events) => events.id === "evento4"), 1);
-            await AddAgendaEvent(agenda);
-            setAgenda(agenda);
+            const updatedAgenda = agenda.filter((events) => events.id !== "evento4");
+            await AddAgendaEvent(updatedAgenda);
+            setAgenda(updatedAgenda);
             const successDeletion = <>Evento cancellato con successo!<br/><br/> Ecco la tua agenda:<br/></>
             const printAgenda = agenda.map((event) => (<>{`• ${event.attività} il ${event.data} alle ${event.ora}`}<br/></>));
             newResponse.text = [successDeletion, ...printAgenda];

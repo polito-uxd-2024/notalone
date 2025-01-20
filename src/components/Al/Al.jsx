@@ -4,7 +4,7 @@ import { AlChat } from './AlChat'
 import { AlCall } from './AlCall'
 
 function Al(props) {
-    const {chatStarted, inCall, handleStart, handleEndCall} = props;
+    const {chatStarted, inCall, handleStart, handleEndCall, handleSettings} = props;
     return (
         <>
         {chatStarted?
@@ -19,7 +19,7 @@ function Al(props) {
           inCall?
           <AlCall handleCancel={handleEndCall}/>
           :
-          <AlHome handleStart={handleStart}/>
+          <AlHome handleStart={handleStart} handleSettings={handleSettings}/>
         )
        
         }
@@ -27,13 +27,13 @@ function Al(props) {
     )
 }
 
-function AlHome({handleStart}) {
+function AlHome({handleStart, handleSettings}) {
     return (
         <div className="al-container">
           <div className="al-wrapper">
           <div>
           <div className="al-home-image-container">
-            <img src="al/al.svg" alt="Al" className="al-home-image" />
+            <img src="al/al.svg" alt="Al" className="al-home-image" onClick={() => handleSettings(true)}/>
           </div>
           <div className="al-home-message mt-2">
             <h2>Ciao! Sono Al, il tuo assistente virtuale. <br/> Come posso aiutarti?</h2>

@@ -121,6 +121,6 @@
 .endCall {
     background: url('/call/endCall.svg') no-repeat center center;
     background-size: contain;
-    width: 100%; /* Assicurati che l'immagine occupi tutto lo spazio disponibile */
-    height: 100%;
+    width: 70%; /* Assicurati che l'immagine occupi tutto lo spazio disponibile */
+    height: 70%;
 }
