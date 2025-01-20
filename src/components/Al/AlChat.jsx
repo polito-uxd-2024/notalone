@@ -64,7 +64,8 @@ function AlChat() {
   const chatBoxRef = useRef(null);
   const [chatHistory, setChatHistory] = useState([]);
 
-  const welcomeMessage = { 
+  const welcomeMessage = {
+    id: 1,
     sender: 'bot',
     text: <>Odio questo esame<br/>
          <div className="bot-message">
@@ -131,10 +132,9 @@ function AlChat() {
   
 
   // HANDLE per eliminare il messaggio di benvenuto quando viene selezionato un bottone o inviato un messaggio
-  const handleStartingMessage = async () => {
-      // const refinedChatHistory = chatHistory.slice(0, chatHistory.length - 1);
-      const refinedChatHistory = chatHistory;
-      refinedChatHistory.splice(chatHistory.findIndex(msg => msg.text === welcomeMessage),1);
+  const handleStartingMessage = () => {
+      let refinedChatHistory = chatHistory;
+      refinedChatHistory = refinedChatHistory.filter(msg => msg.id !== 1 );
 
       console.log('refined chat history', refinedChatHistory)
       setChatHistory(refinedChatHistory); 
