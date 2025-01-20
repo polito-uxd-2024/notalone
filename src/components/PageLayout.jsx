@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Row, Col } from 'react-bootstrap';
 import { SOS } from './SOS/SOS';
 import { Al } from './Al/Al';
+import { Settings } from './Settings/Settings';
 import  Maps  from './Maps/Maps';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -10,10 +10,14 @@ import 'swiper/css';
 function MainLayout () {
   const [chatStarted, startChat] = useState(false);
   const [inCall, startCall] = useState(false);
-  const [sosTimer, startSosTimer] = useState(false);
-  const [sosBack, setSosBack] = useState(false);
+  // const [sosBack, setSosBack] = useState(false);
   const [activeTab, setActiveTab] = useState(1);
   const [actualLocation, editActualLocation] = useState(1);
+  const [settings, goToSettings] = useState(false);
+  const [voice, setVoice] = useState("Voce 1")
+  const [language, setLanguage] = useState("Italiano")
+  const [al, setAl] = useState([])
+  const [street, setStreet] = useState("Via Strada Comunale 7")
   
   const tabsRef = useRef();
   const swiperRef = useRef(null);
@@ -95,24 +99,42 @@ function MainLayout () {
   };
 
   const handleBack = () => {
-    setSosBack(true);
+    // setSosBack(true);
     handleLocationChange(actualLocation);
   }
 
-  useEffect(() => {
-    console.log('useEffect: ', actualLocation, " ", activeTab);
-    if (activeTab === 2) {
-      console.log('Timer started');
-      startSosTimer(true);
-    }
-    if (sosBack) {
-      setSosBack(false);
-    }
-  }, [sosBack, activeTab]);
+  const handleSettings = (bool) => {
+    goToSettings(bool);
+  }
+
+  const handleNewSettings = (newVoice, newLanguage, newStreet, newAl) => {
+    console.log(newVoice)
+    setLanguage(newLanguage)
+    setStreet(newStreet)
+    setVoice(newVoice)
+    setAl(newAl)
+  }
 
   return (
-    <Row className='vh-100'>
-        <Col className="below-nav">
+    <div className='grid vh-100'>
+     {settings?
+      <div className="col-12 below-nav">
+        <div className="tabs-wrapper">
+            <div className="tabs" ref={tabsRef}>
+              <div
+                className={`tab active`}
+              >
+                Settings
+              </div>
+            </div>
+          </div>
+          <div className="col-12 below-tab">
+            <Settings handleSettings={handleSettings} handleNewSettings={handleNewSettings} voice={voice} language={language} al={al} street={street}/>
+          </div>
+      </div>
+      :
+      <>
+        <div className="col-12 below-nav">
           <div className="tabs-wrapper">
             <div className="tabs" ref={tabsRef}>
               {tabs.map((tab, index) => (
@@ -126,8 +148,8 @@ function MainLayout () {
               ))}
             </div>
           </div>
-        </Col>
-        <Col className="below-tab">
+        </div>
+        <div className="col-12 below-tab">
           <Swiper
             ref={swiperRef}
             slidesPerView={1}
@@ -140,7 +162,6 @@ function MainLayout () {
                 swiper.el.style.cursor = 'default';
                 swiper.allowTouchMove = false;
                 swiper.allowClick = false;
-                startSosTimer(true);
               } else {
                 swiper.allowTouchMove = true;
                 swiper.allowClick = true;
@@ -154,11 +175,13 @@ function MainLayout () {
             grabCursor={true}
             >
             <SwiperSlide><Maps handleTabClick={handleTabClick} disableSwipe={disableSwipe} enableSwipe={enableSwipe}/></SwiperSlide>
-            <SwiperSlide><Al chatStarted={chatStarted} handleStart={handleStart} inCall={inCall} handleEndCall={handleEndCall} /></SwiperSlide>
-            <SwiperSlide><SOS start={sosTimer} setStart={startSosTimer} handleBack={handleBack} /></SwiperSlide>
+            <SwiperSlide><Al chatStarted={chatStarted} handleStart={handleStart} inCall={inCall} handleEndCall={handleEndCall} handleSettings={handleSettings} /></SwiperSlide>
+            <SwiperSlide><SOS handleBack={handleBack} tab={activeTab}/></SwiperSlide>
           </Swiper>
-        </Col>
-      </Row>
+        </div>
+      </>
+    }
+    </div>
   );
 }
 

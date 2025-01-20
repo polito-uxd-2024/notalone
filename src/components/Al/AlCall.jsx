@@ -42,8 +42,8 @@ function AlCall({handleCancel}) {
     <div className="justify-content-center call-bottom-row">
       <div className="mt-4 justify-content-space-between">
         <div className="bottom-row-wrapper">
-          <Row className="justify-content-center mb-4">
-            <Col className="call-button-wrapper" xs="4">
+          <div className="grid mb-4">
+            <div className="col-4 call-button-wrapper" xs="4">
               <div
                   className={`call-button ${isSpeakerOn ? 'active' : ''}`}
                   onClick={toggleSpeaker}
@@ -51,8 +51,8 @@ function AlCall({handleCancel}) {
                 <div className="button speaker" />
               </div>
               Speaker
-            </Col>
-            <Col className="call-button-wrapper" xs="4">
+            </div>
+            <div className="col-4 call-button-wrapper" xs="4">
               <div
                 className={`call-button ${isMuteOn ? 'active' : ''}`}
                 onClick={toggleMute}
@@ -60,8 +60,8 @@ function AlCall({handleCancel}) {
                 <div className="button mute" />
               </div>
               Mute
-            </Col>
-            <Col className="call-button-wrapper" xs="4">
+            </div>
+            <div className="col-4 call-button-wrapper" xs="4">
               <div
                 className={`call-button ${isBluetoothOn ? 'active' : ''}`}
                 onClick={toggleBluetooth}
@@ -69,13 +69,11 @@ function AlCall({handleCancel}) {
                 <div className="button bluetooth" />
               </div>
               Bluetooth
-            </Col>
-          </Row>
-          <Row className="mt-4 justify-content-center">
-            <div className="call-button end" onClick={() => handleCancel(false)}>
+            </div>
+            <div className="col-4 col-offset-4 call-button end" onClick={() => handleCancel(false)}>
               <div className="button endCall"/>
             </div>
-          </Row>
+          </div>
         </div>
       </div>
     </div>

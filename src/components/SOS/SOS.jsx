@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
 
 import './SOS.css'
 
@@ -18,49 +17,28 @@ const formatDuration = (seconds) => {
 };
 
 function SOS(props) {
-  const { start, setStart, handleBack } = props;
-  const [timer, setTimer] = useState(seconds);
+  const { handleBack, tab } = props;
   const [showCall, setShowCall] = useState(false);
   
   // console.log("Timer: ", timer, " isCancelled: ", isCancelled, " showCall: ", showCall, " start: ", start); 
   
-  useEffect(() => {
-    // console.log("SOS useEffect");
-    if (start && timer > 0 && !showCall) {
-      // console.log("SOS useEffect if");
-      const countdown = setTimeout(() => setTimer(timer - 1), 1000);
-      return () => clearTimeout(countdown);
-    } else if (timer === 0 && !showCall) {
-      // console.log("SOS useEffect else");
-      setShowCall(true); // Show the call component when the timer reaches 0
-    }
-  }, [timer, start]);
-  
   const handleCall = () => {
-    setTimer(seconds);
     setShowCall(true); // Mostra il componente di chiamata quando viene cliccato il pulsante di chiamata
   };
   
   const handleCancel = () => {
-    setStart(false);
-    setTimer(seconds);
     setShowCall(false);
     handleBack();
     console.log("Navigating back...");
-    // navigate(-1); // Navigate to the previous page
-    // setTimeout(() => {
-      //   window.location.reload(); // Forza l'aggiornamento dello slider
-    // }, 100);
   };
 
   return (
     <>
       {
         showCall ?
-        <SOSCall handleCancel={handleCancel}/>
-        :
-        <SOSHome handleCancel={handleCancel} timer={timer} handleCall={handleCall}/>
-        
+          <SOSCall handleCancel={handleCancel}/>
+          :
+          <SOSHome handleCancel={handleCancel} handleCall={handleCall} tab={tab}/>
       }
     </>
   );
@@ -81,13 +59,38 @@ function SOSHome(props) {
           <h2>Se vuoi allertare i soccorsi premi il pulsante sopra, la chiamata partirà in automatico tra:</h2>
         </div>
       </div>
-      <h1 className="sos-timer mt-4">{formatDuration(props.timer)}</h1>
+      {props.tab==2?
+        <Timer/>
+        :
+        <h1 className="sos-timer mt-4">{formatDuration(15)}</h1>
+      }
       </div>
-      <div className="cancel-button mt-4" onClick={props.handleCancel}>
+      <div className="mt-4 button-wrapper">
+      <div className="cancel-button" onClick={props.handleCancel}>
        <h1> ANNULLA </h1>  
+      </div>
       </div>
     </div>
   );
+}
+
+function Timer() {
+  const [timer, setTimer] = useState(seconds)
+  useEffect(() => {
+    // console.log("SOS useEffect");
+    if (timer > 0) {
+      // console.log("SOS useEffect if");
+      const countdown = setTimeout(() => setTimer(timer - 1), 1000);
+      return () => clearTimeout(countdown);
+    } else if (timer === 0) {
+      // console.log("SOS useEffect else");
+      props.setShowCall(true); // Show the call component when the timer reaches 0
+    }
+  }, [timer]);
+  
+  return (
+    <h1 className="sos-timer mt-4">{formatDuration(timer)}</h1>
+  )
 }
 function SOSCall({ handleCancel }) {
   const [callDuration, setCallDuration] = useState(0);
@@ -119,8 +122,8 @@ function SOSCall({ handleCancel }) {
     <div className="justify-content-center call-bottom-row">
       <div className="mt-4 justify-content-space-between">
         <div className="bottom-row-wrapper">
-          <Row className="justify-content-center mb-4">
-            <Col className="call-button-wrapper" xs="4">
+          <div className="grid mb-4">
+            <div className="col-4 call-button-wrapper" xs="4">
               <div
                   className={`call-button ${isSpeakerOn ? 'active' : ''}`}
                   onClick={toggleSpeaker}
@@ -128,8 +131,8 @@ function SOSCall({ handleCancel }) {
                 <div className="button speaker" />
               </div>
               Speaker
-            </Col>
-            <Col className="call-button-wrapper" xs="4">
+            </div>
+            <div className="col-4 call-button-wrapper" xs="4">
               <div
                 className={`call-button ${isMuteOn ? 'active' : ''}`}
                 onClick={toggleMute}
@@ -137,8 +140,8 @@ function SOSCall({ handleCancel }) {
                 <div className="button mute" />
               </div>
               Mute
-            </Col>
-            <Col className="call-button-wrapper" xs="4">
+            </div>
+            <div className="col-4 call-button-wrapper" xs="4">
               <div
                 className={`call-button ${isBluetoothOn ? 'active' : ''}`}
                 onClick={toggleBluetooth}
@@ -146,13 +149,13 @@ function SOSCall({ handleCancel }) {
                 <div className="button bluetooth" />
               </div>
               Bluetooth
-            </Col>
-          </Row>
-          <Row className="mt-4 justify-content-center">
+            </div>
+          <div className="col-4 col-offset-4 mt-4">
             <div className="call-button end" onClick={handleCancel}>
               <div className="button endCall"/>
             </div>
-          </Row>
+          </div>
+          </div>
         </div>
       </div>
     </div>

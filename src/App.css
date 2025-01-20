@@ -11,6 +11,10 @@
   /* max-height: 915px; */
 }
 
+.text-align-center {
+  text-align: center;
+}
+
 /* Contenitore dell'elemento di navigazione */
 .navigation-div {
   background: url('assets/Navigation.svg') no-repeat center;
@@ -80,11 +84,25 @@
   cursor: not-allowed;
 }
 
+.button-wrapper {
+	display: flex;
+	flex-direction: row;
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	height: 75px;
+}
 .cancel-button {
   background-color: var(--bs-secondary);
   color: var(--bs-dark);
-  position: fixed;
-  bottom: 0px;
+  width: 100%;
+  height: 75px;
+  align-content: center;
+  left: 0px;
+}
+.save-button {
+  background-color: var(--bs-primary);
+  color: var(--bs-dark);
   width: 100%;
   height: 75px;
   align-content: center;
