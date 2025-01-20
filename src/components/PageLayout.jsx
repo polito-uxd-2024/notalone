@@ -116,9 +116,9 @@ function MainLayout () {
   }
 
   return (
-    <div className='grid vh-100'>
+    <div className='grid-no-gutter vh-100'>
      {settings?
-      <div className="col-12 below-nav">
+      <div className="below-nav">
         <div className="tabs-wrapper">
             <div className="tabs" ref={tabsRef}>
               <div
@@ -128,13 +128,13 @@ function MainLayout () {
               </div>
             </div>
           </div>
-          <div className="col-12 below-tab">
+          <div className="below-tab">
             <Settings handleSettings={handleSettings} handleNewSettings={handleNewSettings} voice={voice} language={language} al={al} street={street}/>
           </div>
       </div>
       :
       <>
-        <div className="col-12 below-nav">
+        <div className="below-nav">
           <div className="tabs-wrapper">
             <div className="tabs" ref={tabsRef}>
               {tabs.map((tab, index) => (
@@ -149,7 +149,7 @@ function MainLayout () {
             </div>
           </div>
         </div>
-        <div className="col-12 below-tab">
+        <div className="below-tab">
           <Swiper
             ref={swiperRef}
             slidesPerView={1}
