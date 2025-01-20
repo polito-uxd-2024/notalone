@@ -56,11 +56,11 @@ function SOSHome(props) {
           <img src="al/al_sad.svg" alt="Al" className="al-home-image" style={{height: '4rem', width: '4rem'}} />
         </div>
         <div className="sos-calling-message mt-2 mb-2">
-          <h2>Se vuoi allertare i soccorsi premi il pulsante sopra, la chiamata partirà in automatico tra:</h2>
+          <h2>Se vuoi allertare i soccorsi premi il pulsante sopra, la chiamata partirà tra:</h2>
         </div>
       </div>
       {props.tab==2?
-        <Timer/>
+        <Timer showCall={props.showCall}/>
         :
         <h1 className="sos-timer mt-4">{formatDuration(15)}</h1>
       }
@@ -74,7 +74,7 @@ function SOSHome(props) {
   );
 }
 
-function Timer() {
+function Timer(props) {
   const [timer, setTimer] = useState(seconds)
   useEffect(() => {
     // console.log("SOS useEffect");
@@ -122,7 +122,7 @@ function SOSCall({ handleCancel }) {
     <div className="justify-content-center call-bottom-row">
       <div className="mt-4 justify-content-space-between">
         <div className="bottom-row-wrapper">
-          <div className="grid mb-4">
+          <div className="grid-no-gutter mb-4">
             <div className="col-4 call-button-wrapper" xs="4">
               <div
                   className={`call-button ${isSpeakerOn ? 'active' : ''}`}
