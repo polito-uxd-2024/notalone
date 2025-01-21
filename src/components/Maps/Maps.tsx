@@ -17,7 +17,7 @@ type LatLng = {
 
 //const HOME_COORDS: LatLng = { lat: 45.073529, lng: 7.669068 }; // Piazza Statuto, Torino
 
-export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { disableSwipe: () => void; enableSwipe: () => void; handleTabClick: (e, index) => void; }) {
+export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAddress }: { disableSwipe: () => void; enableSwipe: () => void; handleTabClick: (e, index) => void; homeAddress }) {
   const [currentPosition, setCurrentPosition] = useState<LatLng | null>(null);
   const [showPopup, setShowPopup] = useState(false); // Controlla se il popup è visibile
   const [origin, setOrigin] = useState<string | null>(""); // Campo per l'origine
@@ -33,8 +33,8 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { di
   const mapRef = useRef(null);
   let color = "";
   const [homeCoords, setHomeCoords] = useState<LatLng | null>(null); // Stato per l'indirizzo di casa
-  const [showHomePopup, setShowHomePopup] = useState(false);
-  const [homeAddress, setHomeAddress] = useState<string>(""); // Indirizzo inserito nel popup
+  const isHomeInitialized = useRef(false); // Riferimento per verificare l'inizializzazione
+
   
 
   const routes = [
@@ -97,11 +97,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { di
 
     
   ];
-
-  const handleOpenHomePopup = () => setShowHomePopup(true);
-
-  // Chiude il popup senza salvare
-  const handleCloseHomePopup = () => setShowHomePopup(false);
+  
 
   // Gestisce l'invio del popup e aggiorna le coordinate di casa
   const handleHomeChange = async() => {
@@ -126,8 +122,6 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { di
   
             // Imposta le coordinate calcolate come HOME_COORDS
             setHomeCoords(latLng);
-            alert("Indirizzo di casa impostato con successo!");
-            setShowHomePopup(false);
           } else {
             alert("Non è stato possibile trovare l'indirizzo. Riprova con un altro.");
           }
@@ -188,7 +182,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { di
           if (accuracy > 50) { // Soglia per l'accuratezza
             console.warn("La precisione è bassa. Attiva il GPS o verifica le impostazioni.");
           }
-          setCurrentPosition({ lat: latitude, lng: longitude });
+          setCurrentPosition({ lat: 45.06805628881586, lng: 7.694417510580424 });
         },
         (error) => {
           console.error("Errore nel recupero della posizione:", error);
@@ -231,24 +225,60 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { di
     }
   };
 
-  const handleNavigateToHome = () => {
+  const handleNavigateToHome = async() => {
     if (!currentPosition) {
       alert("Posizione corrente non disponibile.");
       return;
     }
-    if(!homeCoords){
-      alert("Non hai ancora impostato un indirizzo per la tua dimora!");
-      return;
-    }
-    const pos = `${currentPosition.lat}, ${currentPosition.lng}`;
-    const dest = `${homeCoords.lat}, ${homeCoords.lng}`;
-    setOrigin(pos);
-    setDestination(dest);
-    setDestinationCoords(homeCoords)
-    setIsStandard(false);
-    setIsNavigationStarted(true);
-    handleStartNavigation
+      
+      
+        // Ottieni il servizio di geocodifica dalla libreria di Google Maps
+    
+        if (google) {
+          const geocoder = new google.maps.Geocoder();
+    
+          try {
+            const response = await geocoder.geocode({ address: homeAddress });
+            if (response.results.length > 0) {
+              const location = response.results[0].geometry.location;
+              const latLng = {
+                lat: location.lat(),
+                lng: location.lng(),
+              };
+               setHomeCoords(latLng);
+               console.log("Coordinate di casa impostate:", latLng);
+            } else {
+              alert("Non è stato possibile trovare l'indirizzo. Riprova con un altro.");
+            }
+          } catch (error) {
+            console.error("Errore durante la geocodifica:", error);
+            alert("Si è verificato un errore durante il calcolo delle coordinate. Riprova.");
+          } 
+        } else {
+          alert("Le API di Google Maps non sono disponibili.");
+        }
+    
   };
+
+  // UseEffect per verificare quando homeCoords è stato aggiornato
+useEffect(() => {
+  if (homeCoords) {
+      // Esegui la logica di navigazione solo quando homeCoords è disponibile
+      if (!currentPosition) {
+          alert("Posizione corrente non disponibile.");
+          return;
+      }
+
+      const pos = `${currentPosition.lat}, ${currentPosition.lng}`;
+      const dest = `${homeCoords.lat}, ${homeCoords.lng}`;
+      setOrigin(pos);
+      setDestination(dest);
+      setDestinationCoords(homeCoords);
+      setIsStandard(false);
+      setIsNavigationStarted(true);
+      handleStartHomeNavigation();
+  }
+}, [homeCoords]); // Il codice sopra verrà eseguito quando homeCoords cambierà
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, type: "origin" | "destination") => {
     const value = e.target.value;
@@ -286,7 +316,6 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { di
     }
   }, []); // Eseguito una sola volta all'apertura
   
-
   const handleShowPath = async () => {
     setIsStandard(true);
   
@@ -310,6 +339,25 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { di
     setDestination(""); // Cancella la destinazione
     setDestinationCoords(null); // Cancella le coordinate della destinazione
 
+  };
+
+  const handleStartHomeNavigation = async () => {
+     
+    setIsNavigationStarted(true); // Inizia la navigazione
+    setShowPopup(false); // Chiudi il popup
+    setIsStandard(false);
+  
+    if (destination) {
+      const geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ address: destination }, (results, status) => {
+        if (status === google.maps.GeocoderStatus.OK && results && results.length > 0) {
+          const coords = results[0].geometry.location;
+          setDestinationCoords({ lat: coords.lat(), lng: coords.lng() });
+        } else {
+          console.error("Errore nella geocodifica:", status);
+        }
+      });
+    }
   };
 
   const handleStartNavigation = async () => {
@@ -401,29 +449,11 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { di
       >
         <img
           src="/notalone/home_button.png"
-          alt="SOS Button"
+          alt="Home Button"
           style={{ width: "55px", height: "55px" }}
         />
       </Button>
     )}
-
-      <Button
-          style={{
-            position: "absolute",
-            background: "transparent",
-            border: "none",
-            top: 10,
-            right: 10,
-            zIndex: 1,
-          }}
-        onClick={handleOpenHomePopup}
-      >
-        <img
-          src="/notalone/home-settings.png"
-          alt="SOS Button"
-          style={{ width: "50px", height: "50px" }}
-        />
-      </Button>
 
 
     <APIProvider apiKey={"AIzaSyBKdoXYHzSpJ6wc3AGnZVEjef8NYNUACyc"}>
@@ -498,44 +528,6 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { di
             <span style={styles.exitText}>X</span>
           </div>
         )}
-        
-        {/* Popup per impostare casa (div che appare e scompare) */}
-      {showHomePopup && (
-        <div style={styles.popupOverlay}>
-          <div style={styles.popupContent}>
-            <h3>Imposta Casa</h3>
-            {/* Input per l'indirizzo */}
-            <div style={styles.labelContainer2}>
-            <label>
-              Inserisci il tuo indirizzo:
-              <div style={styles.inputContainer2}>
-                <input
-                type="text"
-                id="homeAddress"
-                placeholder="Es. Via Roma 1, Torino"
-                value={homeAddress}
-                onChange={(e) => setHomeAddress(e.target.value)}
-                />
-                {homeAddress && (
-                      <span style={styles.clearButton2} onClick={() => setHomeAddress("")}>
-                        ✕
-                      </span>
-                )}
-              </div>
-            </label>
-          </div>
-            
-            <div>
-              <Button style={styles.closeButton2} onClick={handleCloseHomePopup}>  
-                Chiudi
-              </Button>
-              <Button style={styles.startButton2} onClick={handleHomeChange}>  
-                Fatto
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
 
         {/* Popup modale per l'inserimento */}
         {showPopup && !isNavigationStarted && (
@@ -708,7 +700,7 @@ const Directions = ({
       path,
       geodesic: true,
       strokeColor: lineColor, 
-      strokeOpacity: 0.4,
+      strokeOpacity: 0.5,
       strokeWeight: 3, // Spessore della Polyline
     });
 
@@ -874,16 +866,6 @@ const styles = {
     borderRadius: "4px",
     padding: "10px 20px",
     cursor: "pointer",
-  },
-  closeButton2: {
-    background: "#f8d7da", // Colore di sfondo per il pulsante "Chiudi"
-    color: "#721c24", // Colore del testo per il pulsante "Chiudi"
-    border: "none",
-    borderRadius: "4px",
-    padding: "10px 15px",
-    cursor: "pointer",
-    marginRight: "20px",
-    marginTop: "30px"
   },
   startButton2: {
     background: "#d4edda", // Colore di sfondo per il pulsante "Avvia"
