@@ -38,7 +38,6 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { di
   
 
   const routes = [
-    { origin: { lat: 45.052612672040055, lng: 7.67514091598912 }, destination: { lat: 45.05150605973074, lng: 7.678520499099131 }, color:"green" },
     { origin: { lat: 45.06425923889428, lng: 7.680061063181322 }, destination: { lat: 45.06651966945078, lng: 7.681691535464589 }, color:"green" },
     { origin: { lat: 45.06376732250932, lng: 7.6765451058318845 }, destination: { lat: 45.07059580780062, lng: 7.6815604047878505 }, color:"green" }, //via arsenale
     { origin: { lat: 45.07031545940262, lng: 7.677987756497011 }, destination: { lat: 45.070780582129295, lng: 7.684113585258326 }, color:"green" }, //via pietro micca
@@ -47,9 +46,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { di
     { origin: { lat: 45.07032575770712, lng: 7.686865685316187 }, destination: { lat: 45.07115023623296, lng: 7.687484487467262 }, color:"green" }, //p.za castello vicino po
     { origin: { lat: 45.07003523795949, lng: 7.687300621725626 }, destination: { lat: 45.06906037463699, lng: 7.6865743636766055 }, color:"green" }, //via carlo alb.
     { origin: { lat: 45.069430014888134, lng: 7.688270213448517 }, destination: { lat: 45.06346688383751, lng: 7.684072565867011 }, color:"green" }, // via bogino
-    { origin: { lat: 45.061952, lng: 7.677288 }, destination: { lat: 45.067119, lng: 7.682054 }, color: "yellow" }, // Via Lagrange (parallela a Via Roma)
-    { origin: { lat: 45.062075, lng: 7.679031 }, destination: { lat: 45.066590, lng: 7.684045 }, color: "green" }, // Via Carlo Alberto (parallela a Via Roma)
-    { origin: { lat: 45.061600, lng: 7.680062 }, destination: { lat: 45.067530, lng: 7.684961 }, color: "green" }, // Via XX Settembre (lato opposto di Via Roma)
+    { origin: { lat: 45.062075, lng: 7.679031 }, destination: { lat: 45.066590, lng: 7.684045 }, color: "yellow" }, // Via Carlo Alberto (parallela a Via Roma)
     { origin: { lat: 45.063250, lng: 7.678954 }, destination: { lat: 45.06333739104712, lng: 7.680828066318909 }, color: "red" }, // Piazza Carlo Felici
     { origin: { lat: 45.065457, lng: 7.682293 }, destination: { lat: 45.065913, lng: 7.683832 }, color: "green" }, // Via Cesare Battisti
     { origin: { lat: 45.070020, lng: 7.686420 }, destination: { lat: 45.068284, lng: 7.695000 }, color: "green" }, // Via San Massimo (tra Via Po e Via Verdi)
@@ -63,24 +60,42 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { di
     { origin: { lat: 45.074900, lng: 7.677540 }, destination: { lat: 45.072800, lng: 7.672800 }, color: "green" }, // Via Carlo Ignazio Giulio (tra via Garibaldi e Corso Valdocco)
     { origin: { lat: 45.072400, lng: 7.678400 }, destination: { lat: 45.073200, lng: 7.675200 }, color: "green" }, // Via delle Orfane (tra via Garibaldi e via Bligny)
     { origin: { lat: 45.07114457024932, lng: 7.68750553952927 }, destination: { lat: 45.07252832286494, lng: 7.6915223138916575 }, color: "yellow" }, //Viale 1o Maggio
-    { origin: { lat: 45.065600, lng: 7.692400 }, destination: { lat: 45.061800, lng: 7.693800 }, color: "green" }, // Via Maria Vittoria fino a lungo Pò
     { origin: { lat: 45.068400, lng: 7.681500 }, destination: { lat: 45.06647583849104, lng: 7.690955872844675 }, color: "green" }, // Via Principe Amedeo (alta)
     { origin: { lat: 45.06647583849104, lng: 7.690955872844675 }, destination: { lat: 45.065542596471836, lng: 7.693361155424747 }, color: "yellow" }, // Via Principe Amedeo (bassa) 
     { origin: { lat: 45.063609335916595, lng: 7.691738826770745 }, destination: { lat: 45.064800, lng: 7.694100 }, color: "yellow" }, // Via Giovanni Plana
     { origin: { lat: 45.067700, lng: 7.685200 }, destination: { lat: 45.06587330403804, lng: 7.688606590332282 }, color: "green" }, // Via Maria VIttoria
-    { origin: { lat: 45.06587330403804, lng: 7.688606590332282 }, destination: { lat: 45.062908515425576, lng: 7.686512886641768 }, color: "yellow" }, // Via Accademia Albertina
+    { origin: { lat: 45.06587330403804, lng: 7.688606590332282 }, destination: { lat: 45.062908515425576, lng: 7.686512886641768 }, color: "yellow" }, // Via Accademia Albertina (alta)
+    { origin: { lat: 45.062908515425576, lng: 7.686512886641768 }, destination: { lat: 45.060728293479166, lng: 7.685017151863959 }, color: "green" }, // Via Accademia Albertina (bassa)
     { origin: { lat: 45.065300, lng: 7.693000 }, destination: { lat: 45.06294479675814, lng: 7.698257832857506 }, color: "green" }, // Piazza Vittorio e ponte
     { origin: { lat: 45.069423585995295, lng: 7.69313411481291 }, destination: { lat: 45.06445752288618, lng: 7.68945805250811 }, color: "green" }, // Via San Massimo (alta)
     { origin: { lat: 45.06445752288618, lng: 7.68945805250811 }, destination: { lat: 45.060244058969566, lng: 7.686335961223492 }, color: "yellow" }, // Via San Massimo (bassa)
     { origin: { lat: 45.06387387402265, lng: 7.6909673082498475 }, destination: { lat: 45.06182778538818, lng: 7.689454542467849 }, color: "yellow" }, // Via Fratelli Calandra (alta)
     { origin: { lat: 45.06182778538818, lng: 7.689454542467849 }, destination: { lat: 45.059712347436644, lng: 7.687953366345828 }, color: "green" }, // Via Fratelli Calandra (bassa)
-    { origin: { lat: 45.0651865900825, lng: 7.679189000284278 }, destination: { lat: 45.06402394088794, lng: 7.6831035605067 }, color: "yellow" }, // Via Gramsci
+    { origin: { lat: 45.0651865900825, lng: 7.679189000284278 }, destination: { lat: 45.06073578028304, lng: 7.6925687383963135 }, color: "yellow" }, // Via Gramsci
     { origin: { lat: 45.0655071140731, lng: 7.68242416553966 }, destination: { lat: 45.06246376082689, lng: 7.6802286312793155 }, color: "yellow" }, // Via Lagrange
     { origin: { lat: 45.062831141972296, lng: 7.679036153661025 }, destination: { lat: 45.05712693096317, lng: 7.676870802088124 }, color: "red" }, // Via Nizza (Porta Nuova - Marconi)
     { origin: { lat: 45.05711836584327, lng: 7.676867909722052 }, destination: { lat: 45.05157448173814, lng: 7.674700672659145 }, color:"yellow" }, // Via Nizza (Marconi - Nizza)
     { origin: { lat: 45.0622269456164, lng: 7.677000494966354 }, destination: { lat: 45.05923396900839, lng: 7.67481025774954 }, color:"yellow" }, // Via Sacchi
-    
+    { origin: { lat: 45.06113949563227, lng: 7.683919867185215 }, destination: { lat: 45.06882122964909, lng: 7.689182098388869 }, color:"green" }, // Via San Francesco da Paola
+    { origin: { lat: 45.06393702652251, lng: 7.681283434016729 }, destination: { lat: 45.06262551870889, lng: 7.684948401901105 }, color:"green" }, // Via Mazzini (alta)
+    { origin: { lat: 45.06262551870889, lng: 7.684948401901105 }, destination: { lat: 45.06004761939395, lng: 7.692045725493107 }, color:"yellow" }, // Via Mazzini (bassa)
+    { origin: { lat: 45.062167651135056, lng: 7.680079410605161 }, destination: { lat: 45.059432897510106, lng: 7.687636987318146 }, color:"green" }, // Corso Vittorio (lato dx, alto sopo P.Nuova)
+    { origin: { lat: 45.059432897510106, lng: 7.687636987318146 }, destination: { lat: 45.058440723280945, lng: 7.690539524565638 }, color:"red" }, // Corso Vittorio (lato dx, basso)
+    { origin: { lat: 45.06697114043511, lng: 7.682510165794057 }, destination: { lat: 45.063602327601274, lng: 7.691707576771739 }, color:"green" }, // Via Giolitti (alta)
+    { origin: { lat: 45.063602327601274, lng: 7.691707576771739 }, destination: { lat: 45.06250350610754, lng: 7.694727743900208 }, color:"yellow" }, // Via Giolitti (bassa)
+    { origin: { lat: 45.06558449064531, lng: 7.698688444338589 }, destination: { lat: 45.061436540318255, lng: 7.693164126300632 }, color:"yellow" }, // Lungo Po (alto)
+    { origin: { lat: 45.061436540318255, lng: 7.693164126300632 }, destination: { lat: 45.058500021373526, lng: 7.690771461742876}, color:"red" }, // Lungo Po (basso, Valentino)
+    { origin: { lat: 45.066360570985424, lng: 7.680013029225598 }, destination: { lat: 45.063790175987876, lng: 7.687128125237991}, color:"green" }, // Via Cavour (alta)
+    { origin: { lat: 45.063790175987876, lng: 7.687128125237991 }, destination: { lat: 45.061646640683115, lng: 7.692942501008041}, color:"yellow" }, // Via Cavour (bassa)
+    { origin: { lat: 45.06324189359703, lng: 7.688617244651047 }, destination: { lat: 45.06272831357299, lng: 7.690113048713667}, color:"red" }, // Piazza Cavour
+    { origin: { lat: 45.06663782004458, lng: 7.692563832330559 }, destination: { lat: 45.06401095388637, lng: 7.6906563906483845}, color:"green" }, // Via delle Rosine
+    { origin: { lat: 45.065028159126825, lng: 7.6948335148548015 }, destination: { lat: 45.063325790457135, lng: 7.692640754725923}, color:"green" }, // Via delle Rocca (alta)
+    { origin: { lat: 45.063325790457135, lng: 7.692640754725923 }, destination: { lat: 45.059179182272736, lng: 7.689368444513095}, color:"yellow" }, // Via delle Rocca (bassa)
+    { origin: { lat: 45.062447570711534, lng: 7.680215540808145 }, destination: { lat: 45.05883035270143, lng: 7.690261901850371}, color:"green" }, // Corso Vittorio (lato sx)
+    { origin: { lat: 45.065192525657544, lng: 7.679180038025688 }, destination: { lat: 45.06332312736903, lng: 7.677817508113456}, color:"yellow" }, // Via XX Settembre
 
+
+    
   ];
 
   const handleOpenHomePopup = () => setShowHomePopup(true);
@@ -693,7 +708,7 @@ const Directions = ({
       path,
       geodesic: true,
       strokeColor: lineColor, 
-      strokeOpacity: 0.5,
+      strokeOpacity: 0.4,
       strokeWeight: 3, // Spessore della Polyline
     });
 
