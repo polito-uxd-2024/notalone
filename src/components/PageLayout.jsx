@@ -184,7 +184,7 @@ function MainLayout () {
           </div>
         </div>
         <div className="below-tab">
-          <ConfirmDialog
+          {/* <ConfirmDialog
             visible={showConfirm}
             onHide={() => setShowConfirm(false)}
             message="Sei sicuro di voler lasciare l'app?"
@@ -192,7 +192,7 @@ function MainLayout () {
             icon="pi pi-exclamation-triangle"
             accept={acceptLeave}
             reject={rejectLeave}
-          />
+          /> */}
           <Swiper
             ref={swiperRef}
             slidesPerView={1}
@@ -218,7 +218,7 @@ function MainLayout () {
             grabCursor={true}
             >
             <SwiperSlide><Maps handleTabClick={handleTabClick} disableSwipe={disableSwipe} enableSwipe={enableSwipe}/></SwiperSlide>
-            <SwiperSlide><Al chatStarted={chatStarted} handleStart={handleStart} inCall={inCall} handleEndCall={handleEndCall} handleSettings={handleSettings} /></SwiperSlide>
+            <SwiperSlide><Al chatStarted={chatStarted} handleStart={handleStart} inCall={inCall} handleEndCall={handleEndCall} handleSettings={handleSettings} handleTabClick={handleTabClick} /></SwiperSlide>
             <SwiperSlide><SOS handleBack={handleBack} tab={activeTab}/></SwiperSlide>
           </Swiper>
         </div>

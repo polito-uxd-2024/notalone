@@ -5,7 +5,7 @@ import { AlCall } from './AlCall'
 
 function Al(props) {
     const [chatHistory, setChatHistory] = useState([]);
-    const {chatStarted, inCall, handleStart, handleEndCall, handleSettings} = props;
+    const {chatStarted, inCall, handleStart, handleEndCall, handleSettings, handleTabClick} = props;
     return (
         <>
         {chatStarted?
@@ -13,7 +13,7 @@ function Al(props) {
           inCall?
           <AlCall handleCancel={handleEndCall}/>
           :
-          <AlChat chatHistory={chatHistory} setChatHistory={setChatHistory} handleStart={handleStart} handleSettings={handleSettings}/>
+          <AlChat chatHistory={chatHistory} setChatHistory={setChatHistory} handleStart={handleStart} handleSettings={handleSettings} handleTabClick={handleTabClick}/>
         )
             :
         (

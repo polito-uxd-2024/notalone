@@ -27,7 +27,7 @@ import alIcon from "/al/al.svg"
 
 
 
-function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
+function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handleTabClick}) {
   const [agenda, setAgenda] = useState([]);
   const [message, setMessage] = useState('');
   const [isNew, setNew] = useState(false);
@@ -196,7 +196,14 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
       });
       const data = await res.json();
       const newResponse = { sender: 'bot', text: data.fulfillmentText, intent: data.intent};
-      const myAgenda = agenda
+      const myAgenda = [...agenda]
+      if (data.fulfillmentText === 'SOS') {
+        handleTabClick(null, 2)
+        newResponse.text = 'Non preoccuparti, sto aprendo le informazioni di emergenza per te.'
+      } else if (data.fulfillmentText === 'Mappa') {
+        handleTabClick(null, 0)
+        newResponse.text = 'Posso aiutarti a trovare il percorso migliore per arrivare a casa. Sto aprendo la mappa per te!'
+      }
       if (data.fulfillmentText === "codeShowAgenda") {
         newResponse.text = printAgendaMap(myAgenda)
       } else if (data.fulfillmentText === "codeUpdateEventAgenda") {
@@ -267,6 +274,7 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
       setChatHistory((prevChatHistory) => [...prevChatHistory, newResponse]);
     } catch (error) {
       console.error('Errore:', error);
+      handleStartingMessage(3);
       setLoadingMessage(true);
       setChatHistory((prevHistory) => [
         ...prevHistory,
