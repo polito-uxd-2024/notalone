@@ -19,6 +19,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import './Al.css';
 import { SpeedDial } from "primereact/speeddial";
+import { Skeleton } from 'primereact/skeleton';
+        
 import alIcon from "/al/al.svg"
 // import {sendMessageToDialogflow} from './dialogflowService';
 // import { data } from "react-router";
@@ -78,12 +80,18 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
            <button onClick={() => setMessageToTrivia()}>Trivia</button>
            </p></>
           };
-          
+
   const newChatMessage = {
     id: 2,
     sender: 'nuova-chat',
     text: 'Nuova Chat'
   };
+
+  const waitBotResposne = {
+    id: 3,
+    sender: 'bot',
+    text: <Skeleton width="8rem" height="2rem" borderRadius="10px"></Skeleton>
+  }
 
   const errorMessages = [
     "Ops! 😅 C'è stato un piccolo imprevisto... dai, riprova fra poco!",
@@ -153,8 +161,8 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
   }
   
   // HANDLE per eliminare il messaggio di benvenuto quando viene selezionato un bottone o inviato un messaggio
-  const handleStartingMessage = () => {
-      setChatHistory((prev) => prev.filter(msg => msg.id !== 1)); 
+  const handleStartingMessage = (idToDelete) => {
+      setChatHistory((prev) => prev.filter(msg => msg.id !== idToDelete)); 
   }
 
   const handleSendMessage = async (msg) => {
@@ -167,10 +175,13 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
     const textMessage = msg || message
     if (textMessage.trim() === '') return;
     const newMessage = { sender: 'user', text: textMessage};
-    handleStartingMessage();
 
+    handleStartingMessage(1);
+  
     setChatHistory((prevChatHistory) => [...prevChatHistory, newMessage]);
     setMessage(''); // Pulisce il campo di input
+
+    setChatHistory((prevChatHistory) => [...prevChatHistory, waitBotResposne]);
 
     try {
       const res = await fetch('https://better-adversely-insect.ngrok-free.app/api/message', {
@@ -245,6 +256,9 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
         const printAgenda = printAgendaMap(myAgenda)
         newResponse.text = [successRestore, ...printAgenda];  
       }
+
+      //cancella Skeleton prima che invia messaggio bot
+      handleStartingMessage(3);
 
       setChatHistory((prevChatHistory) => [...prevChatHistory, newResponse]);
     } catch (error) {
