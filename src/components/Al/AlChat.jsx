@@ -31,6 +31,7 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
   const [agenda, setAgenda] = useState([]);
   const [message, setMessage] = useState('');
   const [isNew, setNew] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState(true);
   const chatBoxRef = useRef(null);
   
   async function ReadFromAgendaJSON() {
@@ -162,7 +163,8 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
   
   // HANDLE per eliminare il messaggio di benvenuto quando viene selezionato un bottone o inviato un messaggio
   const handleStartingMessage = (idToDelete) => {
-      setChatHistory((prev) => prev.filter(msg => msg.id !== idToDelete)); 
+
+    setChatHistory((prev) => prev.filter(msg => msg.id !== idToDelete)); 
   }
 
   const handleSendMessage = async (msg) => {
@@ -182,6 +184,7 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
     setMessage(''); // Pulisce il campo di input
 
     setChatHistory((prevChatHistory) => [...prevChatHistory, waitBotResposne]);
+    setLoadingMessage(false);
 
     try {
       const res = await fetch('https://better-adversely-insect.ngrok-free.app/api/message', {
@@ -259,10 +262,12 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
 
       //cancella Skeleton prima che invia messaggio bot
       handleStartingMessage(3);
+      setLoadingMessage(true);  
 
       setChatHistory((prevChatHistory) => [...prevChatHistory, newResponse]);
     } catch (error) {
       console.error('Errore:', error);
+      setLoadingMessage(true);
       setChatHistory((prevHistory) => [
         ...prevHistory,
         { sender: 'bot', text: getRandomErrorMessage() }
@@ -315,10 +320,10 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
             onChange={(e) => {setMessage(e.target.value);  }}
             placeholder="Scrivi un messaggio..."
             onKeyDown={(e) => {
-              if (e.key === "Enter") handleSendMessage(); }
+              if (e.key === "Enter" && loadingMessage) handleSendMessage(); }
             }
           />
-          <button onClick={() => handleSendMessage()}>Invia</button>
+          <button onClick={() => loadingMessage && handleSendMessage()}>Invia</button>
         </div>
       </div>
 
