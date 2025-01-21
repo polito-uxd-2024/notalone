@@ -42,8 +42,8 @@ function AlCall({handleCancel}) {
     <div className="justify-content-center call-bottom-row">
       <div className="mt-4 justify-content-space-between">
         <div className="bottom-row-wrapper">
-          <div className="grid mb-4">
-            <div className="col-4 call-button-wrapper" xs="4">
+          <div className="grid grid-nogutter justify-content-center mb-4">
+            <div className="col-4 call-button-wrapper">
               <div
                   className={`call-button ${isSpeakerOn ? 'active' : ''}`}
                   onClick={toggleSpeaker}
@@ -52,7 +52,7 @@ function AlCall({handleCancel}) {
               </div>
               Speaker
             </div>
-            <div className="col-4 call-button-wrapper" xs="4">
+            <div className="col-4 call-button-wrapper" >
               <div
                 className={`call-button ${isMuteOn ? 'active' : ''}`}
                 onClick={toggleMute}
@@ -61,7 +61,7 @@ function AlCall({handleCancel}) {
               </div>
               Mute
             </div>
-            <div className="col-4 call-button-wrapper" xs="4">
+            <div className="col-4 call-button-wrapper" >
               <div
                 className={`call-button ${isBluetoothOn ? 'active' : ''}`}
                 onClick={toggleBluetooth}
@@ -70,7 +70,7 @@ function AlCall({handleCancel}) {
               </div>
               Bluetooth
             </div>
-            <div className="col-4 col-offset-4 call-button end" onClick={() => handleCancel(false)}>
+            <div className="col-4 call-button-wrapper call-button end" onClick={() => handleCancel(false)}>
               <div className="button endCall"/>
             </div>
           </div>

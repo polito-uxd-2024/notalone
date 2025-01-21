@@ -23,77 +23,98 @@ import alIcon from "/al/al.svg"
 // import {sendMessageToDialogflow} from './dialogflowService';
 // import { data } from "react-router";
 
-async function ReadFromAgendaJSON() {
-  try{
-    const response = await fetch('/notalone/al/agenda.json');
-    const agenda = await response.json();
-    return agenda;
-  } catch (error) {
-    console.log('Errore fetching agenda:', error);
-    return ;  
-  }
-}
-
-async function UpdateAgenda(UpdatedAgendaEvent) {
-   
-}
-
-async function AddAgendaEvent(NewAgendaEvent) {
-  try {
-    // console.log('Aggiungendo in agenda: ', NewAgendaEvent)
-    await fetch('https://better-adversely-insect.ngrok-free.app/api/agenda', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(NewAgendaEvent),
-    })
-    .then((response) => response.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.error('Errore fetch:', error));
-  } catch (error) {
-    console.log('Errore aggiunta evento:', error);
-  } 
-}
 
 
 function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
   const [agenda, setAgenda] = useState([]);
   const [message, setMessage] = useState('');
+  const [isNew, setNew] = useState(false);
   const chatBoxRef = useRef(null);
- 
-
+  
+  async function ReadFromAgendaJSON() {
+    try{
+      const response = await fetch('/notalone/al/agenda.json');
+      const agenda = await response.json();
+      return agenda;
+    } catch (error) {
+      console.log('Errore fetching agenda:', error);
+      setChatHistory((prevHistory) => [
+        ...prevHistory,
+        { sender: 'bot', text: 'Errore nel recuperare la tua agenda, riprova più tardi' }
+      ]);
+      return ;  
+    }
+  }
+  
+  async function AddAgendaEvent(NewAgendaEvent) {
+    try {
+      // console.log('Aggiungendo in agenda: ', NewAgendaEvent)
+      await fetch('https://better-adversely-insect.ngrok-free.app/api/agenda', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(NewAgendaEvent),
+      })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error('Errore fetch:', error));
+    } catch (error) {
+      console.log('Errore aggiunta evento:', error);
+      setChatHistory((prevHistory) => [
+        ...prevHistory,
+        { sender: 'bot', text:"'Errore nell'aggiornamento dell'agenda, riprova più tardi" }
+      ]);
+    } 
+  }
+  
   const welcomeMessage = { 
     id: 1,
     sender: 'bot',
     text: <>Odio questo esame<br/>
-         <div className="bot-message">
+         <p className="bot-message">
            <button onClick={() => setMessageToGame()}>Gioco</button> 
            <button onClick={() => setMessageToAgenda()}>Agenda</button>
            <button onClick={() => setMessageToTrivia()}>Trivia</button>
-           </div></>
+           </p></>
           };
           
   const newChatMessage = {
+    id: 2,
     sender: 'nuova-chat',
-    text: 'nuova Chat'
+    text: 'Nuova Chat'
   };
+
+  const errorMessages = [
+    "Ops! 😅 C'è stato un piccolo imprevisto... dai, riprova fra poco!",
+    "Oh no! 😕 Qualcosa non è andato come previsto. Ma niente paura, ce la farò!",
+    "Argh! 🛠️ Un piccolo errore nel sistema, ma non temere, sono sempre qui per aiutarti!",
+    "Oops, è successo un imprevisto! 🧐 Non preoccuparti, un piccolo bug da risolvere e torniamo subito a funzionare!",
+    "Un piccolo ostacolo nel percorso! 🚧 Riprova fra qualche istante, ti prometto che ci siamo!",
+    "Hmm... 🤔 Un errore si è infiltrato, ma non c'è nulla che non possa risolvere! Riprova tra un attimo!",
+    "Al di fuori dei piani! 😬 Ma niente panico, sono qui per sistemare tutto!",
+    "Uh-oh! 😲 C'è stato un piccolo problema, ma non è niente che non possiamo sistemare! Torno subito con una soluzione."
+  ];
+  
 
   // GESTIONE recupero dati dal file agenda.json
   useEffect(() => {
     async function fetchAgenda() {
       const agendaString = await ReadFromAgendaJSON();
-      // console.log(agendaString)
       setAgenda(agendaString);
     }
     fetchAgenda();
+    setChatHistory([welcomeMessage]);
   }, []);
 
-  
-  // GESTIONE PULSANTI sul messaggio di benvenuto
   useEffect(() => {
-    setChatHistory( [welcomeMessage]);
-  }, []);
+    let myChatHistory = [...chatHistory]
+    console.log(myChatHistory.length)
+    if(myChatHistory.length > 0 && myChatHistory[myChatHistory.length - 1].id !== 1) { 
+      setChatHistory((prev) => [...prev, newChatMessage, welcomeMessage])
+    }
+  }, [isNew])
+
 
   function setMessageToGame() { 
     const sendMessage = 'Voglio fare un gioco';
@@ -106,30 +127,28 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
   }
 
   function setMessageToTrivia() {
-    const sendMessage = 'Raccontami una curiosità su Torino';
+    const sendMessage = 'Raccontami una curiosità';
     handleSendMessage(sendMessage);
   }
   
-
+  function getRandomErrorMessage() {
+    const randomIndex = Math.floor(Math.random() * errorMessages.length);
+    return errorMessages[randomIndex];
+  }
+  
   // HANDLE per eliminare il messaggio di benvenuto quando viene selezionato un bottone o inviato un messaggio
   const handleStartingMessage = () => {
-      // const refinedChatHistory = chatHistory.slice(0, chatHistory.length - 1);
-      let refinedChatHistory = chatHistory;
-      refinedChatHistory = refinedChatHistory.filter(msg => msg.id !== 1);
-
-      console.log('refined chat history', refinedChatHistory)
-      setChatHistory(refinedChatHistory); 
-    
+      setChatHistory((prev) => prev.filter(msg => msg.id !== 1)); 
   }
 
   const handleSendMessage = async (msg) => {
+    const printAgendaMap = (agendaJson) => {
+      return agendaJson.map((event, index) => (<p key={index}>{`• ${event.attività} il ${event.data} alle ${event.ora}`}<br/></p>))
+    }
     // console.log(chatHistory);
 
     // console.log('chathistory length',chatHistory.length, chatHistory);
-    console.log("msg ", msg)
-    console.log("message ", message)
     const textMessage = msg || message
-    console.log("textMsg ", textMessage)
     if (textMessage.trim() === '') return;
     const newMessage = { sender: 'user', text: textMessage};
     handleStartingMessage();
@@ -147,42 +166,38 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
       });
       const data = await res.json();
       const newResponse = { sender: 'bot', text: data.fulfillmentText, intent: data.intent};
-      
+      const myAgenda = agenda
       if (data.fulfillmentText === "codeShowAgenda") {
-        newResponse.text = agenda.map((event) => (<>{`• ${event.attività} il ${event.data} alle ${event.ora}`}<br/></>
-        ));  
+        newResponse.text = printAgendaMap(myAgenda)
       } else if (data.fulfillmentText === "codeUpdateEventAgenda") {
-        if(agenda.findIndex((events) => events.id === "evento4") != -1) {
+        if(myAgenda.findIndex((events) => events.id === "evento4") != -1) {
             const changedEvent = {
               id: 'evento4',
               attività: "New Event Name",
               data: "AAAA-MM-GG",
               ora: "HH:xx"
             };
-            agenda[agenda.findIndex((events) => events.id === "evento4")] = changedEvent;
+            myAgenda[myAgenda.findIndex((events) => events.id === "evento4")] = changedEvent;
             const successChange = <>Ecco la tua agenda modificata!<br/></>
-            const printAgenda = agenda.map((event) => (<>{`• ${event.attività} il ${event.data} alle ${event.ora}`}<br/></>));
+            const printAgenda = printAgendaMap(myAgenda);
             newResponse.text = [successChange, ...printAgenda];
           } else {
             const noUpdatableEvent = <>L'evento che stai cercando di modificare non esiste.<br/><br/> Ecco la tua agenda:<br/></>
-            const printAgenda = agenda.map((event) => (<>{`• ${event.attività} il ${event.data} alle ${event.ora}`}<br/></>));
+            const printAgenda = printAgendaMap(myAgenda)
             newResponse.text = [noUpdatableEvent, ...printAgenda];
           }
-
-
       } else if (data.fulfillmentText === "codeDeleteAgenda") { 
-
-          if (agenda.findIndex((events) => events.id === "evento4") != -1) {
-            const updatedAgenda = agenda.filter((events) => events.id !== "evento4");
+          if (myAgenda.findIndex((events) => events.id === "evento4") != -1) {
+            const updatedAgenda = myAgenda.filter((events) => events.id !== "evento4");
             await AddAgendaEvent(updatedAgenda);
             setAgenda(updatedAgenda);
             const successDeletion = <>Evento cancellato con successo!<br/><br/> Ecco la tua agenda:<br/></>
-            const printAgenda = agenda.map((event) => (<>{`• ${event.attività} il ${event.data} alle ${event.ora}`}<br/></>));
+            const printAgenda = printAgendaMap(updatedAgenda)
             newResponse.text = [successDeletion, ...printAgenda];
           }
           else {
             const alreadyDeleted = <>L'evento è già stato cancellato!<br/><br/> Ecco la tua agenda:<br/></>
-            const printAgenda = agenda.map((event) => (<>{`• ${event.attività} il ${event.data} alle ${event.ora}`}<br/></>));
+            const printAgenda = printAgendaMap(myAgenda)
             newResponse.text = [alreadyDeleted, ...printAgenda];
           }
    
@@ -193,7 +208,7 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
           data: "YYYY-MM-DD",
           ora: "HH:mm"
         };
-        const newAgenda = [...agenda, newEvent]
+        const newAgenda = [...myAgenda, newEvent]
         await AddAgendaEvent(newAgenda);
         setAgenda(newAgenda);
         // console.log('filtro', agenda.map().filter((id) => id === "evento4") );  
@@ -207,17 +222,21 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
           data: "YYYY-MM-DD",
           ora: "HH:mm"
         };
-        const newAgenda = [...agenda, newEvent]
+        const newAgenda = [...myAgenda, newEvent]
         await AddAgendaEvent(newAgenda);
         setAgenda(newAgenda);
         const successRestore = <>Ecco ripristinato il tuo evento!<br/><br/></>
-        const printAgenda =newAgenda.map((event) => (<>{`• ${event.attività} il ${event.data} alle ${event.ora}`}<br/></>));
+        const printAgenda = printAgendaMap(myAgenda)
         newResponse.text = [successRestore, ...printAgenda];  
       }
 
       setChatHistory((prevChatHistory) => [...prevChatHistory, newResponse]);
     } catch (error) {
       console.error('Errore:', error);
+      setChatHistory((prevHistory) => [
+        ...prevHistory,
+        { sender: 'bot', text: getRandomErrorMessage() }
+      ]);
     }
   };
 
@@ -238,12 +257,7 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
       label: 'Nuova Chat',
       icon: 'pi pi-plus',
       command: () => {
-        handleStartingMessage();
-        console.log(chatHistory.length)
-        if(chatHistory[chatHistory.length - 1].id !== 1) 
-          setChatHistory((prevChatHistory) => [...prevChatHistory, newChatMessage, welcomeMessage]);
-        else 
-          setChatHistory((prevChatHistory) => [...prevChatHistory, welcomeMessage])
+        setNew((old) => !old)
       }
     },
     {
@@ -256,36 +270,36 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
   return (
     <div className="chat-container">
       <div className="chat-wrapper">
-      <div className="chat-box">
-        {chatHistory.map((msg, index) => (
-          <div key={index} className={`message ${msg.sender}-message`}>
-            <h4>{msg.text}</h4>
-          </div>
-        ))}
-        <div ref={chatBoxRef}></div>
-      </div>
-      <div className="input-box">
-        <input
-          type="text"
-          value={message}
-          onChange={(e) => {setMessage(e.target.value);  }}
-          placeholder="Scrivi un messaggio..."
-          onKeyDown={(e) => {
-            if (e.key === "Enter") handleSendMessage(); }
-          }
-        />
-        <button onClick={handleSendMessage}>Send</button>
-      </div>
+        <div className="chat-box">
+          {chatHistory.map((msg, index) => (
+            <div key={index} className={`message ${msg.sender}-message`}>
+              <h4>{msg.text}</h4>
+            </div>
+          ))}
+          <div ref={chatBoxRef}></div>
+        </div>
+        <div className="input-box">
+          <input
+            type="text"
+            value={message}
+            onChange={(e) => {setMessage(e.target.value);  }}
+            placeholder="Scrivi un messaggio..."
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleSendMessage(); }
+            }
+          />
+          <button onClick={() => handleSendMessage()}>Invia</button>
+        </div>
       </div>
 
       <div className="speed-dial">
-      <SpeedDial
-      model={actions}
-      direction="right"
-      showIcon={<img src={alIcon} alt="Custom Icon" style={{ width: '5rem', height: '5rem' }} />}
-      style={{ left: '17%', top: 0 }}
-      rotateAnimation= {false}
-      />
+        <SpeedDial
+        model={actions}
+        direction="right"
+        showIcon={<img src={alIcon} alt="Custom Icon" style={{ width: '5rem', height: '5rem' }} />}
+        style={{ left: '17%', top: 0 }}
+        rotateAnimation= {false}
+        />
       </div>
     </div>
   );

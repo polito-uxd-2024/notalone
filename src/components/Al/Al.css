@@ -61,7 +61,7 @@
 
 .user-message {
   align-self: flex-end;
-  background-color: #007bff;
+  background-color: var(--bs-primary);
   color: white;
   border-radius: 20px 0 20px 20px;
   text-align: left;
@@ -79,7 +79,7 @@
   padding: 10px 20px;
   margin: 2px;
   border: none;
-  background-color: #007bff;
+  background-color: var(--bs-primary);
   color: #fff;
   border-radius: 10px;
   cursor: pointer;
@@ -117,14 +117,14 @@
 .input-box button {
   padding: 10px 20px;
   border: none;
-  background-color: #007bff;
+  background-color: var(--bs-primary);
   color: #fff;
   border-radius: 10px;
   cursor: pointer;
 }
 
 .input-box button:hover {
-  background-color: #0056b3;
+  background-color: var(--bs-primary);
 }
 .al-container {
   display: flex;
@@ -143,8 +143,8 @@
 
 .al-wrapper {
 	text-align: center;
-	padding: 20px;
-	height: 80%;
+	padding: 10px;
+	min-height: 80%;
 	width: 90%;
 	background-color: white;
 	border-radius: 20px;

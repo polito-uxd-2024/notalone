@@ -4,13 +4,23 @@ import { Al } from './Al/Al';
 import { Settings } from './Settings/Settings';
 import  Maps  from './Maps/Maps';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { ConfirmDialog } from "primereact/confirmdialog";
 import 'swiper/css';
+
+
+/**TODO
+ * Aggiungere icona impostazioni su Al
+ * Aggiungere freccina o + su AL in AlChat
+ * Sistemare allineamento telefono
+ * Unifromare dimensioni scritte
+ * Settings: fare in modo che Al e Maps siano esclusivi
+ * 
+ */
 
 
 function MainLayout () {
   const [chatStarted, startChat] = useState(false);
   const [inCall, startCall] = useState(false);
-  // const [sosBack, setSosBack] = useState(false);
   const [activeTab, setActiveTab] = useState(1);
   const [actualLocation, editActualLocation] = useState(1);
   const [settings, goToSettings] = useState(false);
@@ -18,10 +28,10 @@ function MainLayout () {
   const [language, setLanguage] = useState("Italiano")
   const [al, setAl] = useState(['', 'Diretta', ''])
   const [street, setStreet] = useState("Via Strada Comunale 7")
-  
+  const [showConfirm, setShowConfirm] = useState(false);
   const tabsRef = useRef();
   const swiperRef = useRef(null);
-
+  
   const tabs = [
     { tab: "Maps", shift: "34%" },
     { tab: "Al", shift: "0%" },
@@ -33,26 +43,26 @@ function MainLayout () {
       swiperRef.current.swiper.allowTouchMove = false;
     }
   };
-
+  
   const enableSwipe = () => {
     if (swiperRef.current?.swiper) {
       swiperRef.current.swiper.allowTouchMove = true;
     }
   };
-
+  
   const updateSlide = (index) => {
     if (swiperRef.current && swiperRef.current.swiper) {
-        swiperRef.current.swiper.slideTo(index);
+      swiperRef.current.swiper.slideTo(index);
     }
   };
-
+  
   const updateTab = (index) => {
     console.log(window.history)
     setActiveTab(index);
     tabsRef.current.style.left = tabs[index].shift;
     // tabsRef.current.scrollLeft = tabs[index].shift;
   };
-
+  
   const handleStart = (chat, call) => {
     if (chat){
       window.history.pushState(chatStarted, chatStarted, '/notalone/');
@@ -61,28 +71,11 @@ function MainLayout () {
     startChat(chat);
     startCall(call);
   }
-
+  
   const handleEndCall = () => {
     startCall(false)
   }
-
-  useEffect(() => {
-    const handlePopState = (event) => {
-      console.log('popstate event: ', event);
-      if (event.state) {
-        console.log('event state');
-        startChat(false);
-        startCall(false);
-      }
-    };
-
-    window.addEventListener('popstate', handlePopState);
-
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, []);
-
+  
   const handleLocationChange = (index) => {
     updateTab(index);
     updateSlide(index);
@@ -100,7 +93,6 @@ function MainLayout () {
   };
 
   const handleBack = () => {
-    // setSosBack(true);
     handleLocationChange(actualLocation);
   }
 
@@ -115,6 +107,48 @@ function MainLayout () {
     setAl(newAl)
   }
 
+  const acceptLeave = () => {
+    setShowConfirm(false);
+    window.removeEventListener("beforeunload", () => {}); // Rimuovi il listener per permettere l'uscita.
+    window.location.reload(); // Simula la navigazione o lascia l'app.
+  };
+
+  const rejectLeave = () => {
+    setShowConfirm(false);
+  };
+
+  useEffect(() => {
+    const handlePopState = (event) => {
+      console.log('popstate event: ', event);
+      if (event.state) {
+        console.log('event state');
+        startChat(false);
+        startCall(false);
+      }
+    };
+    
+    window.addEventListener('popstate', handlePopState);
+    
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+  
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      event.preventDefault(); // Per alcuni browser, è necessario.
+      event.returnValue = ""; // Mostra il dialogo nativo del browser.
+      setShowConfirm(true); // Mostra il popup personalizzato.
+      return ""; // Compatibilità con alcuni browser.
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+  
   return (
     <div className='grid-nogutter vh-100'>
      {settings?
@@ -150,6 +184,15 @@ function MainLayout () {
           </div>
         </div>
         <div className="below-tab">
+          <ConfirmDialog
+            visible={showConfirm}
+            onHide={() => setShowConfirm(false)}
+            message="Sei sicuro di voler lasciare l'app?"
+            header="Conferma Uscita"
+            icon="pi pi-exclamation-triangle"
+            accept={acceptLeave}
+            reject={rejectLeave}
+          />
           <Swiper
             ref={swiperRef}
             slidesPerView={1}
