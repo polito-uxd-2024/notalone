@@ -14,7 +14,7 @@ import 'swiper/css';
  * Sistemare allineamento telefono
  * Unifromare dimensioni scritte
  * Settings: fare in modo che Al e Maps siano esclusivi
- * 
+ * Aggiungere chiamat e messaggi sotto le icone
  */
 
 
@@ -27,7 +27,7 @@ function MainLayout () {
   const [voice, setVoice] = useState("Voce 1")
   const [language, setLanguage] = useState("Italiano")
   const [al, setAl] = useState(['', 'Diretta', ''])
-  const [street, setStreet] = useState("Via Strada Comunale 7")
+  const [street, setStreet] = useState("Via dell'Arsenale 34")
   const [showConfirm, setShowConfirm] = useState(false);
   const tabsRef = useRef();
   const swiperRef = useRef(null);

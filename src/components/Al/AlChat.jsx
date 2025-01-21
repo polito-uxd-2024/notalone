@@ -116,21 +116,37 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings}) {
   }, [isNew])
 
 
+  // function setMessageToGame() { 
+  //   const sendMessage = 'Voglio fare un gioco';
+  //   handleSendMessage(sendMessage);
+  // }
+
+  // function setMessageToAgenda() {
+  //   const sendMessage = 'Voglio vedere la mia agenda';
+  //   handleSendMessage(sendMessage);
+  // }
+
+  // function setMessageToTrivia() {
+  //   const sendMessage = 'Raccontami una curiosità';
+  //   handleSendMessage(sendMessage);
+  // }
+  
   function setMessageToGame() { 
-    const sendMessage = 'Voglio fare un gioco';
+    const sendMessage = 'Che ne dici di una sfida? Voglio giocare! 🎮';
     handleSendMessage(sendMessage);
   }
 
   function setMessageToAgenda() {
-    const sendMessage = 'Voglio vedere la mia agenda';
-    handleSendMessage(sendMessage);
+      const sendMessage = 'Mi dai un colpo d’occhio sulla mia agenda? 📅';
+      handleSendMessage(sendMessage);
   }
 
   function setMessageToTrivia() {
-    const sendMessage = 'Raccontami una curiosità';
-    handleSendMessage(sendMessage);
+      const sendMessage = 'Svelami una curiosità che non so! 🤔';
+      handleSendMessage(sendMessage);
   }
-  
+
+
   function getRandomErrorMessage() {
     const randomIndex = Math.floor(Math.random() * errorMessages.length);
     return errorMessages[randomIndex];
