@@ -25,6 +25,8 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
   const [showSuggestions, setShowSuggestions] = useState<"origin" | "destination" | null>(null);
   const [isNavigationStarted, setIsNavigationStarted] = useState(false); // Stato per gestire la navigazione
   const [isStandard, setIsStandard] = useState(false); //Stato per gestire se è un percorso precaricato o no
+  const [isFlagHome, setIsFlagHome] = useState(false);
+  const [isFlagGeneric, setIsFlagGeneric] = useState(false);
   const [destinationCoords, setDestinationCoords] = useState<LatLng | null>(null); // Stato per memorizzare le coordinate della destinazione
   const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(
     null
@@ -97,44 +99,6 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
 
     
   ];
-  
-
-  // Gestisce l'invio del popup e aggiorna le coordinate di casa
-  const handleHomeChange = async() => {
-
-    if (!homeAddress){
-      alert ("Devi ancora inserire un indirizzo per la tua dimora!")
-    }
-    else {
-      // Ottieni il servizio di geocodifica dalla libreria di Google Maps
-  
-      if (google) {
-        const geocoder = new google.maps.Geocoder();
-  
-        try {
-          const response = await geocoder.geocode({ address: homeAddress });
-          if (response.results.length > 0) {
-            const location = response.results[0].geometry.location;
-            const latLng = {
-              lat: location.lat(),
-              lng: location.lng(),
-            };
-  
-            // Imposta le coordinate calcolate come HOME_COORDS
-            setHomeCoords(latLng);
-          } else {
-            alert("Non è stato possibile trovare l'indirizzo. Riprova con un altro.");
-          }
-        } catch (error) {
-          console.error("Errore durante la geocodifica:", error);
-          alert("Si è verificato un errore durante il calcolo delle coordinate. Riprova.");
-        }
-      } else {
-        alert("Le API di Google Maps non sono disponibili.");
-      }
-    }
-    
-  };
 
   // Gestione dei tocchi sulla mappa per abilitare/disabilitare lo swipe
   const handleTouchStart = (event: React.TouchEvent) => {
@@ -224,14 +188,17 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
       setShowSuggestions(null);
     }
   };
+  useEffect(() => {
+    if (destinationCoords) {
+      console.log("Destinazione aggiornata:", destinationCoords);
+    }
+  }, [destinationCoords]);
 
   const handleNavigateToHome = async() => {
     if (!currentPosition) {
       alert("Posizione corrente non disponibile.");
       return;
     }
-      
-      
         // Ottieni il servizio di geocodifica dalla libreria di Google Maps
     
         if (google) {
@@ -257,28 +224,28 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
         } else {
           alert("Le API di Google Maps non sono disponibili.");
         }
-    
   };
 
   // UseEffect per verificare quando homeCoords è stato aggiornato
-useEffect(() => {
-  if (homeCoords) {
-      // Esegui la logica di navigazione solo quando homeCoords è disponibile
-      if (!currentPosition) {
-          alert("Posizione corrente non disponibile.");
-          return;
-      }
+  useEffect(() => {
+    if (homeCoords) {
+        // Esegui la logica di navigazione solo quando homeCoords è disponibile
+        if (!currentPosition) {
+            alert("Posizione corrente non disponibile.");
+            return;
+        }
 
-      const pos = `${currentPosition.lat}, ${currentPosition.lng}`;
-      const dest = `${homeCoords.lat}, ${homeCoords.lng}`;
-      setOrigin(pos);
-      setDestination(dest);
-      setDestinationCoords(homeCoords);
-      setIsStandard(false);
-      setIsNavigationStarted(true);
-      handleStartHomeNavigation();
-  }
-}, [homeCoords]); // Il codice sopra verrà eseguito quando homeCoords cambierà
+        const pos = `${currentPosition.lat}, ${currentPosition.lng}`;
+        const dest = `${homeCoords.lat}, ${homeCoords.lng}`;
+        setOrigin(pos);
+        setDestination(dest);
+        setDestinationCoords(homeCoords);
+        setIsFlagHome(true)
+        setIsStandard(false);
+        setIsNavigationStarted(true);
+        handleStartHomeNavigation();
+    }
+  }, [homeCoords]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, type: "origin" | "destination") => {
     const value = e.target.value;
@@ -341,23 +308,9 @@ useEffect(() => {
 
   };
 
-  const handleStartHomeNavigation = async () => {
-     
+  const handleStartHomeNavigation = async () => {   
     setIsNavigationStarted(true); // Inizia la navigazione
-    setShowPopup(false); // Chiudi il popup
     setIsStandard(false);
-  
-    if (destination) {
-      const geocoder = new google.maps.Geocoder();
-      geocoder.geocode({ address: destination }, (results, status) => {
-        if (status === google.maps.GeocoderStatus.OK && results && results.length > 0) {
-          const coords = results[0].geometry.location;
-          setDestinationCoords({ lat: coords.lat(), lng: coords.lng() });
-        } else {
-          console.error("Errore nella geocodifica:", status);
-        }
-      });
-    }
   };
 
   const handleStartNavigation = async () => {
@@ -381,6 +334,7 @@ useEffect(() => {
         }
       });
     }
+    setIsFlagGeneric(true);
   };
   
   const handleExitNavigation = () => {
@@ -388,6 +342,8 @@ useEffect(() => {
     setOrigin(""); // Cancella l'origine
     setDestination(""); // Cancella la destinazione
     setDestinationCoords(null); // Cancella le coordinate della destinazione
+    setIsFlagHome(false);
+    setIsFlagGeneric(false);
 
     // Resetta il percorso visualizzato
     const directionsRenderer = new google.maps.DirectionsRenderer();
@@ -505,8 +461,14 @@ useEffect(() => {
           )}
 
           {/* Aggiungi il marker sulla destinazione */}
-          {destinationCoords && (
+          {isFlagGeneric && (
             <AdvancedMarker position={destinationCoords}>
+              <div style={styles.flag}></div>
+            </AdvancedMarker>
+          )}
+          {/* Aggiungi il marker sulla destinazione home */}
+          {isFlagHome && (
+            <AdvancedMarker position={homeCoords}>
               <div style={styles.flag}></div>
             </AdvancedMarker>
           )}
