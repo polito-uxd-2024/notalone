@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Button } from "react-bootstrap";
+        
 import {
   APIProvider,
   Map,
@@ -27,6 +28,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
   const [isStandard, setIsStandard] = useState(false); //Stato per gestire se è un percorso precaricato o no
   const [isFlagHome, setIsFlagHome] = useState(false);
   const [isFlagGeneric, setIsFlagGeneric] = useState(false);
+  const [isPopAlert, setIsPopAlert] = useState(false);
   const [destinationCoords, setDestinationCoords] = useState<LatLng | null>(null); // Stato per memorizzare le coordinate della destinazione
   const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(
     null
@@ -36,6 +38,12 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
   let color = "";
   const [homeCoords, setHomeCoords] = useState<LatLng | null>(null); // Stato per l'indirizzo di casa
   const isHomeInitialized = useRef(false); // Riferimento per verificare l'inizializzazione
+  const [steps, setSteps] = useState<google.maps.DirectionsStep[]>([]);
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const stripHtml = (html: string) => html.replace(/<\/?[^>]+(>|$)/g, "");
+  const red = "#FF0000";
+  const green = "#00FF00";
+  const yellow = "#FFA500";
 
   
 
@@ -100,6 +108,10 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
     
   ];
 
+  const handleSetSteps = (newSteps: google.maps.DirectionsStep[]) => {
+    setSteps(newSteps);
+  };
+
   // Gestione dei tocchi sulla mappa per abilitare/disabilitare lo swipe
   const handleTouchStart = (event: React.TouchEvent) => {
     if (event.touches.length === 1) {
@@ -135,7 +147,6 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
     }
   };
   
-
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -389,7 +400,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
       />
     </Button>
 
-        {!isNavigationStarted && (
+    {!isNavigationStarted && (
       <Button
         style={{
           position: "absolute",
@@ -411,6 +422,60 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
       </Button>
     )}
 
+    {/* Legenda */}
+    <div
+      style={{
+        position: "absolute",
+        top: "20px",
+        left: "20px",
+        background: "rgb(221, 221, 248)",
+        borderRadius: "20px", // Bordi molto arrotondati
+        padding: "10px",
+        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", // Effetto ombra per il riquadro
+        zIndex: 2, // Assicurati che la legenda sia sopra la mappa
+      }}
+    >
+      <h4 style={{ margin: "0 0 10px 0", fontSize: "14px", fontWeight: "bold" }}>
+        Legenda
+      </h4>
+      <div style={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>
+        <div
+          style={{
+            width: "20px",
+            height: "4px",
+            backgroundColor: green,
+            marginRight: "8px",
+            borderRadius: "2px",
+          }}
+        ></div>
+        <span style={{ fontSize: "15px" }}>Sicura</span>
+      </div>
+      <div style={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>
+        <div
+          style={{
+            width: "20px",
+            height: "4px",
+            backgroundColor: yellow,
+            marginRight: "8px",
+            borderRadius: "2px",
+          }}
+        ></div>
+        <span style={{ fontSize: "15px" }}>Possibili rischi</span>
+      </div>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <div
+          style={{
+            width: "20px",
+            height: "4px",
+            backgroundColor: red,
+            marginRight: "8px",
+            borderRadius: "2px",
+          }}
+        ></div>
+        <span style={{ fontSize: "15px" }}>Rischiosa</span>
+      </div>
+    </div>
+
 
     <APIProvider apiKey={"AIzaSyBKdoXYHzSpJ6wc3AGnZVEjef8NYNUACyc"}>
       <div
@@ -427,6 +492,8 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
           fullscreenControl={false}
           gestureHandling="greedy"
           streetViewControl={false}
+          mapTypeId="terrain" // Imposta la mappa su rilievo
+          mapTypeControl={false} // Disabilita il toggle tra i tipi di mappa
         >
           <AdvancedMarker position={currentPosition}>
             <div style={styles.circle}></div>
@@ -444,6 +511,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
               clearDirections={!isNavigationStarted}
               usePolylineOnly={true}
               color = {color}
+              handleSetSteps={handleSetSteps}
             />
           ))}
         </>
@@ -457,6 +525,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
               clearDirections={!isNavigationStarted}
               usePolylineOnly={false}
               color = {color}
+              handleSetSteps={handleSetSteps}
             />
           )}
 
@@ -480,16 +549,38 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
             <span style={styles.searchText}>Cerca un percorso...</span>
           </div>
         )}
+        
 
-        {/* Bottone di uscita dalla navigazione */}
         {isNavigationStarted && (
-          <div
-            style={styles.exitButton}
-            onClick={handleExitNavigation}
-          >
-            <span style={styles.exitText}>X</span>
+          <div style={styles.navigationBar}>
+
+            <button
+              style={styles.exitNavigationButton}
+              onClick={handleExitNavigation}
+            >
+               <img
+                src="/notalone/exit.png"
+                alt="Exit"
+                style={styles.exitImage}
+              />
+            </button>
+
+            <div style={styles.directionsText}>
+              {currentStepIndex < steps.length ? (
+                <>
+                  <p>{stripHtml(steps[currentStepIndex]?.instructions || "")}</p>    
+                  <p>
+                    <strong>Distanza:</strong> {steps[currentStepIndex]?.distance?.text}
+                  </p>
+                </>
+              ) : (
+                <p>Hai raggiunto la destinazione!</p>
+              )}
+            </div> 
+            
           </div>
         )}
+
 
         {/* Popup modale per l'inserimento */}
         {showPopup && !isNavigationStarted && (
@@ -559,7 +650,8 @@ const Directions = ({
   currentPosition,
   clearDirections,
   usePolylineOnly, // Aggiunto parametro per differenziare il comportamento
-  color
+  color,
+  handleSetSteps
 }: {
   origin: string;
   destination: string;
@@ -567,6 +659,7 @@ const Directions = ({
   clearDirections: boolean;
   usePolylineOnly: boolean; // Parametro booleano per scegliere il comportamento
   color : string;
+  handleSetSteps
 }) => {
   const map = useMap();
   const routesLibrary = useMapsLibrary("routes");
@@ -624,6 +717,7 @@ const Directions = ({
           const pathArray = route.map((point: google.maps.LatLng) => point); // Mantieni i LatLng come sono
 
           setPath(pathArray); // Salva il percorso per la Polyline
+          
         })
         .catch((err) => console.error("Errore Polyline:", err));
     } else {
@@ -637,7 +731,19 @@ const Directions = ({
         })
         .then((response) => {
           // Imposta le indicazioni e il percorso per il renderer
-          directionsRenderer.setDirections(response);
+          const legs = response.routes[0]?.legs[0];
+        if (legs) {
+          handleSetSteps(legs.steps); // Salva i passi per la navigazione
+        }
+         // Percorso sulla mappa in viola
+         directionsRenderer.setOptions({
+          directions: response,
+          polylineOptions: {
+            strokeColor: "#800080", // Viola
+            strokeOpacity: 1, 
+            strokeWeight: 5, 
+          },
+        });
         })
         .catch((err) => console.error("Errore Directions:", err));
     }
@@ -739,17 +845,8 @@ const styles = {
     marginBottom: "15px",
     position: "relative" as const,
   },
-  labelContainer2: {
-    marginTop: "20px",
-    position: "relative" as const,
-  },
   inputContainer: {
     position: "relative" as const,
-  },
-  inputContainer2: {
-    position: "relative" as const,
-    marginTop: "5px",
-    backgroundColor: "rgba(185, 9, 9, 0.65)"
   },
   clearButton: {
     position: "absolute" as const,
@@ -758,6 +855,32 @@ const styles = {
     transform: "translateY(-50%)",
     color: "#aaa",
     cursor: "pointer",
+  },
+  navigationBar: {
+    position: "absolute" as const,
+    bottom: 35,
+    left: 20,
+    width: "75%",
+    borderRadius: "25px",
+    backgroundColor: "rgb(226, 226, 245)",
+    boxShadow: "0px -2px 10px rgba(0,0,0,0.1)",
+    padding: "10px 20px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    zIndex: 3,
+  },
+  directionsText: {
+    fontSize: "16px",
+    color: "#333",
+  },
+  exitNavigationButton: {
+    background: "transparent",
+    border: "none",
+  },
+  exitImage: {
+    width: "60px",
+    height: "60px",
   },
   clearButton2: {
     position: "absolute" as const,
@@ -829,14 +952,4 @@ const styles = {
     padding: "10px 20px",
     cursor: "pointer",
   },
-  startButton2: {
-    background: "#d4edda", // Colore di sfondo per il pulsante "Avvia"
-    color: "#155724", // Colore del testo per il pulsante "Avvia"
-    border: "none",
-    borderRadius: "4px",
-    padding: "10px 18px",
-    cursor: "pointer",
-    marginLeft: "90px",
-    marginTop: "30px"
-  }   
 };
