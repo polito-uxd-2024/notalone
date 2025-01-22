@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Button } from "react-bootstrap";
-        
+import { Message } from 'primereact/message';
+
 import {
   APIProvider,
   Map,
@@ -28,7 +29,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
   const [isStandard, setIsStandard] = useState(false); //Stato per gestire se è un percorso precaricato o no
   const [isFlagHome, setIsFlagHome] = useState(false);
   const [isFlagGeneric, setIsFlagGeneric] = useState(false);
-  const [isPopAlert, setIsPopAlert] = useState(false);
+  const [inputAlert, setInputAlert] = useState(false);
   const [destinationCoords, setDestinationCoords] = useState<LatLng | null>(null); // Stato per memorizzare le coordinate della destinazione
   const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(
     null
@@ -44,6 +45,12 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
   const red = "#FF0000";
   const green = "#00FF00";
   const yellow = "#FFA500";
+  const content = (
+    <div className="flex align-items-center">
+        <img alt="logo" src="/notalone/al_triste.svg" width="42" />
+        <div className="ml-2"><strong>Inserisci sia origine che destinazione</strong></div>
+    </div>
+);
 
   
 
@@ -326,7 +333,8 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
 
   const handleStartNavigation = async () => {
     if (!origin || !destination) {
-      alert("Inserisci sia l'origine che la destinazione per avviare la navigazione.");
+      setShowPopup(false);
+      setInputAlert(true);
       return;
     }
   
@@ -426,8 +434,8 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
     <div
       style={{
         position: "absolute",
-        top: "20px",
-        left: "20px",
+        top: "10px",
+        left: "10px",
         background: "rgb(221, 221, 248)",
         borderRadius: "20px", // Bordi molto arrotondati
         padding: "10px",
@@ -581,6 +589,27 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
           </div>
         )}
 
+        {/* Pop up quando si preme Avvia senza aver messo orgine o destinazione */}
+        {inputAlert &&(
+        <div style={styles.popupOverlay}>
+          <div style={styles.card}>
+            <Message
+              style={{
+                      border: 'none',
+                      color: '#696cff',
+                      width: "100%"
+              }}
+              className="border-primary w-full justify-content-start"
+              severity="info"
+              content={content}
+            />
+            <span style={styles.clearButton2} onClick={() => setInputAlert(false)}>
+                   ✕
+            </span>
+          </div>
+        </div>
+        )}
+        
 
         {/* Popup modale per l'inserimento */}
         {showPopup && !isNavigationStarted && (
@@ -740,7 +769,7 @@ const Directions = ({
           directions: response,
           polylineOptions: {
             strokeColor: "#800080", // Viola
-            strokeOpacity: 1, 
+            strokeOpacity: 0.8, 
             strokeWeight: 5, 
           },
         });
@@ -832,6 +861,15 @@ const styles = {
     justifyContent: "center",
     zIndex: "10",
   },
+  card: {
+    width: "200px",
+    background: "rgb(241, 241, 241)",
+    borderRadius: "8px",
+    padding: "20px",
+    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+    textAlign: "center" as const,
+    zIndex: "10",
+  },
   popup: {
     width: "300px",
     background: "#fff",
@@ -858,7 +896,7 @@ const styles = {
   },
   navigationBar: {
     position: "absolute" as const,
-    bottom: 35,
+    bottom: 20,
     left: 20,
     width: "75%",
     borderRadius: "25px",
@@ -884,8 +922,7 @@ const styles = {
   },
   clearButton2: {
     position: "absolute" as const,
-    right: "10px",
-    top: "50%",
+    right:"112px",
     transform: "translateY(-50%)",
     color: "#aaa",
     cursor: "pointer",
