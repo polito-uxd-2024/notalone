@@ -1,7 +1,7 @@
 {
   "name": "notAlone",
   "short_name": "notAlone",
-  "pubblisher": "BLANK",
+  "publisher": "BLANK",
   "icons": [
     {
       "src": "/pwa-192x192.png",
