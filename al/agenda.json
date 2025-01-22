@@ -16,5 +16,11 @@
     "attività": "Cena con amici",
     "data": "2025-01-16",
     "ora": "20:00"
+  },
+  {
+    "id": "evento4",
+    "attività": "New Event Name",
+    "data": "YYYY-MM-DD",
+    "ora": "HH:mm"
   }
 ]
