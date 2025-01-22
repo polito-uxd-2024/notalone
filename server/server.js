@@ -6,6 +6,8 @@ import path from 'path';
 import * as fs from 'fs/promises';
 // import ngrok from '@ngrok/ngrok';
 
+// ngrok http --url=better-adversely-insect.ngrok-free.app 80
+
 const app = express();
 // const ngrok = NgrokClient();
 const port = 80;

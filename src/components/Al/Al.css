@@ -126,6 +126,7 @@
 .input-box button:hover {
   background-color: var(--bs-primary);
 }
+
 .al-container {
   display: flex;
   flex-direction: row;
@@ -134,6 +135,7 @@
   justify-content: center;
   align-items: start;
 }
+
 .al-container .bottom-row-wrapper {
   margin: 20px;
   padding: 20px;
@@ -146,22 +148,28 @@
 	padding: 10px;
 	min-height: 80%;
 	width: 90%;
-	background-color: white;
+	/* background-color: white; */
 	border-radius: 20px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
+  align-items: center;
 }
 
 .al-home-image-container {
   display: flex;
   justify-content: center;
+  margin-bottom: 1rem;
+}
+.al-home-image-wrapper {
+  display: flex;
+  position: relative;
 }
 
 .al-home-image {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
+  width: 12rem;
+  height: 12rem;
+  /* border-radius: 50%; */
 }
 
 .al-home-message {
@@ -169,14 +177,15 @@
   /* color: var(--bs-dark); */
   display: inline-block;
   padding: 10px 20px;
-  border-radius: 0px 20px 20px 20px;
+  border-radius: 20px 20px 20px 20px;
   margin-bottom: 20px;
 }
 
 .al-home-buttons {
   display: flex;
-  justify-content: space-between;
-  padding: 0 20px;
+  justify-content: space-around;
+  width: 100%;
+
 }
 
 .al-home-button {
@@ -184,27 +193,54 @@
   padding: 10px;
   color: white;
   border-radius: 20px;
-  cursor: pointer;
   align-content: center;
+  
 }
+
+.settings-button {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0rem;
+  height: 3rem;
+  width: 3rem;
+  background-color: rgba(var(--bs-primary-rgb), 1); /* Colore del pulsante */
+  border-radius: 50%; /* Forma rotonda */
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  /* filter: drop-shadow(0px 6px 10px rgba(0, 0, 0, 0.3)) drop-shadow(0px 4px 12px rgba(var(--bs-primary-rgb), 0.4)); */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2), 0 6px 12px rgba(var(--bs-primary-rgb), 0.6);
+}
+
+.settings-button i {
+  font-size: 2rem; /* Dimensione dell'icona */
+  color: white;
+}
+
 
 .chat {
-  background-color: rgba(var(--bs-primary-rgb), 0.85);
+  background-color: rgba(var(--bs-chat-rgb), 0.85);
+  /* filter: drop-shadow(0px 6px 10px rgba(0, 0, 0, 0.3)) drop-shadow(0px 6px 12px rgba(var(--bs-primary-rgb), 0.4)); */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2), 0 6px 12px rgba(var(--bs-chat-rgb), 0.6);
 }
-
 .call {
-  background-color: rgba(var(--bs-primary-2-rgb), 0.85);
+  background-color: rgba(var(--bs-call-rgb), 0.85);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2), 0 6px 12px rgba(var(--bs-call-rgb), 0.6);
 }
 
 .icon-wrapper {
   height: 4rem;
   width: 4rem;
-  /* background-color: white; */
+
 }
 
 .chat-icon {
   background: url('/call/chat.svg') no-repeat;
   background-size: contain;
+
 }
 
 .call-icon {

@@ -6,6 +6,13 @@ import  Maps  from './Maps/Maps';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { ConfirmDialog } from "primereact/confirmdialog";
 import 'swiper/css';
+import alIcon from "/icons/al.svg"
+import alIconW from "/icons/al_white.svg"
+import alIconD from "/icons/al_disabled.svg"
+import sosIcon from "/icons/sos.svg"
+import sosIconW from "/icons/sos_white.svg"
+import mapsIcon from "/icons/maps.svg"
+import mapsIconW from "/icons/maps_white.svg"
 
 
 /**TODO
@@ -33,9 +40,9 @@ function MainLayout () {
   const swiperRef = useRef(null);
   
   const tabs = [
-    { tab: "Maps", shift: "34%" },
-    { tab: "Al", shift: "0%" },
-    { tab: "SOS", shift: "-34%" },
+    { tab: "Mappe", shift: "33.333%", icon: mapsIcon, iconW: mapsIconW, iconD: mapsIcon },
+    { tab: "Al", shift: "0%", icon: alIcon, iconW: alIconW, iconD: alIconD },
+    { tab: "SOS", shift: "-33.333%", icon: sosIcon, iconW: sosIconW, iconD: sosIconW },
   ];
   
   const disableSwipe = () => {
@@ -124,6 +131,7 @@ function MainLayout () {
         console.log('event state');
         startChat(false);
         startCall(false);
+        handleLocationChange(1)
       }
     };
     
@@ -154,17 +162,17 @@ function MainLayout () {
      {settings?
       <div className="below-nav">
         <div className="tabs-wrapper">
-            <div className="tabs" ref={tabsRef}>
-              <div
-                className={`tab active`}
-              >
-                Settings
-              </div>
+          <div className="tabs" ref={tabsRef}>
+            <div
+              className={`tab active`}
+            >
+              Settings
             </div>
           </div>
-          <div className="below-tab">
-            <Settings handleSettings={handleSettings} handleNewSettings={handleNewSettings} voice={voice} language={language} al={al} street={street}/>
-          </div>
+        </div>
+        <div className="below-tab">
+          <Settings handleSettings={handleSettings} handleNewSettings={handleNewSettings} voice={voice} language={language} al={al} street={street}/>
+        </div>
       </div>
       :
       <>
@@ -177,7 +185,10 @@ function MainLayout () {
                 className={`tab ${activeTab === index ? "active" : (activeTab === 2 ? "disabled" : "")}`}
                 onClick={(e) => handleTabClick(e, index)}
               >
-                {tab.tab}
+                <div className='tab'>
+                  <img src={activeTab === index ? tab.iconW : (activeTab === 2 ? tab.iconD : tab.icon)} alt={tab.tab} />
+                  {tab.tab}
+                </div>
               </div>
               ))}
             </div>
@@ -217,8 +228,8 @@ function MainLayout () {
             touchAngle={45}
             grabCursor={true}
             >
-            <SwiperSlide><Maps handleTabClick={handleTabClick} disableSwipe={disableSwipe} enableSwipe={enableSwipe}/></SwiperSlide>
-            <SwiperSlide><Al chatStarted={chatStarted} handleStart={handleStart} inCall={inCall} handleEndCall={handleEndCall} handleSettings={handleSettings} handleTabClick={handleTabClick} /></SwiperSlide>
+            <SwiperSlide><Maps handleLocationChange={handleLocationChange} disableSwipe={disableSwipe} enableSwipe={enableSwipe}/></SwiperSlide>
+            <SwiperSlide><Al chatStarted={chatStarted} handleStart={handleStart} inCall={inCall} handleEndCall={handleEndCall} handleSettings={handleSettings} handleLocationChange={handleLocationChange} /></SwiperSlide>
             <SwiperSlide><SOS handleBack={handleBack} tab={activeTab}/></SwiperSlide>
           </Swiper>
         </div>

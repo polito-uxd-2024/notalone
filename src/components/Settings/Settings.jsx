@@ -48,7 +48,7 @@ function Settings({handleSettings, handleNewSettings, voice, al, language, stree
   return (
     <>
     <div className="settings-container">
-        <div className="mt-4 settings-wrapper">
+        <div className="settings-wrapper">
         <div>
             <Fieldset legend="Maps" toggleable>
             <div className="flex flex-column gap-1">

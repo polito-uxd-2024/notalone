@@ -27,7 +27,9 @@
   --bs-success: #3f9971;
   --bs-warning: #bc8839;
   --bs-danger: #f44336;
-
+  --bs-call: var(--bs-primary-2);
+  --bs-chat: var(--bs-primary);
+  
   --bs-white-rgb: 244, 242, 247;
   --body-bg-rgb: 244, 242, 247;
   --red-rgb: 186, 64, 88;
@@ -44,6 +46,8 @@
   --bs-success-rgb: 63, 153, 113;
   --bs-warning-rgb: 188, 136, 57;
   --bs-danger-rgb: 244, 67, 54;
+  --bs-call-rgb: var(--bs-primary-2-rgb);
+  --bs-chat-rgb: var(--bs-primary-rgb);
   
   font-family: 'Gill Sans Nova', sans-serif;
   max-width: 412px;

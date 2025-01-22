@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import './SOS.css'
 
-const seconds = 15;
+const seconds = 1500;
 
 const formatDuration = (seconds) => {
   const hours = Math.floor(seconds / 3600);
@@ -47,25 +47,26 @@ function SOSHome({handleCancel, tab, handleCall}) {
   return (
     <div className="sos-container">
       <div className="sos-wrapper">
-      <div
-        className="sos-button"
-        onClick={handleCall}
-        />
-      <div className="sos-al">
-        <div className="al-home-image-container">
-          <img src="al/al_sad.svg" alt="Al" className="al-home-image" style={{height: '4rem', width: '4rem'}} />
+        <div>
+          <div className="sos-button-container" onClick={handleCall}>
+            <div className="sos-button-wrapper">
+              <img src="icons/sos_white.svg" alt="Al" className="sos-button"/>
+            </div>
+          </div>
+          <div className="sos-al">
+            <img src="al/al_sad.svg" alt="Al" className="al-home-image"/>
+            <div className="sos-calling-message">
+            <h2>Se vuoi allertare i soccorsi premi il pulsante sopra, la chiamata partirà tra:</h2>
+            </div>
+          </div>
         </div>
-        <div className="sos-calling-message mt-2 mb-2">
-          <h2>Se vuoi allertare i soccorsi premi il pulsante sopra, la chiamata partirà tra:</h2>
-        </div>
-      </div>
       {tab==2?
         <Timer handleCall={handleCall}/>
         :
-        <h1 className="sos-timer mt-4">{formatDuration(15)}</h1>
+        <h1 className="sos-timer">{formatDuration(15)}</h1>
       }
       </div>
-      <div className="mt-4 button-wrapper">
+      <div className="button-wrapper">
       <div className="cancel-button" onClick={handleCancel}>
        <h1> ANNULLA </h1>  
       </div>
@@ -89,7 +90,7 @@ function Timer({handleCall}) {
   }, [timer]);
   
   return (
-    <h1 className="sos-timer mt-4">{formatDuration(timer)}</h1>
+    <h1 className="sos-timer">{formatDuration(timer)}</h1>
   )
 }
 function SOSCall({ handleCancel }) {

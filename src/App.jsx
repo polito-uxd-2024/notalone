@@ -14,6 +14,10 @@ import { MainLayout } from './components/PageLayout'
 
 function App() {
   return (
+    // <>
+    //   <Navigation />
+    //   <MainLayout />
+    // </>
     <HashRouter>
       <Navigation />
       <MainLayout />

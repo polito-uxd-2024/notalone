@@ -1,6 +1,7 @@
 {
-  "name": "App",
-  "short_name": "App",
+  "name": "notAlone",
+  "short_name": "notAlone",
+  "publisher": "BLANK",
   "icons": [
     {
       "src": "/pwa-192x192.png",
@@ -27,7 +28,7 @@
       "purpose": "maskable"
     }
   ],
-  "start_url": "/",
+  "start_url": "/notalone",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff"

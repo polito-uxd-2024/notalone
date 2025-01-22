@@ -5,7 +5,7 @@ import { AlCall } from './AlCall'
 
 function Al(props) {
     const [chatHistory, setChatHistory] = useState([]);
-    const {chatStarted, inCall, handleStart, handleEndCall, handleSettings, handleTabClick} = props;
+    const {chatStarted, inCall, handleStart, handleEndCall, handleSettings, handleLocationChange} = props;
     return (
         <>
         {chatStarted?
@@ -13,7 +13,7 @@ function Al(props) {
           inCall?
           <AlCall handleCancel={handleEndCall}/>
           :
-          <AlChat chatHistory={chatHistory} setChatHistory={setChatHistory} handleStart={handleStart} handleSettings={handleSettings} handleTabClick={handleTabClick}/>
+          <AlChat chatHistory={chatHistory} setChatHistory={setChatHistory} handleStart={handleStart} handleSettings={handleSettings} handleLocationChange={handleLocationChange}/>
         )
             :
         (
@@ -34,15 +34,26 @@ function AlHome({handleStart, handleSettings}) {
           <div className="al-wrapper">
           <div>
           <div className="al-home-image-container">
-            <img src="al/al.svg" alt="Al" className="al-home-image" onClick={() => handleSettings(true)}/>
+           <div  className="al-home-image-wrapper"  onClick={() => handleSettings(true)}>
+           <img src="al/al.svg" alt="Al" className="al-home-image"/>
+            <div className="settings-button">
+            <i className="pi pi-cog"></i>
+           </div>
+          </div>
           </div>
           <div className="al-home-message mt-2">
-            <h2>Ciao! Sono Al, il tuo assistente virtuale. <br/> Come posso aiutarti?</h2>
+            <h2>Ciao! Sono Al, il tuo assistente virtuale.<br/> Come posso aiutarti?</h2>
           </div>
           </div>
           <div className="al-home-buttons">
-            <div className="al-home-button chat" onClick={() => handleStart(true, false)}><div className="icon-wrapper chat-icon"/></div>
-            <div className="al-home-button call" onClick={() => handleStart(false, true)}><div className="icon-wrapper call-icon"/></div>
+            <div id="chat" className="al-home-button chat" onClick={() => handleStart(true, false)}>
+              <div className="icon-wrapper chat-icon"/>
+              <label htmlFor="chat">Chat</label>
+            </div>
+            <div id="call" className="al-home-button call" onClick={() => handleStart(false, true)}>
+              <div className="icon-wrapper call-icon"/>
+            <label htmlFor="call">Chiamata</label>
+              </div>
           </div>
         </div>
         </div>
