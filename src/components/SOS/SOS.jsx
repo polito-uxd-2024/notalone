@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import './SOS.css'
 
-const seconds = 1500;
+const seconds = 15;
 
 const formatDuration = (seconds) => {
   const hours = Math.floor(seconds / 3600);

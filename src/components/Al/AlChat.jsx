@@ -158,6 +158,13 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handl
     const randomIndex = Math.floor(Math.random() * errorMessages.length);
     return errorMessages[randomIndex];
   }
+
+  const moveToLocation = (index) => {
+    setTimeout(() => {
+      // La funzione che vuoi eseguire dopo 3 secondi
+      handleLocationChange(index)
+    }, 2000); // 3000 millisecondi = 3 secondi
+  }
   
   // HANDLE per eliminare il messaggio di benvenuto quando viene selezionato un bottone o inviato un messaggio
   const handleStartingMessage = (idToDelete) => {
@@ -210,10 +217,10 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handl
       const newResponse = { sender: 'bot', text: data.fulfillmentText, intent: data.intent};
       const myAgenda = [...agenda]
       if (data.fulfillmentText === 'SOS') {
-        handleLocationChange(2)
+        moveToLocation(2)
         newResponse.text = 'Non preoccuparti, sto aprendo le informazioni di emergenza per te.'
       } else if (data.fulfillmentText === 'Mappa') {
-        handleLocationChange(0)
+        moveToLocation(0)
         newResponse.text = 'Posso aiutarti a trovare il percorso migliore per arrivare a casa. Sto aprendo la mappa per te!'
       }
       if (data.fulfillmentText === "codeShowAgenda") {
@@ -328,7 +335,7 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handl
               if (e.key === "Enter" && loadingMessage) handleSendMessage(); }
             }
           />
-          <button onClick={() => loadingMessage && handleSendMessage()}>Invia</button>
+          <button onClick={() => loadingMessage && handleSendMessage()}>{loadingMessage? <i className='pi pi-send send-button' style={{transform: 'rotate(45deg)'}}/> : <i className="pi pi-spin pi-spinner send-button"/>}</button>
         </div>
       </div>
 

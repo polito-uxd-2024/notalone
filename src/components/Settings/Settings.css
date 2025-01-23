@@ -36,7 +36,7 @@
 .settings-container .p-fieldset.p-fieldset-toggleable .p-fieldset-legend a {
 	padding: 0.75rem;
 }
-.settings-container .p-inputtext{
+.p-inputtext{
 	font-size: 15px;
 	border-radius: var(--border-radius);
 }
