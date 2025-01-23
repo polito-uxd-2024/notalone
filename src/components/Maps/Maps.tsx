@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Button } from "react-bootstrap";
 import { Message } from 'primereact/message';
+import "./Maps.css"
 
 import {
   APIProvider,
@@ -19,7 +20,7 @@ type LatLng = {
 
 //const HOME_COORDS: LatLng = { lat: 45.073529, lng: 7.669068 }; // Piazza Statuto, Torino
 
-export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAddress }: { disableSwipe: () => void; enableSwipe: () => void; handleTabClick: (e, index) => void; homeAddress }) {
+export default function Maps({ disableSwipe, enableSwipe, handleLocationChange, homeAddress }: { disableSwipe: () => void; enableSwipe: () => void; handleLocationChange: (index) => void; homeAddress }) {
   const [currentPosition, setCurrentPosition] = useState<LatLng | null>(null);
   const [showPopup, setShowPopup] = useState(false); // Controlla se il popup è visibile
   const [origin, setOrigin] = useState<string | null>(""); // Campo per l'origine
@@ -282,7 +283,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
     const currentInput = type === "origin" ? origin : destination;
     return (
       !currentInput && (
-        <div style={styles.suggestions} data-suggestions>
+        <div className="suggestions" data-suggestions>
           <p onClick={() => handleSetCurrentPosition(type)}>La mia posizione</p>
         </div>
       )
@@ -373,13 +374,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
   if (!currentPosition) {
     return (
       <div
-        style={{
-          height: "80vh",
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
+        className="loading-container"
       >
         <p>Caricamento posizione...</p>
       </div>
@@ -388,42 +383,24 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
 
   return (
     <>
-        <Button
-      style={{
-        position: "absolute",
-        bottom: "130px", // Sposta il pulsante sopra i tasti di zoom
-        right: "6px", // Allinea il pulsante a destra
-        background: "transparent",
-        border: "none",
-        padding: 0,
-        zIndex: 1, // Assicurati che il pulsante sia sopra la mappa
-        cursor: "pointer",
-      }}
-      onClick={(e) => handleTabClick(e, 2)}
+      <Button
+      className="maps-to-sos-button"
+      onClick={() => handleLocationChange(2)}
     >
       <img
-        src="/notalone/sos/sos_button.svg"
+        src="sos/sos_button.svg"
         alt="SOS Button"
-        style={{ width: "60px", height: "60px" }}
+        style={{ width: "5rem", height: "5rem" }}
       />
     </Button>
 
     {!isNavigationStarted && (
       <Button
-        style={{
-          position: "absolute",
-          bottom: "30px", // Sposta il pulsante sopra i tasti di zoom
-          right: "285px", // Allinea il pulsante a destra
-          background: "transparent",
-          border: "none",
-          padding: 0,
-          zIndex: 2, // Assicurati che il pulsante sia sopra la mappa
-          cursor: "pointer",
-        }}
+        className="home-button"
         onClick={handleNavigateToHome}
       >
         <img
-          src="/notalone/home_button.png"
+          src="home_button.png"
           alt="Home Button"
           style={{ width: "55px", height: "55px" }}
         />
@@ -432,16 +409,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
 
     {/* Legenda */}
     <div
-      style={{
-        position: "absolute",
-        top: "10px",
-        left: "10px",
-        background: "rgb(221, 221, 248)",
-        borderRadius: "20px", // Bordi molto arrotondati
-        padding: "10px",
-        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", // Effetto ombra per il riquadro
-        zIndex: 2, // Assicurati che la legenda sia sopra la mappa
-      }}
+      className="legenda-container"
     >
       <h4 style={{ margin: "0 0 10px 0", fontSize: "14px", fontWeight: "bold" }}>
         Legenda
@@ -456,7 +424,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
             borderRadius: "2px",
           }}
         ></div>
-        <span style={{ fontSize: "15px" }}>Sicura</span>
+        <span style={{ fontSize: "15px" }}>Strada sicura</span>
       </div>
       <div style={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>
         <div
@@ -468,7 +436,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
             borderRadius: "2px",
           }}
         ></div>
-        <span style={{ fontSize: "15px" }}>Possibili rischi</span>
+        <span style={{ fontSize: "15px" }}>Strada prudente</span>
       </div>
       <div style={{ display: "flex", alignItems: "center" }}>
         <div
@@ -480,14 +448,15 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
             borderRadius: "2px",
           }}
         ></div>
-        <span style={{ fontSize: "15px" }}>Rischiosa</span>
+        <span style={{ fontSize: "15px" }}>Strada critica</span>
       </div>
     </div>
 
 
     <APIProvider apiKey={"AIzaSyBKdoXYHzSpJ6wc3AGnZVEjef8NYNUACyc"}>
       <div
-        style={{  height: "70vh", width: "100%" }}
+      className="mt-4"
+        style={{  height: "80%", width: "100%" }}
         ref={mapRef} 
         onTouchStart={handleTouchStart} // Aggiungi gli eventi di touch direttamente alla mappa
         onTouchMove={handleTouchMove}
@@ -495,7 +464,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
       >
         <Map
           defaultCenter={currentPosition}
-          defaultZoom={14}
+          defaultZoom={16}
           mapId={"538ae0fea393aa85"}
           fullscreenControl={false}
           gestureHandling="greedy"
@@ -504,7 +473,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
           mapTypeControl={false} // Disabilita il toggle tra i tipi di mappa
         >
           <AdvancedMarker position={currentPosition}>
-            <div style={styles.circle}></div>
+            <div className="circle"></div>
           </AdvancedMarker>
 
           {origin && destination && isStandard && (
@@ -540,40 +509,40 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
           {/* Aggiungi il marker sulla destinazione */}
           {isFlagGeneric && (
             <AdvancedMarker position={destinationCoords}>
-              <div style={styles.flag}></div>
+              <div className="flag"></div>
             </AdvancedMarker>
           )}
           {/* Aggiungi il marker sulla destinazione home */}
           {isFlagHome && (
             <AdvancedMarker position={homeCoords}>
-              <div style={styles.flag}></div>
+              <div className="flag"></div>
             </AdvancedMarker>
           )}
         </Map>
 
         {/* Barra di ricerca */}
         {!isNavigationStarted && (
-          <div style={styles.searchBar} onClick={handleShowPopup}>
-            <span style={styles.searchText}>Cerca un percorso...</span>
+          <div className="searchBar" onClick={handleShowPopup}>
+            <span className="searchText">Cerca un percorso...</span>
           </div>
         )}
         
 
         {isNavigationStarted && (
-          <div style={styles.navigationBar}>
+          <div className="navigationBar">
 
             <button
-              style={styles.exitNavigationButton}
+              className="exitNavigationButton"
               onClick={handleExitNavigation}
             >
                <img
                 src="/notalone/exit.png"
                 alt="Exit"
-                style={styles.exitImage}
+                className="exitImage"
               />
             </button>
 
-            <div style={styles.directionsText}>
+            <div className="directionsText">
               {currentStepIndex < steps.length ? (
                 <>
                   <p>{stripHtml(steps[currentStepIndex]?.instructions || "")}</p>    
@@ -591,8 +560,8 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
 
         {/* Pop up quando si preme Avvia senza aver messo orgine o destinazione */}
         {inputAlert &&(
-        <div style={styles.popupOverlay}>
-          <div style={styles.card}>
+        <div className="popupOverlay">
+          <div className="card">
             <Message
               style={{
                       border: 'none',
@@ -603,7 +572,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
               severity="info"
               content={content}
             />
-            <span style={styles.clearButton2} onClick={() => setInputAlert(false)}>
+            <span className="clearButton2" onClick={() => setInputAlert(false)}>
                    ✕
             </span>
           </div>
@@ -613,14 +582,14 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
 
         {/* Popup modale per l'inserimento */}
         {showPopup && !isNavigationStarted && (
-          <div style={styles.popupOverlay}>
-            <div style={styles.popup}>
+          <div className="popupOverlay">
+            <div className="popup">
               <h2>Inserisci Percorso</h2>
               {/* Origine */}
-              <div style={styles.labelContainer}>
+              <div className="labelContainer">
                 <label>
                   Origine:
-                  <div style={styles.inputContainer}>
+                  <div className="inputContainer">
                     <input
                       type="text"
                       placeholder="Es. Piazza Castello"
@@ -629,7 +598,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
                       onFocus={() => setShowSuggestions("origin")}
                     />
                     {origin && (
-                      <span style={styles.clearButton} onClick={() => setOrigin("")}>
+                      <span className="clearButton" onClick={() => setOrigin("")}>
                         ✕
                       </span>
                     )}
@@ -639,10 +608,10 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
               </div>
 
               {/* Destinazione */}
-              <div style={styles.labelContainer}>
+              <div className="labelContainer">
                 <label>
                   Destinazione:
-                  <div style={styles.inputContainer}>
+                  <div className="inputContainer">
                     <input
                       type="text"
                       placeholder="Es. Piazza Vittorio"
@@ -651,7 +620,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
                       onFocus={() => setShowSuggestions("destination")}
                     />
                     {destination && (
-                      <span style={styles.clearButton} onClick={() => setDestination("")}>
+                      <span className="clearButton" onClick={() => setDestination("")}>
                         ✕
                       </span>
                     )}
@@ -659,9 +628,9 @@ export default function Maps({ disableSwipe, enableSwipe, handleTabClick, homeAd
                 </label>
                 {showSuggestions === "destination" && renderSuggestions("destination")}
               </div>
-              <div style={styles.buttonContainer}>
-                <button style={styles.closeButton} onClick={() => setShowPopup(false)}>Chiudi</button>
-                <button style={styles.startButton} onClick={handleStartNavigation}>Avvia</button>
+              <div className="buttonContainer">
+                <button className="closeButton" onClick={() => setShowPopup(false)}>Chiudi</button>
+                <button className="startButton" onClick={handleStartNavigation}>Avvia</button>
               </div>
 
             </div>
@@ -807,186 +776,4 @@ const Directions = ({
   }, [path, map, usePolylineOnly]);
 
   return null;
-};
-
-
-
-
-
-const styles = {
-  searchBar: {
-    position: "absolute" as const,
-    bottom: 40,
-    left: "52%",
-    transform: "translateX(-50%)",
-    width: "60%",
-    height: "40px",
-    background: "#fff",
-    borderRadius: "20px",
-    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    cursor: "pointer",
-  },
-  searchText: {
-    color: "#888",
-    fontSize: "16px",
-  },
-  circle: {
-    width: '25px',
-    height: '25px',
-    backgroundColor: 'blue',
-    borderRadius: '50%',
-    border: '4px solid white',
-    boxShadow: '0 0 5px rgba(0,0,0,0.3)',
-  },
-  popupContent: {
-    background: "white",
-    padding: 20,
-    borderRadius: 8,
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-    width: 300,
-    height: 220
-  },
-  popupOverlay: {
-    position: "absolute" as const,
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: "10",
-  },
-  card: {
-    width: "200px",
-    background: "rgb(241, 241, 241)",
-    borderRadius: "8px",
-    padding: "20px",
-    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-    textAlign: "center" as const,
-    zIndex: "10",
-  },
-  popup: {
-    width: "300px",
-    background: "#fff",
-    borderRadius: "8px",
-    padding: "20px",
-    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-    textAlign: "center" as const,
-    zIndex: "10",
-  },
-  labelContainer: {
-    marginBottom: "15px",
-    position: "relative" as const,
-  },
-  inputContainer: {
-    position: "relative" as const,
-  },
-  clearButton: {
-    position: "absolute" as const,
-    right: "10px",
-    top: "50%",
-    transform: "translateY(-50%)",
-    color: "#aaa",
-    cursor: "pointer",
-  },
-  navigationBar: {
-    position: "absolute" as const,
-    bottom: 20,
-    left: 20,
-    width: "75%",
-    borderRadius: "25px",
-    backgroundColor: "rgb(226, 226, 245)",
-    boxShadow: "0px -2px 10px rgba(0,0,0,0.1)",
-    padding: "10px 20px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    zIndex: 3,
-  },
-  directionsText: {
-    fontSize: "16px",
-    color: "#333",
-  },
-  exitNavigationButton: {
-    background: "transparent",
-    border: "none",
-  },
-  exitImage: {
-    width: "60px",
-    height: "60px",
-  },
-  clearButton2: {
-    position: "absolute" as const,
-    right:"112px",
-    transform: "translateY(-50%)",
-    color: "#aaa",
-    cursor: "pointer",
-  },
-  suggestions: {
-    position: "absolute" as const,
-    top: "100%",
-    left: 0,
-    backgroundColor: "#fff",
-    border: "1px solid #ddd",
-    borderRadius: "4px",
-    width: "100%",
-    zIndex: 10,
-  },
-  flag: {
-    position: "absolute" as const,
-    top: "50%",  // Aggiungi le posizioni necessarie
-    left: "50%", // Centra l'immagine
-    transform: "translate(-50%, -50%)", // Centra l'immagine
-    width: "30px",  // Puoi definire le dimensioni
-    height: "30px",  // Puoi definire le dimensioni
-    backgroundImage: "url('/notalone/FlagDest.png')", // Imposta l'immagine SVG come background
-    backgroundSize: "contain", // Rende l'immagine adattabile alle dimensioni
-    backgroundRepeat: "no-repeat", // Evita che l'immagine si ripeta
-    backgroundPosition: "center", // Posiziona l'immagine al centro
-  },
-   exitButton: {
-    position: "absolute" as const,
-    bottom: 40,
-    left: 160,
-    backgroundColor: "rgba(185, 9, 9, 0.65)",
-    borderRadius: "50%",
-    width: "54px", // Larghezza maggiore per rendere il pulsante più grande
-    height: "54px", // Altezza maggiore per un pulsante perfettamente circolare
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    cursor: "pointer",
-    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-  },
-  exitText: {
-    fontSize: "32px", // Testo più grande per la "X"
-    color: "white",
-    fontWeight: "bold",
-  },
-  buttonContainer: {
-    display: "flex",
-    justifyContent: "space-between", // Distribuisce i pulsanti a sinistra e a destra
-    marginTop: "20px", // Aggiungi un po' di spazio sopra i pulsanti
-  },
-  closeButton: {
-    background: "#f8d7da", // Colore di sfondo per il pulsante "Chiudi"
-    color: "#721c24", // Colore del testo per il pulsante "Chiudi"
-    border: "none",
-    borderRadius: "4px",
-    padding: "10px 20px",
-    cursor: "pointer",
-  },
-  startButton: {
-    background: "#d4edda", // Colore di sfondo per il pulsante "Avvia"
-    color: "#155724", // Colore del testo per il pulsante "Avvia"
-    border: "none",
-    borderRadius: "4px",
-    padding: "10px 20px",
-    cursor: "pointer",
-  },
 };

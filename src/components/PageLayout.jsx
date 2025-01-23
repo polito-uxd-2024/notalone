@@ -231,7 +231,7 @@ function MainLayout () {
             touchAngle={45}
             grabCursor={true}
             >
-            <SwiperSlide><Maps handleLocationChange={handleLocationChange} disableSwipe={disableSwipe} enableSwipe={enableSwipe}/></SwiperSlide>
+            <SwiperSlide><Maps handleLocationChange={handleLocationChange} disableSwipe={disableSwipe} enableSwipe={enableSwipe} homeAddress={"Via dell'Arsenale 34"}/></SwiperSlide>
             <SwiperSlide><Al chatStarted={chatStarted} handleStart={handleStart} inCall={inCall} handleEndCall={handleEndCall} handleSettings={handleSettings} handleLocationChange={handleLocationChange} /></SwiperSlide>
             <SwiperSlide><SOS handleBack={handleBack} tab={activeTab}/></SwiperSlide>
           </Swiper>
