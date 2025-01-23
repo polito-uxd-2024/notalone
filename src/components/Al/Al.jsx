@@ -5,6 +5,26 @@ import { AlCall } from './AlCall'
 
 function Al(props) {
     const [chatHistory, setChatHistory] = useState([]);
+    const [agenda, setAgenda] = useState([
+        {
+          id: "evento1",
+          attività: "Riunione strategica con il team",
+          data: "16 Gen 2025",
+          ora: "10:00"
+        },
+        {
+          id: "evento2",
+          attività: "Allenamento in palestra",
+          data: "16 Gen 2025",
+          ora: "18:30"
+        },
+        {
+          id: "evento3",
+          attività: "Cena conviviale con amici",
+          data: "16 Gen 2025",
+          ora: "20:00"
+        }
+      ]);
     const {chatStarted, inCall, handleStart, handleEndCall, handleSettings, handleLocationChange} = props;
     return (
         <>
@@ -13,7 +33,7 @@ function Al(props) {
           inCall?
           <AlCall handleCancel={handleEndCall}/>
           :
-          <AlChat chatHistory={chatHistory} setChatHistory={setChatHistory} handleStart={handleStart} handleSettings={handleSettings} handleLocationChange={handleLocationChange}/>
+          <AlChat chatHistory={chatHistory} setChatHistory={setChatHistory} handleStart={handleStart} handleSettings={handleSettings} handleLocationChange={handleLocationChange} agenda={agenda} setAgenda={setAgenda}/>
         )
             :
         (

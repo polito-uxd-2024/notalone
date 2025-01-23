@@ -20,6 +20,7 @@ import React, { useState, useEffect, useRef } from "react";
 import './Al.css';
 import { SpeedDial } from "primereact/speeddial";
 import { Skeleton } from 'primereact/skeleton';
+import { Tooltip } from 'primereact/tooltip';
         
 import alIcon from "/al/al.svg"
 // import {sendMessageToDialogflow} from './dialogflowService';
@@ -27,59 +28,58 @@ import alIcon from "/al/al.svg"
 
 
 
-function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handleLocationChange}) {
-  const [agenda, setAgenda] = useState([]);
+function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handleLocationChange, agenda, setAgenda}) {
   const [message, setMessage] = useState('');
   const [isNew, setNew] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState(true);
   const chatBoxRef = useRef(null);
   
-  async function ReadFromAgendaJSON() {
-    try{
-      const response = await fetch('/notalone/al/agenda.json');
-      const agenda = await response.json();
-      return agenda;
-    } catch (error) {
-      console.log('Errore fetching agenda:', error);
-      setChatHistory((prevHistory) => [
-        ...prevHistory,
-        { sender: 'bot', text: 'Errore nel recuperare la tua agenda, riprova più tardi' }
-      ]);
-      return ;  
-    }
-  }
+  // async function ReadFromAgendaJSON() {
+  //   try{
+  //     const response = await fetch('/notalone/al/agenda.json');
+  //     const agenda = await response.json();
+  //     return agenda;
+  //   } catch (error) {
+  //     console.log('Errore fetching agenda:', error);
+  //     setChatHistory((prevHistory) => [
+  //       ...prevHistory,
+  //       { sender: 'bot', text: 'Errore nel recuperare la tua agenda, riprova più tardi' }
+  //     ]);
+  //     return ;  
+  //   }
+  // }
   
-  async function AddAgendaEvent(NewAgendaEvent) {
-    try {
-      // console.log('Aggiungendo in agenda: ', NewAgendaEvent)
-      await fetch('https://better-adversely-insect.ngrok-free.app/api/agenda', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(NewAgendaEvent),
-      })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error('Errore fetch:', error));
-    } catch (error) {
-      console.log('Errore aggiunta evento:', error);
-      setChatHistory((prevHistory) => [
-        ...prevHistory,
-        { sender: 'bot', text:"'Errore nell'aggiornamento dell'agenda, riprova più tardi" }
-      ]);
-    } 
-  }
+  // async function AddAgendaEvent(NewAgendaEvent) {
+  //   try {
+  //     // console.log('Aggiungendo in agenda: ', NewAgendaEvent)
+  //     await fetch('https://better-adversely-insect.ngrok-free.app/api/agenda', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(NewAgendaEvent),
+  //     })
+  //     .then((response) => response.json())
+  //     .then((data) => console.log(data))
+  //     .catch((error) => console.error('Errore fetch:', error));
+  //   } catch (error) {
+  //     console.log('Errore aggiunta evento:', error);
+  //     setChatHistory((prevHistory) => [
+  //       ...prevHistory,
+  //       { sender: 'bot', text:"'Errore nell'aggiornamento dell'agenda, riprova più tardi" }
+  //     ]);
+  //   } 
+  // }
   
   const welcomeMessage = { 
     id: 1,
     sender: 'bot',
-    text: <>Odio questo esame<br/>
-         <p className="bot-message">
+    text: <>Eccomi qui! Cosa vuoi fare oggi?<br/>
+         <div className="bot-message">
            <button onClick={() => setMessageToGame()}>Gioco</button> 
            <button onClick={() => setMessageToAgenda()}>Agenda</button>
            <button onClick={() => setMessageToTrivia()}>Trivia</button>
-           </p></>
+           </div></>
           };
 
   const newChatMessage = {
@@ -91,7 +91,7 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handl
   const waitBotResposne = {
     id: 3,
     sender: 'bot',
-    text: <Skeleton width="8rem" height="2rem" borderRadius="10px"></Skeleton>
+    text: <Skeleton width="8rem" height="2rem" borderRadius="20px"/>
   }
 
   const errorMessages = [
@@ -108,12 +108,10 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handl
 
   // GESTIONE recupero dati dal file agenda.json
   useEffect(() => {
-    async function fetchAgenda() {
-      const agendaString = await ReadFromAgendaJSON();
-      setAgenda(agendaString);
+    const myChatHistory = [...chatHistory]
+    if(myChatHistory.length == 0 || myChatHistory[myChatHistory.length - 1].id !== 1) { 
+      setChatHistory([welcomeMessage]);
     }
-    fetchAgenda();
-    setChatHistory([welcomeMessage]);
   }, []);
 
   useEffect(() => {
@@ -141,12 +139,12 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handl
   // }
   
   function setMessageToGame() { 
-    const sendMessage = 'Che ne dici di una sfida? Voglio giocare! 🎮';
+    const sendMessage = 'Che ne dici di propormi un gioco? 🎮';
     handleSendMessage(sendMessage);
   }
 
   function setMessageToAgenda() {
-      const sendMessage = 'Mi dai un colpo d’occhio sulla mia agenda? 📅';
+      const sendMessage = "Cosa c'è in agenda? 📅";
       handleSendMessage(sendMessage);
   }
 
@@ -169,8 +167,22 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handl
 
   const handleSendMessage = async (msg) => {
     const printAgendaMap = (agendaJson) => {
-      return agendaJson.map((event, index) => (<p key={index}>{`• ${event.attività} il ${event.data} alle ${event.ora}`}<br/></p>))
-    }
+      return (
+        <div>
+          <div>
+            <h4>📋 Ecco la tua agenda:</h4>
+          </div>
+          {agendaJson.map((event, index) => (
+            <div key={index} className="mb-2">
+              <h4><span style={{ marginRight: '8px', color: 'var(--bs-primary)' }}>●</span>
+              {event.attività}</h4>
+              📅 {event.data} | ⏰ {event.ora}
+            </div>
+          ))}
+        </div>
+      );
+    };
+    
     // console.log(chatHistory);
 
     // console.log('chathistory length',chatHistory.length, chatHistory);
@@ -209,10 +221,10 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handl
       } else if (data.fulfillmentText === "codeUpdateEventAgenda") {
         if(myAgenda.findIndex((events) => events.id === "evento4") != -1) {
             const changedEvent = {
-              id: 'evento4',
-              attività: "New Event Name",
-              data: "AAAA-MM-GG",
-              ora: "HH:xx"
+              id: "evento4",
+              attività: "Serata cinema",
+              data: "27 Gen 2025",
+              ora: "21:00"
             };
             myAgenda[myAgenda.findIndex((events) => events.id === "evento4")] = changedEvent;
             const successChange = <>Ecco la tua agenda modificata!<br/></>
@@ -224,9 +236,9 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handl
             newResponse.text = [noUpdatableEvent, ...printAgenda];
           }
       } else if (data.fulfillmentText === "codeDeleteAgenda") { 
-          if (myAgenda.findIndex((events) => events.id === "evento4") != -1) {
+          if (myAgenda.findIndex((events) => events.id === "evento2") != -1) {
             const updatedAgenda = myAgenda.filter((events) => events.id !== "evento4");
-            await AddAgendaEvent(updatedAgenda);
+            // await AddAgendaEvent(updatedAgenda);
             setAgenda(updatedAgenda);
             const successDeletion = <>Evento cancellato con successo!<br/><br/> Ecco la tua agenda:<br/></>
             const printAgenda = printAgendaMap(updatedAgenda)
@@ -240,31 +252,16 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handl
    
       } else if (data.fulfillmentText === "codeAddAgendaEvent") { 
         const newEvent = {
-          id: 'evento4',
-          attività: "New Event Name",
-          data: "YYYY-MM-DD",
-          ora: "HH:mm"
+          id: "evento4",
+          attività: "Serata cinema",
+          data: "27 Gen 2025",
+          ora: "21:00"
         };
         const newAgenda = [...myAgenda, newEvent]
-        await AddAgendaEvent(newAgenda);
+        // await AddAgendaEvent(newAgenda);
         setAgenda(newAgenda);
         // console.log('filtro', agenda.map().filter((id) => id === "evento4") );  
-        newResponse.text = newAgenda.map((event) => (<>{`• ${event.attività} il ${event.data} alle ${event.ora}`}<br/></>));
-      } else if (data.fulfillmentText === "codeRestoreAgendaEvent") {
-        
-        //TODO: definire quale evento sarà ripristinato nel copione
-        const newEvent = {
-          id: 'evento4',
-          attività: "New Event Name",
-          data: "YYYY-MM-DD",
-          ora: "HH:mm"
-        };
-        const newAgenda = [...myAgenda, newEvent]
-        await AddAgendaEvent(newAgenda);
-        setAgenda(newAgenda);
-        const successRestore = <>Ecco ripristinato il tuo evento!<br/><br/></>
-        const printAgenda = printAgendaMap(myAgenda)
-        newResponse.text = [successRestore, ...printAgenda];  
+        newResponse.text = printAgendaMap(newAgenda)
       }
 
       //cancella Skeleton prima che invia messaggio bot
@@ -292,19 +289,19 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handl
 
   const actions = [
     {
-      label: 'Show Agenda',
+      label: 'Chiamata',
       icon: 'pi pi-phone',
       command: () => handleStart(true, true)
     },
     {
       label: 'Nuova Chat',
-      icon: 'pi pi-plus',
+      icon: 'pi pi-pen-to-square',
       command: () => {
         setNew((old) => !old)
       }
     },
     {
-      label: 'Impostazioni',
+      label: 'Opzioni',
       icon: 'pi pi-cog',
       command: () => handleSettings(true)
     }
@@ -336,11 +333,17 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handl
       </div>
 
       <div className="speed-dial">
+      <img src={alIcon} className="cutom-speed-dial-icon" alt="Custom Icon" />
+      {/* hideDelay={'6000000'} */}
+      <Tooltip target=".speed-dial-component .p-speeddial-action" position="bottom" autoHide={true}/>
         <SpeedDial
+        className="speed-dial-component"
         model={actions}
         direction="right"
-        showIcon={<img src={alIcon} alt="Custom Icon" style={{ width: '5rem', height: '5rem' }} />}
-        style={{ left: '17%', top: 0 }}
+        transitionDelay={80}
+        showIcon='pi pi-chevron-right'
+        hideIcon='pi pi-chevron-left'
+        style={{ left: 'calc(18% + 3rem)', top: '1rem' }}
         rotateAnimation= {false}
         />
       </div>

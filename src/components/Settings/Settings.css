@@ -8,11 +8,11 @@
     background: var(--body-bg);
 }
 .settings-wrapper {
-	padding: 20px;
+	padding: 0.6rem;
 	height: 80%;
 	width: 90%;
-	background-color: white;
-	border-radius: 20px;
+	/* background-color: white; */
+	border-radius: var(--border-radius);
 	display: flex;
 	flex-direction: column;
 	/* justify-content: space-evenly; */
@@ -28,11 +28,63 @@
 }
 
 .settings-container .p-component {
-	font-size: 12px;
+	font-size: 15px;
 }
 .settings-container .p-button {
 	width: 33.333%;
 }
 .settings-container .p-fieldset.p-fieldset-toggleable .p-fieldset-legend a {
 	padding: 0.75rem;
+}
+.settings-container .p-inputtext{
+	font-size: 15px;
+	border-radius: var(--border-radius);
+}
+.settings-container .p-dropdown {
+	border: 0px;
+	background-color: rgba(var(--bs-secondary-rgb), 0.3);
+}
+.settings-container .p-fieldset {
+	border: 0px;
+	border-radius: var(--border-radius);
+	box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2), 0 6px 12px rgba(var(--bs-primary-2-rgb), 0.6);
+}
+.settings-container .p-fieldset .p-fieldset-legend {
+	background-color: rgba(var(--bs-primary-rgb), 0.8);
+	color: white;
+	font-size: 15px;
+	padding: 0.8rem;
+	border-radius: var(--border-radius);
+}
+.settings-container .p-fieldset.p-fieldset-toggleable .p-fieldset-legend a{
+	color: var(--bs-dark);
+}
+.settings-container .maps .p-inputtext {
+	border: 0px;
+	background-color: rgba(var(--bs-secondary-rgb), 0.3);
+}
+.settings-container .p-selectbutton .p-button {
+	border: 1px solid white;
+	background-color: rgba(var(--bs-secondary-rgb), 0.3);
+}
+.settings-container .p-selectbutton .p-button.p-highlight {
+	background-color: rgb(var(--bs-secondary-rgb), 0.8);
+	color: var(--bs-dark);
+}
+.settings-container .p-button:not(:disabled):hover {
+	background-color: rgb(var(--bs-secondary-rgb), 0.8);
+}
+@layer primereact{ 
+	.p-button {
+	border-radius: var(--border-radius);
+}}
+/* .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight.p-focus {
+	background: rgba(6, 182, 212, 0.24);
+}
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+	color: #0e7490;
+	background: #ecfeff;
+} */
+.p-fieldset .p-fieldset-content{
+	padding: 0.4rem;
 }

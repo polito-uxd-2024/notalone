@@ -1,26 +1,20 @@
 [
   {
     "id": "evento1",
-    "attività": "Riunione con il team",
-    "data": "2025-01-16",
+    "attività": "Riunione strategica con il team",
+    "data": "16 Gen 2025",
     "ora": "10:00"
   },
   {
     "id": "evento2",
-    "attività": "Allenamento in palestra",
-    "data": "2025-01-16",
+    "attività": "Allenamento in palestra (forza e resistenza)",
+    "data": "16 Gen 2025",
     "ora": "18:30"
   },
   {
     "id": "evento3",
-    "attività": "Cena con amici",
-    "data": "2025-01-16",
+    "attività": "Cena conviviale con amici",
+    "data": "16 Gen 2025",
     "ora": "20:00"
-  },
-  {
-    "id": "evento4",
-    "attività": "New Event Name",
-    "data": "YYYY-MM-DD",
-    "ora": "HH:mm"
   }
 ]

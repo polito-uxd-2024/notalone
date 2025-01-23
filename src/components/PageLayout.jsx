@@ -164,9 +164,12 @@ function MainLayout () {
         <div className="tabs-wrapper">
           <div className="tabs" ref={tabsRef}>
             <div
-              className={`tab active`}
+              className='tab active'
             >
-              Settings
+            <div className='tab'>
+            <i className="pi pi-cog" style={{marginBottom: '-0.5rem'}}></i>
+            Opzioni
+            </div>
             </div>
           </div>
         </div>

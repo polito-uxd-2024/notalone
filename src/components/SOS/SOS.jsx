@@ -56,19 +56,22 @@ function SOSHome({handleCancel, tab, handleCall}) {
           <div className="sos-al">
             <img src="al/al_sad.svg" alt="Al" className="al-home-image"/>
             <div className="sos-calling-message">
-            <h2>Se vuoi allertare i soccorsi premi il pulsante sopra, la chiamata partirà tra:</h2>
+            <h2>Se vuoi allertare i soccorsi premi il pulsante sopra.</h2>
             </div>
           </div>
         </div>
-      {tab==2?
-        <Timer handleCall={handleCall}/>
-        :
-        <h1 className="sos-timer">{formatDuration(15)}</h1>
-      }
+        <div style={{color: 'var(--bs-dark)'}}>
+          <h2>la chiamata partirà tra:</h2>
+          {tab==2?
+            <Timer handleCall={handleCall}/>
+            :
+            <h1 className="sos-timer">{formatDuration(15)}</h1>
+          }
+        </div>
       </div>
       <div className="button-wrapper">
       <div className="cancel-button" onClick={handleCancel}>
-       <h1> ANNULLA </h1>  
+       <h2> ANNULLA </h2>  
       </div>
       </div>
     </div>
@@ -111,7 +114,7 @@ function SOSCall({ handleCancel }) {
   
   return (
     <div className="sos-container">
-    <div className="sos-wrapper">
+    <div className="sos-call-wrapper">
     <div className="justify-content-center sos-call-top-row">
       <div className="top-row-wrapper">
         <h3>{formatDuration(callDuration)}</h3>
@@ -123,33 +126,36 @@ function SOSCall({ handleCancel }) {
     <div className="justify-content-center call-bottom-row">
       <div className="mt-4 justify-content-space-between">
         <div className="bottom-row-wrapper">
-          <div className="grid grid-nogutter justify-content-center mb-4">
+          <div className="grid justify-content-center mb-4">
             <div className="col-4 call-button-wrapper">
               <div
+                  id="speaker"
                   className={`call-button ${isSpeakerOn ? 'active' : ''}`}
                   onClick={toggleSpeaker}
                 >
                 <div className="button speaker" />
               </div>
-              Speaker
+              <label htmlFor="speaker">Speaker</label>
             </div>
             <div className="col-4 call-button-wrapper">
               <div
+                id="mute"
                 className={`call-button ${isMuteOn ? 'active' : ''}`}
                 onClick={toggleMute}
               >
                 <div className="button mute" />
               </div>
-              Mute
+              <label htmlFor="mute">Mute</label>
             </div>
             <div className="col-4 call-button-wrapper">
               <div
+                id='bt'
                 className={`call-button ${isBluetoothOn ? 'active' : ''}`}
                 onClick={toggleBluetooth}
               >
                 <div className="button bluetooth" />
               </div>
-              Bluetooth
+              <label htmlFor="bt">Bluetooth</label>
             </div>
           <div className="col-4 call-button-wrapper mt-4">
             <div className="call-button end" onClick={handleCancel}>

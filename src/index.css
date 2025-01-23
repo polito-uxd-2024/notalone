@@ -17,6 +17,7 @@
   --light-red: #fc94ab;
   --bs-dark: #2d2144;
   --bs-primary: #4f51c0;
+  --primary-color: #4f51c0;
   --bs-primary-light: #f5f5fe;
   --bs-primary-2: #4f3c74;
   --bs-primary-light-2: #d4d7ff;
@@ -48,10 +49,13 @@
   --bs-danger-rgb: 244, 67, 54;
   --bs-call-rgb: var(--bs-primary-2-rgb);
   --bs-chat-rgb: var(--bs-primary-rgb);
+
+  --border-radius: 12px;
   
   font-family: 'Gill Sans Nova', sans-serif;
+  --font-family: 'Gill Sans Nova', sans-serif;
   max-width: 412px;
-  max-height: 101vh;
+  /* max-height: 100vh; */
   overflow-y: scroll;
   width: 100%;
   height: 100vh;

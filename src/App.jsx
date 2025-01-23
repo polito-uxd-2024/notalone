@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { HashRouter } from 'react-router-dom'
 import { PrimeReactProvider } from 'primereact/api';
 import '/node_modules/primeflex/primeflex.css';
-import "primereact/resources/themes/lara-light-cyan/theme.css";
+import "primereact/resources/themes/lara-light-indigo/theme.css";
 import 'primeicons/primeicons.css';
  
 

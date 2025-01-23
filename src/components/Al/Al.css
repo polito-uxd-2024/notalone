@@ -1,14 +1,14 @@
 /* Contenitore principale */
 .chat-wrapper {
   background-color: #f8f9fa;
-  border-radius: 10px;
+  border-radius: var(--border-radius);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   height: calc(100% - 2.5rem);
   padding: 10px;
-  padding-top: 2.5rem;
+  padding-top: 2.8rem;
   /* flex: 1; */
   /* overflow-y: auto; */
   align-content: end;
@@ -33,6 +33,7 @@
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #aaa transparent;
+  font-weight: normal;
   /* height: calc(100% - 20px); */
 }
 
@@ -43,47 +44,75 @@
 
 .chat-box::-webkit-scrollbar-thumb {
   background-color: #aaa;
-  border-radius: 4px;
+  border-radius: var(--border-radius);
 }
 
 /* Messaggi */
 .message {
-  max-width: 80%;
+  max-width: 85%;
   padding: 10px;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   line-height: 1.4;
   word-wrap: break-word;
   padding-top: 2px;
   padding-bottom: 2px;
   margin: 2px;
-  font-size: medium;
+  font-size: 18px;
 }
 
 .user-message {
   align-self: flex-end;
-  background-color: var(--bs-primary);
+  background-color: rgba(var(--bs-chat-rgb), 0.8);
   color: white;
-  border-radius: 20px 0 20px 20px;
+  border-radius: var(--border-radius) 0 var(--border-radius) var(--border-radius);
   text-align: left;
 }
 
 .bot-message {
   align-self: flex-start;
-  background-color: #e9ecef;
+  background-color: #d4d7ff;
   color: #333;
-  border-radius: 0 20px 20px 20px;
+  border-radius: 0 var(--border-radius) var(--border-radius) var(--border-radius);
   text-align: left;
+  margin: 8px;
+}
+.p-skeleton {
+	background-color: #d4d7ff;
+	border-radius: var(--border-radius);
+}
+.p-skeleton::after {
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+}
+.cutom-speed-dial-icon {
+  /* filter: drop-shadow(1px 1px 2px rgba(var(--bs-dark-rgb), 0.5)); */
+  position: absolute;
+  width: 5rem;
+  /* z-index: 999; */
+  height: 5rem;
+  top: 0;
+  left: 4rem;
 }
 
 .bot-message button {
-  padding: 10px 20px;
+  padding: 10px 10px;
   margin: 2px;
   border: none;
   background-color: var(--bs-primary);
   color: #fff;
-  border-radius: 10px;
+  border-radius: var(--border-radius);
   cursor: pointer;
-  font-size: 18px;
+  font-size: 15px;
+}
+.p-speeddial-action {
+  background-color: var(--bs-primary-2);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2), 0 12px 12px rgba(var(--bs-primary-2-rgb), 0.6);;
+}
+.p-tooltip.p-tooltip-bottom .p-tooltip-arrow{
+  border-bottom-color: white;
+}
+.p-tooltip .p-tooltip-text {
+  background-color: white;
+  color: var(--bs-dark);
 }
 
 .nuova-chat-message {
@@ -91,8 +120,8 @@
   justify-content: center;
   text-align: center;
   align-items: center;
-  background-color: gray;
-  border-radius: 10px;
+  background-color: var(--bs-secondary);
+  border-radius: var(--border-radius);
   /* padding: 10px; */
   max-width: 100%;
   height: cal(font-size);
@@ -110,7 +139,7 @@
   flex: 1;
   padding: 10px;
   border: 1px solid #ddd;
-  border-radius: 10px;
+  border-radius: var(--border-radius);
   margin-right: 10px;
 }
 
@@ -119,7 +148,7 @@
   border: none;
   background-color: var(--bs-primary);
   color: #fff;
-  border-radius: 10px;
+  border-radius: var(--border-radius);
   cursor: pointer;
 }
 
@@ -139,7 +168,7 @@
 .al-container .bottom-row-wrapper {
   margin: 20px;
   padding: 20px;
-  border-radius: 20px;
+  border-radius: var(--border-radius);
   background: rgba(var(--bs-primary-2-rgb), 0.4);
 }
 
@@ -149,11 +178,29 @@
 	min-height: 80%;
 	width: 90%;
 	/* background-color: white; */
-	border-radius: 20px;
+	border-radius: var(--border-radius);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
   align-items: center;
+}
+
+.al-call-wrapper {
+  margin-top: 2rem;
+  text-align: center;
+  padding: 10px;
+  min-height: 90%;
+  width: 90%;
+  background-color: rgba(var(--bs-call-rgb), 0.2);
+  border-radius: var(--border-radius);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+    align-items: center;
+}
+
+.al-call-wrapper .call-button.active {
+  background-color: rgba(var(--bs-call-rgb), 0.7);
 }
 
 .al-home-image-container {
@@ -177,7 +224,7 @@
   /* color: var(--bs-dark); */
   display: inline-block;
   padding: 10px 20px;
-  border-radius: 20px 20px 20px 20px;
+  border-radius: var(--border-radius);
   margin-bottom: 20px;
 }
 
@@ -192,7 +239,7 @@
   margin: 0 10px;
   padding: 10px;
   color: white;
-  border-radius: 20px;
+  border-radius: var(--border-radius);
   align-content: center;
   
 }
@@ -211,8 +258,8 @@
   align-items: center;
   /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
   transition: background-color 0.3s ease, transform 0.3s ease;
-  /* filter: drop-shadow(0px 6px 10px rgba(0, 0, 0, 0.3)) drop-shadow(0px 4px 12px rgba(var(--bs-primary-rgb), 0.4)); */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2), 0 6px 12px rgba(var(--bs-primary-rgb), 0.6);
+  /* filter: drop-shadow(0px 12px 10px rgba(0, 0, 0, 0.3)) drop-shadow(0px 4px 12px rgba(var(--bs-primary-rgb), 0.4)); */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2), 0 12px 12px rgba(var(--bs-primary-rgb), 0.6);
 }
 
 .settings-button i {
@@ -223,12 +270,12 @@
 
 .chat {
   background-color: rgba(var(--bs-chat-rgb), 0.85);
-  /* filter: drop-shadow(0px 6px 10px rgba(0, 0, 0, 0.3)) drop-shadow(0px 6px 12px rgba(var(--bs-primary-rgb), 0.4)); */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2), 0 6px 12px rgba(var(--bs-chat-rgb), 0.6);
+  /* filter: drop-shadow(0px 12px 10px rgba(0, 0, 0, 0.3)) drop-shadow(0px 12px 12px rgba(var(--bs-primary-rgb), 0.4)); */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2), 0 12px 12px rgba(var(--bs-chat-rgb), 0.6);
 }
 .call {
   background-color: rgba(var(--bs-call-rgb), 0.85);
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2), 0 6px 12px rgba(var(--bs-call-rgb), 0.6);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2), 0 12px 12px rgba(var(--bs-call-rgb), 0.6);
 }
 
 .icon-wrapper {
@@ -264,11 +311,17 @@
 
 /* per modificare le dimensioni del bottone del menu */
 .p-speeddial-button.p-button.p-button-icon-only {
-  width: 4.5rem;
-  height: 4.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: var(--bs-primary-2);
+  position: relative;
+  top: 2rem;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2), 0 12px 12px rgba(var(--bs-primary-2-rgb), 0.6);;
 }
 
 .message h4 {
   margin-top: 0px;
   margin-bottom: 0px;
+  font-size: 18px;
+  font-weight: normal;
 }

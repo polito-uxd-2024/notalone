@@ -30,7 +30,7 @@ function AlCall({handleCancel}) {
   const toggleBluetooth = () => setIsBluetoothOn(!isBluetoothOn)
   return (
     <div className="al-container">
-    <div className="al-wrapper">
+    <div className="al-call-wrapper">
     <div className="justify-content-center sos-call-top-row">
       <div className="top-row-wrapper">
         <h3>{formatDuration(callDuration)}</h3>
@@ -42,37 +42,42 @@ function AlCall({handleCancel}) {
     <div className="justify-content-center call-bottom-row">
       <div className="mt-4 justify-content-space-between">
         <div className="bottom-row-wrapper">
-          <div className="grid grid-nogutter justify-content-center mb-4">
+        <div className="grid justify-content-center mb-4">
             <div className="col-4 call-button-wrapper">
               <div
+                  id="speaker"
                   className={`call-button ${isSpeakerOn ? 'active' : ''}`}
                   onClick={toggleSpeaker}
                 >
                 <div className="button speaker" />
               </div>
-              Speaker
+              <label htmlFor="speaker">Speaker</label>
             </div>
-            <div className="col-4 call-button-wrapper" >
+            <div className="col-4 call-button-wrapper">
               <div
+                id="mute"
                 className={`call-button ${isMuteOn ? 'active' : ''}`}
                 onClick={toggleMute}
               >
                 <div className="button mute" />
               </div>
-              Mute
+              <label htmlFor="mute">Mute</label>
             </div>
-            <div className="col-4 call-button-wrapper" >
+            <div className="col-4 call-button-wrapper">
               <div
+                id='bt'
                 className={`call-button ${isBluetoothOn ? 'active' : ''}`}
                 onClick={toggleBluetooth}
               >
                 <div className="button bluetooth" />
               </div>
-              Bluetooth
+              <label htmlFor="bt">Bluetooth</label>
             </div>
-            <div className="col-4 call-button-wrapper call-button end" onClick={() => handleCancel(false)}>
+          <div className="col-4 call-button-wrapper mt-4">
+            <div className="call-button end" onClick={handleCancel}>
               <div className="button endCall"/>
             </div>
+          </div>
           </div>
         </div>
       </div>
