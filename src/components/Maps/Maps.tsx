@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Button } from "react-bootstrap";
 import {
   APIProvider,
   Map,
@@ -14,7 +15,9 @@ type LatLng = {
   lng: number;
 };
 
-export default function Maps({ disableSwipe, enableSwipe }: { disableSwipe: () => void; enableSwipe: () => void }) {
+const HOME_COORDS: LatLng = { lat: 45.073529, lng: 7.669068 }; // Piazza Statuto, Torino
+
+export default function Maps({ disableSwipe, enableSwipe, handleTabClick }: { disableSwipe: () => void; enableSwipe: () => void; handleTabClick: (e, index) => void; }) {
   const [currentPosition, setCurrentPosition] = useState<LatLng | null>(null);
   const [showPopup, setShowPopup] = useState(false); // Controlla se il popup è visibile
   const [origin, setOrigin] = useState<string | null>(""); // Campo per l'origine
@@ -68,6 +71,20 @@ export default function Maps({ disableSwipe, enableSwipe }: { disableSwipe: () =
       }
       setShowSuggestions(null);
     }
+  };
+
+  const handleNavigateToHome = () => {
+    if (!currentPosition) {
+      alert("Posizione corrente non disponibile.");
+      return;
+    }
+    const pos = `${currentPosition.lat}, ${currentPosition.lng}`;
+    const dest = `${HOME_COORDS.lat}, ${HOME_COORDS.lng}`;
+    setOrigin(pos);
+    setDestination(dest);
+    setDestinationCoords(HOME_COORDS)
+    setIsNavigationStarted(true);
+    handleStartNavigation
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, type: "origin" | "destination") => {
@@ -145,7 +162,48 @@ export default function Maps({ disableSwipe, enableSwipe }: { disableSwipe: () =
   }
 
   return (
-    <APIProvider apiKey={"Key"}>
+    <>
+        <Button
+      style={{
+        position: "absolute",
+        bottom: "130px", // Sposta il pulsante sopra i tasti di zoom
+        right: "6px", // Allinea il pulsante a destra
+        background: "transparent",
+        border: "none",
+        padding: 0,
+        zIndex: 1, // Assicurati che il pulsante sia sopra la mappa
+        cursor: "pointer",
+      }}
+      onClick={(e) => handleTabClick(e, 2)}
+    >
+      <img
+        src="/notalone/sos/sos_button.svg"
+        alt="SOS Button"
+        style={{ width: "60px", height: "60px" }}
+      />
+    </Button>
+
+    <Button
+      style={{
+        position: "absolute",
+        bottom: "110px", // Sposta il pulsante sopra i tasti di zoom
+        right: "310px", // Allinea il pulsante a destra
+        background: "transparent",
+        border: "none",
+        padding: 0,
+        zIndex: 2, // Assicurati che il pulsante sia sopra la mappa
+        cursor: "pointer",
+      }}
+      onClick={handleNavigateToHome}
+    >
+      <img
+        src="/notalone/home_button.png"
+        alt="SOS Button"
+        style={{ width: "65px", height: "65px" }}
+      />
+    </Button>
+
+    <APIProvider apiKey={"KEY"}>
       <div
         style={{ height: "80vh", width: "100%" }}
         onMouseDown={disableSwipe}
@@ -159,6 +217,7 @@ export default function Maps({ disableSwipe, enableSwipe }: { disableSwipe: () =
           mapId={"538ae0fea393aa85"}
           fullscreenControl={false}
           gestureHandling="greedy"
+          streetViewControl={false}
         >
           <AdvancedMarker position={currentPosition}>
             <div style={styles.circle}></div>
@@ -256,6 +315,7 @@ export default function Maps({ disableSwipe, enableSwipe }: { disableSwipe: () =
         )}
       </div>
     </APIProvider>
+    </>
   );
 }
 
