@@ -284,7 +284,19 @@ export default function Maps({ disableSwipe, enableSwipe, handleLocationChange, 
     return (
       !currentInput && (
         <div className="suggestions" data-suggestions>
-          <p onClick={() => handleSetCurrentPosition(type)}>La mia posizione</p>
+          <button
+          onClick={() => handleSetCurrentPosition(type)}
+          style={{
+            all: "unset", // Resetta lo stile del bottone se non vuoi che sembri un pulsante classico
+            cursor: "pointer",
+            padding: "8px",
+            display: "block",
+            width: "100%",
+            textAlign: "center",
+          }}
+        >
+          La mia posizione
+        </button>
         </div>
       )
     );
