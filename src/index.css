@@ -11,44 +11,43 @@
 }
 
 #root, html, body {
+  --indigo-75: rgb(233, 233, 253);
   --bs-white: #f4f2f7;
-  --body-bg: #f4f2f7;
+  --body-bg: var(--indigo-75);
   --red: #ba4058;
-  --light-red: #fc94ab;
-  --bs-dark: #2d2144;
-  --bs-primary: #4f51c0;
-  --primary-color: #4f51c0;
-  --bs-primary-light: #f5f5fe;
-  --bs-primary-2: #4f3c74;
-  --bs-primary-light-2: #d4d7ff;
+  --light-red: #eac6cd;
+  --bs-dark: black;
+  --bs-primary: var(--indigo-900);
+  --bs-primary-light: var(--indigo-200);
+  --bs-primary-2: var(--blue-800);
+  --bs-primary-light-2: var(--blue-200);
   --bs-secondary: #f8c655;
   --bs-secondary-light: #feeed5;
-  --bs-disabled: #999999;
-  --info: #2c2144;
-  --bs-success: #3f9971;
-  --bs-warning: #bc8839;
-  --bs-danger: #f44336;
-  --bs-call: var(--bs-primary-2);
-  --bs-chat: var(--bs-primary);
+  --bs-disabled: var(--gray-400);
+  --bs-chat: #613b87;
+  --bs-chat-light: #cfc4db;
+  --bs-call: #314c95;
+  --bs-call-light: #adb7d5;
   
+  
+  --indigo-75-rgb: 233, 233, 253;
   --bs-white-rgb: 244, 242, 247;
-  --body-bg-rgb: 244, 242, 247;
+  --body-bg-rgb: 233, 233, 253; /* uguale a --indigo-75 */
   --red-rgb: 186, 64, 88;
-  --light-red-rgb: 252, 148, 171;
-  --bs-dark-rgb: 45, 33, 68;
-  --bs-primary-rgb: 79, 81, 192;
-  --bs-primary-light-rgb: 245, 245, 254;
-  --bs-primary-2-rgb: 79, 60, 116;
-  --bs-primary-light-2-rgb: 212, 215, 255;
+  --light-red-rgb: 234, 198, 205;
+  --bs-dark-rgb: 0, 0, 0;
+  --bs-primary-rgb: 33, 41, 122; /* var(--indigo-900) */
+  --bs-primary-light-rgb: 173, 189, 238; /* var(--indigo-200) */
+  --bs-primary-2-rgb: 26, 44, 104; /* var(--blue-800) */
+  --bs-primary-light-2-rgb: 173, 209, 255; /* var(--blue-200) */
   --bs-secondary-rgb: 248, 198, 85;
   --bs-secondary-light-rgb: 254, 238, 213;
-  --bs-disabled-rgb: 153, 153, 153;
-  --info-rgb: 44, 33, 68;
-  --bs-success-rgb: 63, 153, 113;
-  --bs-warning-rgb: 188, 136, 57;
-  --bs-danger-rgb: 244, 67, 54;
-  --bs-call-rgb: var(--bs-primary-2-rgb);
-  --bs-chat-rgb: var(--bs-primary-rgb);
+  --bs-disabled-rgb: 169, 169, 169; /* var(--gray-400) */
+  --bs-chat-rgb: 97, 59, 135;
+  --bs-chat-light-rgb: 207, 196, 219;
+  --bs-call-rgb: 49, 76, 149;
+  --bs-call-light-rgb: 173, 183, 213;
+
 
   --border-radius: 12px;
   

@@ -109,37 +109,26 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handl
   // GESTIONE recupero dati dal file agenda.json
   useEffect(() => {
     const myChatHistory = [...chatHistory]
-    if(myChatHistory.length == 0 || myChatHistory[myChatHistory.length - 1].id !== 1) { 
-      setChatHistory([welcomeMessage]);
+    console.log('useEffect')
+    if(myChatHistory.length == 0) { 
+      setChatHistory(() => [welcomeMessage]);
     }
   }, []);
 
   useEffect(() => {
+    if (!isNew) {
+      return;
+    }
     let myChatHistory = [...chatHistory]
-    console.log(myChatHistory.length)
     if(myChatHistory.length > 0 && myChatHistory[myChatHistory.length - 1].id !== 1) { 
       setChatHistory((prev) => [...prev, newChatMessage, welcomeMessage])
     }
+    setNew(false)
   }, [isNew])
 
-
-  // function setMessageToGame() { 
-  //   const sendMessage = 'Voglio fare un gioco';
-  //   handleSendMessage(sendMessage);
-  // }
-
-  // function setMessageToAgenda() {
-  //   const sendMessage = 'Voglio vedere la mia agenda';
-  //   handleSendMessage(sendMessage);
-  // }
-
-  // function setMessageToTrivia() {
-  //   const sendMessage = 'Raccontami una curiosità';
-  //   handleSendMessage(sendMessage);
-  // }
   
   function setMessageToGame() { 
-    const sendMessage = 'Che ne dici di propormi un gioco? 🎮';
+    const sendMessage = 'Che ne dici di propormi un gioco? 🎲';
     handleSendMessage(sendMessage);
   }
 
@@ -163,7 +152,7 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handl
     setTimeout(() => {
       // La funzione che vuoi eseguire dopo 3 secondi
       handleLocationChange(index)
-    }, 2000); // 3000 millisecondi = 3 secondi
+    }, 1000); // 3000 millisecondi = 3 secondi
   }
   
   // HANDLE per eliminare il messaggio di benvenuto quando viene selezionato un bottone o inviato un messaggio
@@ -296,16 +285,14 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handl
 
   const actions = [
     {
+      label: 'Nuova Chat',
+      icon: 'pi pi-pen-to-square',
+      command: () => setNew(true)
+    },
+    {
       label: 'Chiamata',
       icon: 'pi pi-phone',
       command: () => handleStart(true, true)
-    },
-    {
-      label: 'Nuova Chat',
-      icon: 'pi pi-pen-to-square',
-      command: () => {
-        setNew((old) => !old)
-      }
     },
     {
       label: 'Opzioni',
@@ -341,8 +328,7 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handl
 
       <div className="speed-dial">
       <img src={alIcon} className="cutom-speed-dial-icon" alt="Custom Icon" />
-      {/* hideDelay={'6000000'} */}
-      <Tooltip target=".speed-dial-component .p-speeddial-action" position="bottom" autoHide={true}/>
+      {/* <Tooltip target=".speed-dial-component .p-speeddial-action" hideDelay={'1'} position="bottom"/> */}
         <SpeedDial
         className="speed-dial-component"
         model={actions}

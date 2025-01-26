@@ -40,7 +40,7 @@ function AlCall({handleCancel}) {
       </div>
     </div>
     <div className="justify-content-center call-bottom-row">
-      <div className="mt-4 justify-content-space-between">
+      <div className="justify-content-space-between">
         <div className="bottom-row-wrapper">
         <div className="grid justify-content-center mb-4">
             <div className="col-4 call-button-wrapper">

@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button } from "react-bootstrap";
 import { Message } from 'primereact/message';
+import { AutoComplete, AutoCompleteChangeEvent } from 'primereact/autocomplete';
+import { createAutocompleteRequest } from "./Autocomplete";
 import "./Maps.css"
 
 import {
   APIProvider,
   Map,
+  ControlPosition,
+  MapControl,
   AdvancedMarker,
   Pin,
   InfoWindow,
@@ -21,7 +24,7 @@ type LatLng = {
 //const HOME_COORDS: LatLng = { lat: 45.073529, lng: 7.669068 }; // Piazza Statuto, Torino
 
 export default function Maps({ disableSwipe, enableSwipe, handleLocationChange, homeAddress }: { disableSwipe: () => void; enableSwipe: () => void; handleLocationChange: (index) => void; homeAddress }) {
-  const [currentPosition, setCurrentPosition] = useState<LatLng | null>(null);
+  const [currentPosition, setCurrentPosition] = useState<LatLng>({ lat: 45.06805628881586, lng: 7.694417510580424 });
   const [showPopup, setShowPopup] = useState(false); // Controlla se il popup è visibile
   const [origin, setOrigin] = useState<string | null>(""); // Campo per l'origine
   const [destination, setDestination] = useState<string | null>(""); // Campo per la destinazione
@@ -35,23 +38,71 @@ export default function Maps({ disableSwipe, enableSwipe, handleLocationChange, 
   const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(
     null
   );
+  const [apiKey, setKey] = useState('')
   const [isSingleTouch, setIsSingleTouch] = useState(true); // Stato per rilevare il tocco singolo
   const mapRef = useRef(null);
   let color = "";
+  const [invalidOrigin, setInvalidOrigin] = useState(false);
+  const [invalidDestination, setInvalidDestination] = useState(false);
   const [homeCoords, setHomeCoords] = useState<LatLng | null>(null); // Stato per l'indirizzo di casa
   const isHomeInitialized = useRef(false); // Riferimento per verificare l'inizializzazione
   const [steps, setSteps] = useState<google.maps.DirectionsStep[]>([]);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const [suggestions, setSuggestions] = useState<string[]>([])
   const stripHtml = (html: string) => html.replace(/<\/?[^>]+(>|$)/g, "");
   const red = "#FF0000";
   const green = "#00FF00";
   const yellow = "#FFA500";
   const content = (
     <div className="flex align-items-center">
-        <img alt="logo" src="/notalone/al_triste.svg" width="42" />
+        <img alt="logo" src="al_triste.svg" width="42" />
         <div className="ml-2"><strong>Inserisci sia origine che destinazione</strong></div>
     </div>
 );
+
+const [googleLoaded, setGoogleLoaded] = useState(false);
+
+useEffect(() => {
+  const loadGoogleMapsAPI = async () => {
+    try {
+      // Recupera la chiave API dal server
+      const res = await fetch('https://better-adversely-insect.ngrok-free.app/api/key', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      const keyJson = await res.json();
+      const key = keyJson.key;
+      setKey(key)
+      if (key) {
+        // Crea lo script per caricare l'API di Google Maps
+        const script = document.createElement("script");
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places`;
+        script.async = true;
+        script.onload = () => {
+          setGoogleLoaded(true); // L'API è stata caricata
+        };
+        document.head.appendChild(script);
+      } else {
+        console.error("Chiave API non trovata.");
+      }
+    } catch (error) {
+      console.error("Errore nel recuperare la chiave API:", error);
+    }
+  };
+
+  loadGoogleMapsAPI();
+
+  return () => {
+    // Pulizia: rimuovi lo script quando il componente viene smontato
+    const script = document.querySelector('script[src^="https://maps.googleapis.com/maps/api/js"]');
+    if (script) {
+      document.head.removeChild(script);
+    }
+  };
+}, []);
 
   
 
@@ -154,6 +205,58 @@ export default function Maps({ disableSwipe, enableSwipe, handleLocationChange, 
       enableSwipe(); // Riabilita lo swipe quando il tocco è finito
     }
   };
+
+  const fetchSuggestions = async (event) => {
+    const userInput = event.query; // Recupera il testo digitato dall'utente
+
+    if (!userInput) {
+      setSuggestions([]);
+      return;
+    }
+    // @ts-ignore
+    const { Place, AutocompleteSessionToken, AutocompleteSuggestion } = await google.maps.importLibrary("places");
+    let request = {
+      input: event.query,
+      locationRestriction: {
+        west: currentPosition.lng - 0.1,
+      east: currentPosition.lng + 0.1,
+      north: currentPosition.lat + 0.1,
+      south: currentPosition.lat - 0.1,
+      },
+      origin: { lat: currentPosition?.lat, lng: currentPosition?.lng },
+      includedPrimaryTypes: [],
+      language: "it",
+      region: "eu",
+    };
+    // Create a session token.
+    const token = new AutocompleteSessionToken();
+    const { suggestions } =
+    await AutocompleteSuggestion.fetchAutocompleteSuggestions(request);
+
+    const userInputHome = event.query.toLowerCase();
+    const shouldAddCasa = userInputHome.startsWith("c") || userInputHome.startsWith("ca") || userInputHome.startsWith("cas") || userInputHome.startsWith("casa");
+
+    // Mappa le suggestion e formatta il testo
+    const formattedSuggestions = suggestions.map((s) => {
+      const text = s.placePrediction.text.toString();
+      const split = text.split(",");
+      return split.slice(0, 2).join(",");
+    });
+
+    // Aggiungi "Casa" come prima opzione se necessario
+    if (shouldAddCasa) {
+      setSuggestions(["Casa", ...formattedSuggestions]);
+    } else {
+      setSuggestions(formattedSuggestions);
+    }
+    
+    
+    // Add the token to the request.
+    // @ts-ignore
+    request.sessionToken = token;
+  };
+
+
   
 
   useEffect(() => {
@@ -165,7 +268,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleLocationChange, 
           if (accuracy > 50) { // Soglia per l'accuratezza
             console.warn("La precisione è bassa. Attiva il GPS o verifica le impostazioni.");
           }
-          setCurrentPosition({ lat: 45.06805628881586, lng: 7.694417510580424 });
+          // setCurrentPosition({ lat: 45.06805628881586, lng: 7.694417510580424 });
         },
         (error) => {
           console.error("Errore nel recupero della posizione:", error);
@@ -200,8 +303,10 @@ export default function Maps({ disableSwipe, enableSwipe, handleLocationChange, 
     if (currentPosition) {
       const pos = `${currentPosition.lat}, ${currentPosition.lng}`;
       if (type === "origin") {
+        setInvalidOrigin(false);
         setOrigin("La mia posizione");
       } else if (type === "destination") {
+        setInvalidDestination(false);
         setDestination("La mia posizione");
       }
       setShowSuggestions(null);
@@ -266,7 +371,9 @@ export default function Maps({ disableSwipe, enableSwipe, handleLocationChange, 
     }
   }, [homeCoords]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, type: "origin" | "destination") => {
+  const handleInputChange = (e: AutoCompleteChangeEvent, type: "origin" | "destination") => {
+    type==="origin" && invalidOrigin && setInvalidOrigin(false)
+    type==="destination" && invalidDestination && setInvalidDestination(false)
     const value = e.target.value;
     if (type === "origin") {
       setOrigin(value);
@@ -283,11 +390,16 @@ export default function Maps({ disableSwipe, enableSwipe, handleLocationChange, 
     const currentInput = type === "origin" ? origin : destination;
     return (
       !currentInput && (
-        <div className="suggestions" data-suggestions>
-          <p onClick={() => handleSetCurrentPosition(type)}>La mia posizione</p>
+        <div className="p-autocomplete-panel p-component p-ripple-disabled p-connected-overlay-enter-done position-suggestion" data-pc-section="panel" >
+          <div className="p-autocomplete-items-wrapper" style={{maxHeight: "200px"}} data-pc-section="listwrapper">
+              <ul onTouchStart={() => handleSetCurrentPosition(type)} id="pr_id_12_list" className="p-autocomplete-items" role="listbox" data-pc-section="list">
+                <li id="0" role="option" className="p-autocomplete-item" aria-selected="false" data-pc-section="item">Posizione attuale</li>
+            </ul>
+          </div>
         </div>
       )
     );
+    
   };
 
   useEffect(() => {
@@ -334,10 +446,18 @@ export default function Maps({ disableSwipe, enableSwipe, handleLocationChange, 
 
   const handleStartNavigation = async () => {
     if (!origin || !destination) {
-      setShowPopup(false);
-      setInputAlert(true);
+      console.log(origin)
+      console.log(destination)
+      !origin && setInvalidOrigin(true)
+      !destination && setInvalidDestination(true)
+      // setShowPopup(false);
       return;
     }
+    console.log(destination)
+    destination === "Casa" && setDestination(homeAddress)
+    origin === "Casa" && setOrigin(homeAddress)
+    setInvalidOrigin(false)
+    setInvalidDestination(false)
   
     setIsNavigationStarted(true); // Inizia la navigazione
     setShowPopup(false); // Chiudi il popup
@@ -383,35 +503,22 @@ export default function Maps({ disableSwipe, enableSwipe, handleLocationChange, 
 
   return (
     <>
-      <Button
+      <div
       className="maps-to-sos-button"
       onClick={() => handleLocationChange(2)}
-    >
-      <img
-        src="sos/sos_button.svg"
-        alt="SOS Button"
-        style={{ width: "5rem", height: "5rem" }}
-      />
-    </Button>
-
-    {!isNavigationStarted && (
-      <Button
-        className="home-button"
-        onClick={handleNavigateToHome}
       >
         <img
-          src="home_button.png"
-          alt="Home Button"
-          style={{ width: "55px", height: "55px" }}
+          src="icons/sos_white.svg"
+          alt="SOS Button"
+          style={{ padding: "5px", width: "5rem", height: "5rem" }}
         />
-      </Button>
-    )}
+      </div>
 
     {/* Legenda */}
     <div
       className="legenda-container"
     >
-      <h4 style={{ margin: "0 0 10px 0", fontSize: "14px", fontWeight: "bold" }}>
+      <h4 style={{ margin: "0 0 10px 0", fontSize: "18px", fontWeight: "bold" }}>
         Legenda
       </h4>
       <div style={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>
@@ -453,191 +560,210 @@ export default function Maps({ disableSwipe, enableSwipe, handleLocationChange, 
     </div>
 
 
-    <APIProvider apiKey={"AIzaSyBKdoXYHzSpJ6wc3AGnZVEjef8NYNUACyc"}>
-      <div
-      className="mt-4"
-        style={{  height: "80%", width: "100%" }}
-        ref={mapRef} 
-        onTouchStart={handleTouchStart} // Aggiungi gli eventi di touch direttamente alla mappa
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        <Map
-          defaultCenter={currentPosition}
-          defaultZoom={16}
-          mapId={"538ae0fea393aa85"}
-          fullscreenControl={false}
-          gestureHandling="greedy"
-          streetViewControl={false}
-          mapTypeId="terrain" // Imposta la mappa su rilievo
-          mapTypeControl={false} // Disabilita il toggle tra i tipi di mappa
+    {googleLoaded && <APIProvider apiKey={apiKey}>
+      <div className="map-container">
+        <div
+          className="map-wrapper"
+          ref={mapRef} 
+          // onTouchStart={handleTouchStart} // Aggiungi gli eventi di touch direttamente alla mappa
+          // onTouchMove={handleTouchMove}
+          // onTouchEnd={handleTouchEnd}
         >
-          <AdvancedMarker position={currentPosition}>
-            <div className="circle"></div>
-          </AdvancedMarker>
-
-          {origin && destination && isStandard && (
-        <>
-          {/* Renderizza tutte le rotte senza sovrascrivere le polilinee */}
-          {routes.map(({ origin, destination, color }, index) => (
-            <Directions
-              key={index}
-              origin={`${origin.lat}, ${origin.lng}`}
-              destination={`${destination.lat}, ${destination.lng}`}
-              currentPosition={currentPosition}
-              clearDirections={!isNavigationStarted}
-              usePolylineOnly={true}
-              color = {color}
-              handleSetSteps={handleSetSteps}
-            />
-          ))}
-        </>
-      )}
-
-          {origin && destination && isNavigationStarted && !isStandard && (
-            <Directions
-              origin={origin}
-              destination={destination}
-              currentPosition={currentPosition}
-              clearDirections={!isNavigationStarted}
-              usePolylineOnly={false}
-              color = {color}
-              handleSetSteps={handleSetSteps}
-            />
-          )}
-
-          {/* Aggiungi il marker sulla destinazione */}
-          {isFlagGeneric && (
-            <AdvancedMarker position={destinationCoords}>
-              <div className="flag"></div>
+          <Map
+            defaultCenter={currentPosition}
+            defaultZoom={16}
+            minZoom={14}
+            maxZoom={18}
+            restriction={{
+              latLngBounds: {
+                north: 45.1,  // Limite settentrionale
+                south: 45.0,  // Limite meridionale
+                east: 7.705,    // Limite orientale
+                west: 7.6,    // Limite occidentale
+              },
+              strictBounds: true,
+              }
+            }
+            zoomControlOptions={{position: google.maps.ControlPosition.RIGHT_TOP}}
+            mapId={"538ae0fea393aa85"}
+            fullscreenControl={false}
+            gestureHandling="cooperative"
+            streetViewControl={false}
+            mapTypeId="terrain" // Imposta la mappa su rilievo
+            mapTypeControl={false} // Disabilita il toggle tra i tipi di mappa
+          >
+            <AdvancedMarker position={currentPosition}>
+              <div className="circle"></div>
             </AdvancedMarker>
-          )}
-          {/* Aggiungi il marker sulla destinazione home */}
-          {isFlagHome && (
-            <AdvancedMarker position={homeCoords}>
-              <div className="flag"></div>
-            </AdvancedMarker>
-          )}
-        </Map>
 
-        {/* Barra di ricerca */}
-        {!isNavigationStarted && (
-          <div className="searchBar" onClick={handleShowPopup}>
-            <span className="searchText">Cerca un percorso...</span>
-          </div>
-        )}
-        
-
-        {isNavigationStarted && (
-          <div className="navigationBar">
-
-            <button
-              className="exitNavigationButton"
-              onClick={handleExitNavigation}
-            >
-               <img
-                src="/notalone/exit.png"
-                alt="Exit"
-                className="exitImage"
+            {origin && destination && isStandard && (
+          <>
+            {/* Renderizza tutte le rotte senza sovrascrivere le polilinee */}
+            {routes.map(({ origin, destination, color }, index) => (
+              <Directions
+                key={index}
+                origin={`${origin.lat}, ${origin.lng}`}
+                destination={`${destination.lat}, ${destination.lng}`}
+                currentPosition={currentPosition}
+                clearDirections={!isNavigationStarted}
+                usePolylineOnly={true}
+                color = {color}
+                handleSetSteps={handleSetSteps}
               />
-            </button>
-
-            <div className="directionsText">
-              {currentStepIndex < steps.length ? (
-                <>
-                  <p>{stripHtml(steps[currentStepIndex]?.instructions || "")}</p>    
-                  <p>
-                    <strong>Distanza:</strong> {steps[currentStepIndex]?.distance?.text}
-                  </p>
-                </>
-              ) : (
-                <p>Hai raggiunto la destinazione!</p>
-              )}
-            </div> 
-            
-          </div>
+            ))}
+          </>
         )}
 
-        {/* Pop up quando si preme Avvia senza aver messo orgine o destinazione */}
-        {inputAlert &&(
-        <div className="popupOverlay">
-          <div className="card">
-            <Message
-              style={{
-                      border: 'none',
-                      color: '#696cff',
-                      width: "100%"
-              }}
-              className="border-primary w-full justify-content-start"
-              severity="info"
-              content={content}
-            />
-            <span className="clearButton2" onClick={() => setInputAlert(false)}>
-                   ✕
-            </span>
-          </div>
-        </div>
-        )}
-        
+            {origin && destination && isNavigationStarted && !isStandard && (
+              <Directions
+                origin={origin}
+                destination={destination}
+                currentPosition={currentPosition}
+                clearDirections={!isNavigationStarted}
+                usePolylineOnly={false}
+                color = {color}
+                handleSetSteps={handleSetSteps}
+              />
+            )}
 
-        {/* Popup modale per l'inserimento */}
-        {showPopup && !isNavigationStarted && (
+            {/* Aggiungi il marker sulla destinazione */}
+            {isFlagGeneric && (
+              <AdvancedMarker position={destinationCoords}>
+                <div className="flag"></div>
+              </AdvancedMarker>
+            )}
+            {/* Aggiungi il marker sulla destinazione home */}
+            {isFlagHome && (
+              <AdvancedMarker position={homeCoords}>
+                <div className="flag"></div>
+              </AdvancedMarker>
+            )}
+          </Map>
+
+          {/* Barra di ricerca */}
+          {!isNavigationStarted && (
+              <div className="bottom-bar">
+                <div
+                className="home-button mr-2"
+                onClick={handleNavigateToHome}
+                >
+                  <i className="pi pi-home"/>
+                </div>
+              <div className="searchBar" onClick={handleShowPopup}>
+                <i className="pi pi-search mr-3"/>
+                <span className="searchText">Dove vuoi andare?</span>
+              </div>
+              </div>
+          )}
+          
+
+          {isNavigationStarted && (
+            <div className="navigationBar">
+
+              <div className="navigation-wrapper">
+              <div className="directionsText">
+                {currentStepIndex < steps.length ? (
+                  <>
+                    <p>{stripHtml(steps[currentStepIndex]?.instructions || "")}</p>    
+                    <p>
+                      <strong>Distanza:</strong> {steps[currentStepIndex]?.distance?.text}
+                    </p>
+                  </>
+                ) : (
+                  <p>Hai raggiunto la destinazione!</p>
+                )}
+              </div> 
+              
+              <button
+                className="exitNavigationButton"
+                onClick={handleExitNavigation}
+              >
+                <i
+                className="pi pi-times"
+                />
+              </button>
+              </div>
+              
+            </div>
+          )}
+
+          {/* Pop up quando si preme Avvia senza aver messo orgine o destinazione */}
+          {inputAlert &&(
           <div className="popupOverlay">
-            <div className="popup">
-              <h2>Inserisci Percorso</h2>
-              {/* Origine */}
-              <div className="labelContainer">
-                <label>
-                  Origine:
-                  <div className="inputContainer">
-                    <input
-                      type="text"
-                      placeholder="Es. Piazza Castello"
-                      value={origin || ""}
-                      onChange={(e) => handleInputChange(e, "origin")}
-                      onFocus={() => setShowSuggestions("origin")}
-                    />
-                    {origin && (
-                      <span className="clearButton" onClick={() => setOrigin("")}>
-                        ✕
-                      </span>
-                    )}
-                  </div>
-                </label>
-                {showSuggestions === "origin" && renderSuggestions("origin")}
-              </div>
-
-              {/* Destinazione */}
-              <div className="labelContainer">
-                <label>
-                  Destinazione:
-                  <div className="inputContainer">
-                    <input
-                      type="text"
-                      placeholder="Es. Piazza Vittorio"
-                      value={destination || ""}
-                      onChange={(e) => handleInputChange(e, "destination")}
-                      onFocus={() => setShowSuggestions("destination")}
-                    />
-                    {destination && (
-                      <span className="clearButton" onClick={() => setDestination("")}>
-                        ✕
-                      </span>
-                    )}
-                  </div>
-                </label>
-                {showSuggestions === "destination" && renderSuggestions("destination")}
-              </div>
-              <div className="buttonContainer">
-                <button className="closeButton" onClick={() => setShowPopup(false)}>Chiudi</button>
-                <button className="startButton" onClick={handleStartNavigation}>Avvia</button>
-              </div>
-
+            <div className="card">
+              <Message
+                style={{
+                        border: 'none',
+                        color: '#696cff',
+                        width: "100%"
+                }}
+                className="border-primary w-full justify-content-start"
+                severity="info"
+                content={content}
+              />
+              <span className="clearButton2" onClick={() => setInputAlert(false)}>
+                    ✕
+              </span>
             </div>
           </div>
-        )}
+          )}
+          
+
+          {/* Popup modale per l'inserimento */}
+          {showPopup && !isNavigationStarted && (
+            <div className="popupOverlay">
+              <div className="popup">
+                {(invalidOrigin || invalidDestination) ? <img src="al/al_sad.svg" alt="Al" className="al-home-image"/> : <img src="al/al.svg" alt="Al" className="al-home-image"/>}
+                <h2>Dove vuoi andare?</h2>
+                {/* Origine */}
+                <div className="labelContainer gap-1">
+                  <label htmlFor="origin">
+                    Origine:
+                    </label>
+                    <div id='origin' className="inputContainer">
+                    <AutoComplete invalid={invalidOrigin} aria-describedby="origin-help" placeholder="Scegli origine" value={origin || ""} onFocus={() => {setShowSuggestions("origin")}} onChange={(e) => handleInputChange(e, "origin")} completeMethod={fetchSuggestions} suggestions={suggestions} />
+                    {/* <InputText placeholder="Es. Piazza Castello" variant="filled" onFocus={() => setShowSuggestions("origin")} value={origin || ""} onChange={(e) => handleInputChange(e, "origin")} /> */}
+                      {origin && (
+                        <span className="clearButton" onClick={() => setOrigin("")}>
+                          <i className="pi pi-times" style={{fontSize: '15px'}}/>
+                        </span>
+                      )}
+                          </div>
+                        <small id="origin-help" className={`${invalidOrigin}-error-message`}>
+                          Inserisci un'origine valida.
+                      </small>
+                  {showSuggestions === "origin" && renderSuggestions("origin")}
+                </div>
+
+                {/* Destinazione */}
+                <div className="labelContainer gap-1">
+                <label htmlFor="destinazione">
+                    Destinazione:
+                    </label>
+                    <div id="destinazione" className="inputContainer">
+                      <AutoComplete invalid={invalidDestination} aria-describedby="destinazione-help" placeholder="Scegli destinazione" value={destination || ""} onFocus={() => setShowSuggestions("destination")} onChange={(e) => handleInputChange(e, "destination")} completeMethod={fetchSuggestions} suggestions={suggestions} />
+                      {destination && (
+                        <span className="clearButton" onClick={() => setDestination("")}>
+                          <i className="pi pi-times" style={{fontSize: '15px'}}/>
+                        </span>
+                      )}
+                    </div>
+                    <small id="origin-help" className={`${invalidDestination}-error-message`}>
+                          Inserisci una destinazione valida.
+                      </small>
+                  {showSuggestions === "destination" && renderSuggestions("destination")}
+                </div>
+                <div className="buttonContainer">
+                  <button className="closeButton" onClick={() => {setShowPopup(false); setInvalidDestination(false); setInvalidOrigin(false)}}><i className="pi pi-times"/></button>
+                  <button className="startButton" onClick={handleStartNavigation}>Avvia</button>
+                </div>
+
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </APIProvider>
+    </APIProvider>}
     </>
   );
 }

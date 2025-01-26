@@ -50,7 +50,7 @@ function SOSHome({handleCancel, tab, handleCall}) {
         <div>
           <div className="sos-button-container" onClick={handleCall}>
             <div className="sos-button-wrapper">
-              <img src="icons/sos_white.svg" alt="Al" className="sos-button"/>
+              <img src="sos/sos_call.svg" alt="Al" className="sos-button"/>
             </div>
           </div>
           <div className="sos-al">
@@ -124,7 +124,7 @@ function SOSCall({ handleCancel }) {
       </div>
     </div>
     <div className="justify-content-center call-bottom-row">
-      <div className="mt-4 justify-content-space-between">
+      <div className="justify-content-space-between">
         <div className="bottom-row-wrapper">
           <div className="grid justify-content-center mb-4">
             <div className="col-4 call-button-wrapper">

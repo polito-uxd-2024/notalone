@@ -35,14 +35,35 @@ function MainLayout () {
   const [language, setLanguage] = useState("Italiano")
   const [al, setAl] = useState(['', 'Diretta', ''])
   const [street, setStreet] = useState("Via dell'Arsenale 34")
-  const [showConfirm, setShowConfirm] = useState(false);
+  // const [showConfirm, setShowConfirm] = useState(false);
+  const [chatHistory, setChatHistory] = useState([]);
+    const [agenda, setAgenda] = useState([
+        {
+          id: "evento1",
+          attività: "Riunione strategica con il team",
+          data: "16 Gen 2025",
+          ora: "10:00"
+        },
+        {
+          id: "evento2",
+          attività: "Allenamento in palestra",
+          data: "16 Gen 2025",
+          ora: "18:30"
+        },
+        {
+          id: "evento3",
+          attività: "Cena conviviale con amici",
+          data: "16 Gen 2025",
+          ora: "20:00"
+        }
+      ]);
   const tabsRef = useRef();
   const swiperRef = useRef(null);
   
   const tabs = [
     { tab: "Mappe", shift: "33.333%", icon: mapsIcon, iconW: mapsIconW, iconD: mapsIcon },
     { tab: "Al", shift: "0%", icon: alIcon, iconW: alIconW, iconD: alIconD },
-    { tab: "SOS", shift: "-33.333%", icon: sosIcon, iconW: sosIconW, iconD: sosIconW },
+    { tab: "Aiuto", shift: "-33.333%", icon: sosIcon, iconW: sosIconW, iconD: sosIconW },
   ];
   
   const disableSwipe = () => {
@@ -114,15 +135,15 @@ function MainLayout () {
     setAl(newAl)
   }
 
-  const acceptLeave = () => {
-    setShowConfirm(false);
-    window.removeEventListener("beforeunload", () => {}); // Rimuovi il listener per permettere l'uscita.
-    window.location.reload(); // Simula la navigazione o lascia l'app.
-  };
+  // const acceptLeave = () => {
+  //   setShowConfirm(false);
+  //   window.removeEventListener("beforeunload", () => {}); // Rimuovi il listener per permettere l'uscita.
+  //   window.location.reload(); // Simula la navigazione o lascia l'app.
+  // };
 
-  const rejectLeave = () => {
-    setShowConfirm(false);
-  };
+  // const rejectLeave = () => {
+  //   setShowConfirm(false);
+  // };
 
   useEffect(() => {
     const handlePopState = (event) => {
@@ -146,7 +167,7 @@ function MainLayout () {
     const handleBeforeUnload = (event) => {
       event.preventDefault(); // Per alcuni browser, è necessario.
       event.returnValue = ""; // Mostra il dialogo nativo del browser.
-      setShowConfirm(true); // Mostra il popup personalizzato.
+      // setShowConfirm(true); // Mostra il popup personalizzato.
       return ""; // Compatibilità con alcuni browser.
     };
 
@@ -166,7 +187,7 @@ function MainLayout () {
             <div
               className='tab active'
             >
-            <div className='tab'>
+            <div className='single-tab'>
             <i className="pi pi-cog" style={{marginBottom: '-0.5rem'}}></i>
             Opzioni
             </div>
@@ -188,7 +209,7 @@ function MainLayout () {
                 className={`tab ${activeTab === index ? "active" : (activeTab === 2 ? "disabled" : "")}`}
                 onClick={(e) => handleTabClick(e, index)}
               >
-                <div className='tab'>
+                <div className='single-tab'>
                   <img src={activeTab === index ? tab.iconW : (activeTab === 2 ? tab.iconD : tab.icon)} alt={tab.tab} />
                   {tab.tab}
                 </div>
@@ -232,7 +253,12 @@ function MainLayout () {
             grabCursor={true}
             >
             <SwiperSlide><Maps handleLocationChange={handleLocationChange} disableSwipe={disableSwipe} enableSwipe={enableSwipe} homeAddress={"Via dell'Arsenale 34"}/></SwiperSlide>
-            <SwiperSlide><Al chatStarted={chatStarted} handleStart={handleStart} inCall={inCall} handleEndCall={handleEndCall} handleSettings={handleSettings} handleLocationChange={handleLocationChange} /></SwiperSlide>
+            <SwiperSlide><Al chatStarted={chatStarted} handleStart={handleStart}
+                             inCall={inCall} handleEndCall={handleEndCall} 
+                             handleSettings={handleSettings} handleLocationChange={handleLocationChange} 
+                             chatHistory={chatHistory} setChatHistory={setChatHistory}
+                             agenda={agenda} setAgenda={setAgenda}
+                             /></SwiperSlide>
             <SwiperSlide><SOS handleBack={handleBack} tab={activeTab}/></SwiperSlide>
           </Swiper>
         </div>
