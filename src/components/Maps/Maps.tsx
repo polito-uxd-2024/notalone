@@ -39,6 +39,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleLocationChange, 
   const mapRef = useRef(null);
   let color = "";
   const [homeCoords, setHomeCoords] = useState<LatLng | null>(null); // Stato per l'indirizzo di casa
+  const [homeCoordsIcon, setHomeCoordsIcon] = useState<LatLng | null>(null); // Stato per l'indirizzo di casa
   const isHomeInitialized = useRef(false); // Riferimento per verificare l'inizializzazione
   const [steps, setSteps] = useState<google.maps.DirectionsStep[]>([]);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
@@ -207,6 +208,43 @@ export default function Maps({ disableSwipe, enableSwipe, handleLocationChange, 
       setShowSuggestions(null);
     }
   };
+
+  const showHome = () => {
+    const waitForGoogleMaps = () => {
+      if (typeof google !== "undefined" && google.maps) {
+        // API di Google Maps disponibili
+        const geocoder = new google.maps.Geocoder();
+  
+        geocoder.geocode({ address: homeAddress }, (results, status) => {
+          if (status === "OK" && results && results.length > 0) {
+            const location = results[0].geometry.location;
+            const latLng = {
+              lat: location.lat(),
+              lng: location.lng(),
+            };
+            setHomeCoordsIcon(latLng);
+          } else if (status !== "OK") {
+            console.error("Errore durante la geocodifica:", status);
+            alert("Si è verificato un errore durante il calcolo delle coordinate. Riprova.");
+          } else {
+            alert("Non è stato possibile trovare l'indirizzo. Riprova con un altro.");
+          }
+        });
+      } else {
+        // API non ancora caricate, ritenta
+        console.log("Attesa del caricamento delle API di Google Maps...");
+        setTimeout(waitForGoogleMaps, 500); // Riprova dopo 500 ms
+      }
+    };
+  
+    waitForGoogleMaps(); // Avvia il controllo
+  };
+
+  useEffect(() => {
+    showHome();
+  }, []); // L'array vuoto garantisce che venga eseguito solo una volta
+  
+
   useEffect(() => {
     if (destinationCoords) {
       console.log("Destinazione aggiornata:", destinationCoords);
@@ -465,7 +503,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleLocationChange, 
     </div>
 
 
-    <APIProvider apiKey={"KEY"}>
+    <APIProvider apiKey={"AIzaSyBB1HZiHjCVTL68VAgqIys5H5R6LzSU5n4"}>
       <div
       className="mt-4"
         style={{  height: "80%", width: "100%" }}
@@ -486,6 +524,10 @@ export default function Maps({ disableSwipe, enableSwipe, handleLocationChange, 
         >
           <AdvancedMarker position={currentPosition}>
             <div className="circle"></div>
+          </AdvancedMarker>
+
+          <AdvancedMarker position={homeCoordsIcon}>
+            <div className="home"></div>
           </AdvancedMarker>
 
           {origin && destination && isStandard && (
