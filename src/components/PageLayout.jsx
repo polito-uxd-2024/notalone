@@ -34,7 +34,7 @@ function MainLayout () {
   const [voice, setVoice] = useState("Voce 1")
   const [language, setLanguage] = useState("Italiano")
   const [al, setAl] = useState(['', 'Diretta', ''])
-  const [street, setStreet] = useState("Via dell'Arsenale 34")
+  const [street, setStreet] = useState("Via dell'Arsenale 36")
   // const [showConfirm, setShowConfirm] = useState(false);
   const [chatHistory, setChatHistory] = useState([]);
     const [agenda, setAgenda] = useState([
@@ -252,7 +252,7 @@ function MainLayout () {
             touchAngle={45}
             grabCursor={true}
             >
-            <SwiperSlide><Maps handleLocationChange={handleLocationChange} disableSwipe={disableSwipe} enableSwipe={enableSwipe} homeAddress={"Via dell'Arsenale 34"}/></SwiperSlide>
+            <SwiperSlide><Maps handleLocationChange={handleLocationChange} disableSwipe={disableSwipe} enableSwipe={enableSwipe} homeAddress={"Via dell'Arsenale 36"}/></SwiperSlide>
             <SwiperSlide><Al chatStarted={chatStarted} handleStart={handleStart}
                              inCall={inCall} handleEndCall={handleEndCall} 
                              handleSettings={handleSettings} handleLocationChange={handleLocationChange} 

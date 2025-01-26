@@ -45,23 +45,29 @@
 }
 
 .home {
-    width: 50px;
-    height: 45px;
-    background-image: url('/notalone/home_icon.png');
+    width: 2.5rem;
+    height: 2.5rem;
+    background-image: url('/icons/glifo.svg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    display: flex;
+    justify-content: center;
+    padding-top: 5px;
+}
+.home .pi-home {
+    font-size: 1rem;
 }
 
 .home-button {
-    background: var(--bs-primary-2);
+    background: var(--bs-primary);
     border-radius: 50%;
     height: 3rem;
     width: 3rem;
     justify-content: center;
     align-items: center;
     display: flex;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2), 0 6px 12px rgba(var(--bs-primary-2-rgb), 0.4);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2), 0 6px 12px rgba(var(--bs-primary-rgb), 0.4);
 }
 .pi-home {
     font-size: 2rem;
@@ -257,7 +263,7 @@
     transform: translate(-50%, -50%);
     width: 30px;
     height: 30px;
-    background-image: url('/notalone/FlagDest.png');
+    background-image: url('/FlagDest.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;

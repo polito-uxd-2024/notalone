@@ -636,7 +636,8 @@ useEffect(() => {
             </AdvancedMarker>
 
             <AdvancedMarker position={homeCoordsIcon}>
-            <div className="home"></div>
+            <div className="home">
+              <i className="pi pi-home"/></div>
             </AdvancedMarker>
 
             {origin && destination && isStandard && (
