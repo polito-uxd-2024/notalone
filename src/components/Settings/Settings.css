@@ -1,13 +1,13 @@
 .settings-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     height: 100%;
     width: 100%;
     justify-content: center;
-    align-items: start;
+    align-items: center;
     background: var(--body-bg);
-	max-height: calc(100dvh - 110px - 65px);
 	overflow-y: auto;
+	position: relative;
 }
 .settings-wrapper {
 	padding: 0.6rem;
@@ -40,6 +40,9 @@
 }
 .settings-container .p-fieldset.p-fieldset-toggleable .p-fieldset-legend a {
 	padding: 0.75rem;
+}
+.settings-button-wrapper {
+	position: relative;
 }
 .p-inputtext{
 	font-size: 15px;

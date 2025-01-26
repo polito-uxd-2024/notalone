@@ -92,8 +92,7 @@ function Settings({handleSettings, handleNewSettings, voice, al, language, stree
                 </Fieldset>
         </div>
         </div>
-    </div>
-        <div className="button-wrapper">
+        <div className="button-wrapper settings-button-wrapper">
         <div className="cancel-button" onClick={() => handleSettings(false)}>
         <h4> ANNULLA </h4>  
         </div>
@@ -103,6 +102,7 @@ function Settings({handleSettings, handleNewSettings, voice, al, language, stree
         <h4> SALVA </h4>  
         </div>
         </div>
+    </div>
     </>
   );
 }
