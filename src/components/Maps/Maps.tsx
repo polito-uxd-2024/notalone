@@ -503,7 +503,7 @@ export default function Maps({ disableSwipe, enableSwipe, handleLocationChange, 
     </div>
 
 
-    <APIProvider apiKey={"AIzaSyBB1HZiHjCVTL68VAgqIys5H5R6LzSU5n4"}>
+    <APIProvider apiKey={"KEY"}>
       <div
       className="mt-4"
         style={{  height: "80%", width: "100%" }}
