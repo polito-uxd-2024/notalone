@@ -182,6 +182,7 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handl
     // console.log(chatHistory);
 
     // console.log('chathistory length',chatHistory.length, chatHistory);
+    console.log("Eieiei")
     const textMessage = msg || message
     if (textMessage.trim() === '') return;
     const newMessage = { sender: 'user', text: textMessage};
@@ -203,8 +204,10 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handl
         body: JSON.stringify({ message: textMessage }),
       });
       const data = await res.json();
+      console.log(agenda)
       const newResponse = { sender: 'bot', text: data.fulfillmentText, intent: data.intent};
       const myAgenda = [...agenda]
+      console.log(myAgenda)
       if (data.fulfillmentText === 'SOS') {
         moveToLocation(2)
         newResponse.text = 'Non preoccuparti, sto aprendo le informazioni di emergenza per te.'
@@ -214,36 +217,21 @@ function AlChat({chatHistory, setChatHistory, handleStart, handleSettings, handl
       }
       if (data.fulfillmentText === "codeShowAgenda") {
         newResponse.text = printAgendaMap(myAgenda)
-      } else if (data.fulfillmentText === "codeUpdateEventAgenda") {
-        if(myAgenda.findIndex((events) => events.id === "evento4") != -1) {
-            const changedEvent = {
-              id: "evento4",
-              attività: "Serata cinema",
-              data: "27 Gen 2025",
-              ora: "21:00"
-            };
-            myAgenda[myAgenda.findIndex((events) => events.id === "evento4")] = changedEvent;
-            const successChange = <>Ecco la tua agenda modificata!<br/></>
-            const printAgenda = printAgendaMap(myAgenda);
-            newResponse.text = [successChange, ...printAgenda];
-          } else {
-            const noUpdatableEvent = <>L'evento che stai cercando di modificare non esiste.<br/><br/> Ecco la tua agenda:<br/></>
-            const printAgenda = printAgendaMap(myAgenda)
-            newResponse.text = [noUpdatableEvent, ...printAgenda];
-          }
       } else if (data.fulfillmentText === "codeDeleteAgenda") { 
+          console.log(myAgenda)
+          console.log("Here")
           if (myAgenda.findIndex((events) => events.id === "evento2") != -1) {
-            const updatedAgenda = myAgenda.filter((events) => events.id !== "evento4");
+            const updatedAgenda = myAgenda.filter((events) => events.id !== "evento2");
             // await AddAgendaEvent(updatedAgenda);
             setAgenda(updatedAgenda);
-            const successDeletion = <>Evento cancellato con successo!<br/><br/> Ecco la tua agenda:<br/></>
+            const successDeletion = <>Evento cancellato con successo!<br/><br/></>
             const printAgenda = printAgendaMap(updatedAgenda)
-            newResponse.text = [successDeletion, ...printAgenda];
+            newResponse.text = [successDeletion, printAgenda];
           }
           else {
-            const alreadyDeleted = <>L'evento è già stato cancellato!<br/><br/> Ecco la tua agenda:<br/></>
+            const alreadyDeleted = <>L'evento è già stato cancellato!<br/><br/></>
             const printAgenda = printAgendaMap(myAgenda)
-            newResponse.text = [alreadyDeleted, ...printAgenda];
+            newResponse.text = [alreadyDeleted, printAgenda];
           }
    
       } else if (data.fulfillmentText === "codeAddAgendaEvent") { 

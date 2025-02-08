@@ -604,9 +604,9 @@ useEffect(() => {
         <div
           className="map-wrapper"
           ref={mapRef} 
-          // onTouchStart={handleTouchStart} // Aggiungi gli eventi di touch direttamente alla mappa
-          // onTouchMove={handleTouchMove}
-          // onTouchEnd={handleTouchEnd}
+          onTouchStart={handleTouchStart} // Aggiungi gli eventi di touch direttamente alla mappa
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
           <Map
             defaultCenter={currentPosition}

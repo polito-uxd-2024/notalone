@@ -150,6 +150,7 @@ function MainLayout () {
       console.log('popstate event: ', event);
       if (event.state) {
         console.log('event state');
+        goToSettings(false);
         startChat(false);
         startCall(false);
         handleLocationChange(1)
